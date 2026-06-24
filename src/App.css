@@ -225,10 +225,10 @@
 }
 /* playground accent letters (word-relative so they survive wrapping) */
 .hero__word:first-child .hero__letter-wrap:first-child .hero__letter {
-  color: var(--coral); /* G */
+  color: var(--cobalt); /* G */
 }
 .hero__word:first-child .hero__letter-wrap:last-child .hero__letter {
-  color: var(--cobalt); /* last letter of Gabriel */
+  color: var(--coral); /* last letter of Gabriel */
 }
 .hero__word:last-child .hero__letter-wrap:last-child .hero__letter {
   color: var(--pink); /* final n in Harlan */
