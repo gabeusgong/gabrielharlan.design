@@ -476,7 +476,7 @@
   .game-hud {
     left: 0;
     right: auto;
-    bottom: calc(var(--box-h, 400px) + 200px);
+    bottom: calc(var(--box-h, 400px) + 185px);
     padding: 0.32rem 0.62rem;
     font-size: 0.56rem;
     transform: rotate(-4deg);
@@ -513,15 +513,18 @@
 /* win overlay */
 .game-win {
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--box-h, 540px); /* cover only the bordered box */
   z-index: 8;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* centered within the box */
   gap: 0.6rem;
   text-align: center;
-  background: rgba(244, 236, 216, 0.82);
+  background: rgba(244, 236, 216, 0.85);
   backdrop-filter: blur(3px);
   border-radius: var(--r);
   animation: win-in 0.4s ease both;
