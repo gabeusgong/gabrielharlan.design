@@ -42,7 +42,9 @@ export default function Contact() {
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               >
                 <span className="contact__row-label label">{r.label}</span>
-                <span className="contact__row-value">{r.value}</span>
+                <span className="contact__row-value">
+                  {r.value.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                </span>
                 <span className="contact__row-arrow">↗</span>
               </motion.a>
             </li>

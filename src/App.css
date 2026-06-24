@@ -664,15 +664,34 @@
   color: var(--ink-soft);
 }
 .contact__row-value {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-family: var(--display);
-  font-size: clamp(1.2rem, 3.5vw, 2rem);
+  font-size: clamp(1.1rem, 3.5vw, 2rem);
   font-weight: 500;
   color: var(--ink);
 }
 .contact__row-arrow {
+  flex: none;
   margin-left: auto;
   font-size: 1.4rem;
   color: var(--coral);
+}
+/* mobile: stack label over value so long emails/URLs never overflow */
+@media (max-width: 560px) {
+  .contact__row {
+    flex-wrap: wrap;
+    gap: 0.2rem 0.8rem;
+    align-items: baseline;
+  }
+  .contact__row-label {
+    flex: 1 0 auto;
+  }
+  .contact__row-value {
+    flex: 1 1 100%;
+    font-size: 1.15rem;
+  }
 }
 .footer {
   display: flex;
