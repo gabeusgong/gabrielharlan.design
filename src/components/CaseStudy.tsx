@@ -43,10 +43,6 @@ const decisions = [
     h: 'Earn engagement with gamification',
     p: 'AR breadcrumb trails, XP, badges, and a leaderboard turn logging a trip into something worth coming back for — without cluttering the core “find a cave” task.',
   },
-  {
-    h: 'Meet cavers where they are',
-    p: 'Anonymous by default, upgraded to phone auth only when you save or post. Ships as both a installable web app and an Android build for offline-ish field use.',
-  },
 ]
 
 export default function CaseStudy({
