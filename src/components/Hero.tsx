@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { profile } from '../data'
 
@@ -18,8 +18,38 @@ const letter = {
 
 function KineticName({ text }: { text: string }) {
   let idx = 0
+  const ref = useRef<HTMLHeadingElement>(null)
+
+  // On mobile, scale the name so it fills the width on a single line.
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const fit = () => {
+      if (window.innerWidth > 720) {
+        el.style.fontSize = '' // desktop uses the CSS clamp
+        return
+      }
+      const avail = el.parentElement?.clientWidth ?? window.innerWidth
+      el.style.fontSize = '100px'
+      const w = el.scrollWidth || 1
+      el.style.fontSize = `${((avail / w) * 100 * 0.99).toFixed(2)}px`
+    }
+    fit()
+    window.addEventListener('resize', fit)
+    let cancelled = false
+    // refit once the display font has loaded (its metrics differ from fallback)
+    document.fonts?.ready?.then(() => {
+      if (!cancelled) fit()
+    })
+    return () => {
+      cancelled = true
+      window.removeEventListener('resize', fit)
+    }
+  }, [text])
+
   return (
     <motion.h1
+      ref={ref}
       className="hero__name"
       variants={container}
       initial="hidden"

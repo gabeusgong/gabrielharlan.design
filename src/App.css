@@ -752,6 +752,23 @@
 }
 
 /* ---------- cave mode (headlamp) ---------- */
+/* underground theme: the whole site recolors to black + amber while
+   cave mode is active */
+:root.cave-active {
+  --paper: #0d0a06;
+  --paper-2: #181009;
+  --ink: #ffd79c; /* warm headlamp amber for headings/borders */
+  --ink-soft: #c79a63;
+  --coral: #ff9636; /* amber-orange — primary accent */
+  --sun: #ffc24d; /* bright amber */
+  --cobalt: #45c6d6; /* mineral teal — cool accent */
+  --lime: #b9e84a; /* glowstick green */
+  --pink: #ff9ec0;
+  --accent: var(--coral);
+  --bg: var(--paper);
+  --text: var(--ink-soft);
+  --text-h: var(--ink);
+}
 .cavemode {
   position: fixed;
   inset: 0;
@@ -760,15 +777,21 @@
   --mx: 50vw;
   --my: 45vh;
   opacity: 0;
-  transition: opacity 0.45s ease;
-  background: radial-gradient(
-    circle 160px at var(--mx) var(--my),
-    rgba(10, 8, 6, 0) 0,
-    rgba(10, 8, 6, 0) 100px,
-    rgba(12, 9, 6, 0.5) 165px,
-    rgba(8, 6, 4, 0.9) 300px,
-    rgba(4, 3, 2, 0.98) 600px
-  );
+  transition: opacity 0.5s ease;
+  /* warm headlamp pool over the dark themed page, darkening toward the edges */
+  background:
+    radial-gradient(
+      circle 280px at var(--mx) var(--my),
+      rgba(255, 186, 92, 0.14) 0,
+      rgba(255, 186, 92, 0) 220px
+    ),
+    radial-gradient(
+      circle 200px at var(--mx) var(--my),
+      rgba(3, 2, 1, 0) 0,
+      rgba(3, 2, 1, 0) 150px,
+      rgba(3, 2, 1, 0.5) 430px,
+      rgba(0, 0, 0, 0.78) 950px
+    );
 }
 .cavemode--on {
   opacity: 1;
