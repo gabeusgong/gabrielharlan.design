@@ -5,13 +5,14 @@ import Reveal from './Reveal'
 
 const CONFETTI = ['#f4502a', '#2d4df5', '#c8f02c', '#ff9ece', '#ffc23d']
 
-/* A gravity sandbox: the hobby stickers drop in, pile up, and can be grabbed
-   and flung (matter-js). Hidden Easter egg: fling a sticker and a glowing ring
-   target appears — sink all of them through it to win. */
+/* Gravity sandbox + hidden game. Stickers pile in the bordered box at the
+   bottom; the play area extends up the whole column. Fling a sticker and a
+   basketball hoop mounted on the right wall appears — sink every sticker
+   through it (fling up-and-right) for a confetti "YOU WON". */
 function StickerPlayground() {
   const sceneRef = useRef<HTMLDivElement>(null)
   const itemRefs = useRef<Array<HTMLDivElement | null>>([])
-  const ringRef = useRef<HTMLDivElement>(null)
+  const hoopRef = useRef<HTMLDivElement>(null)
   const resetRef = useRef<() => void>(() => {})
 
   const [active, setActive] = useState(false)
@@ -34,43 +35,41 @@ function StickerPlayground() {
     engine.gravity.y = 1.1
 
     const wallOpts = { isStatic: true, render: { visible: false } }
-    const T = 400
+    const T = 600
+    // full-height walls + floor + ceiling so stickers stay inside the tall column
     const floor = Bodies.rectangle(width / 2, height + T / 2, width * 4, T, wallOpts)
+    const ceil = Bodies.rectangle(width / 2, -T / 2, width * 4, T, wallOpts)
     const left = Bodies.rectangle(-T / 2, height / 2, T, height * 4, wallOpts)
     const right = Bodies.rectangle(width + T / 2, height / 2, T, height * 4, wallOpts)
-    Composite.add(engine.world, [floor, left, right])
+    Composite.add(engine.world, [floor, ceil, left, right])
 
-    // the (initially hidden) ring target — a sensor so stickers pass through it
-    const ringR = 48
-    const ringPos = () => ({ x: width * 0.7, y: height * 0.3 })
-    const rp = ringPos()
-    const ring = Bodies.circle(rp.x, rp.y, ringR, {
+    // hoop sensor mounted on the right wall, upper area
+    const hoopR = 38
+    const hoopPos = () => ({ x: width - 47, y: height * 0.18 })
+    const hoop = Bodies.circle(hoopPos().x, hoopPos().y, hoopR, {
       isStatic: true,
       isSensor: true,
-      label: 'ring',
+      label: 'hoop',
     })
-    Composite.add(engine.world, ring)
-    const placeRing = () => {
-      const p = ringPos()
-      Body.setPosition(ring, p)
-      if (ringRef.current) {
-        ringRef.current.style.left = `${p.x}px`
-        ringRef.current.style.top = `${p.y}px`
-      }
+    Composite.add(engine.world, hoop)
+    const placeHoop = () => {
+      const p = hoopPos()
+      Body.setPosition(hoop, p)
+      if (hoopRef.current) hoopRef.current.style.top = `${p.y}px`
     }
-    placeRing()
+    placeHoop()
 
-    const startY = (i: number) => -120 - i * 90
-    const startX = (_i: number) =>
-      Math.max(60, Math.min(width - 60, 40 + Math.random() * (width - 80)))
+    // stickers spawn near the top of the box area and fall into the pile
+    const startX = () => 50 + Math.random() * Math.max(40, width - 100)
+    const startY = (i: number) => 30 + (i % 5) * 26
 
     const pairs = itemRefs.current
       .map((el, i) => {
         if (!el) return null
-        const body = Bodies.rectangle(startX(i), startY(i), el.offsetWidth, el.offsetHeight, {
-          restitution: 0.45,
+        const body = Bodies.rectangle(startX(), startY(i), el.offsetWidth, el.offsetHeight, {
+          restitution: 0.5,
           friction: 0.5,
-          frictionAir: 0.015,
+          frictionAir: 0.012,
           chamfer: { radius: 12 },
           angle: (Math.random() - 0.5) * 0.6,
         })
@@ -82,7 +81,6 @@ function StickerPlayground() {
     const indexByBody = new Map<number, number>()
     pairs.forEach((p) => indexByBody.set(p.body.id, p.i))
 
-    // confetti burst at a board coordinate
     const burst = (x: number, y: number, n = 22) => {
       for (let k = 0; k < n; k++) {
         const p = document.createElement('span')
@@ -109,7 +107,6 @@ function StickerPlayground() {
       }
     }
 
-    // drag + throw
     const mouse = Mouse.create(scene)
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse,
@@ -117,21 +114,19 @@ function StickerPlayground() {
     })
     Composite.add(engine.world, mouseConstraint)
 
-    // a real fling (released with speed) reveals the game
     let pending: Matter.Body | null = null
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Events.on(mouseConstraint, 'enddrag', (e: any) => {
       pending = (e?.body as Matter.Body) ?? null
     })
 
-    // scoring: sticker passes through the ring sensor
     Events.on(engine, 'collisionStart', (evt: Matter.IEventCollision<Matter.Engine>) => {
       if (!isActive) return
       for (const pair of evt.pairs) {
         const other =
-          pair.bodyA.label === 'ring'
+          pair.bodyA.label === 'hoop'
             ? pair.bodyB
-            : pair.bodyB.label === 'ring'
+            : pair.bodyB.label === 'hoop'
               ? pair.bodyA
               : null
         if (!other) continue
@@ -149,7 +144,6 @@ function StickerPlayground() {
       }
     })
 
-    // touch rebind (non-passive) so dragging works on mobile
     type Handler = (e: Event) => void
     const m = mouse as unknown as { mousedown: Handler; mousemove: Handler; mouseup: Handler }
     scene.removeEventListener('touchstart', m.mousedown)
@@ -178,7 +172,7 @@ function StickerPlayground() {
     resetRef.current = () => {
       pairs.forEach((p) => {
         if (scored.has(p.i)) Composite.add(engine.world, p.body)
-        Body.setPosition(p.body, { x: startX(p.i), y: startY(p.i) })
+        Body.setPosition(p.body, { x: startX(), y: startY(p.i) })
         Body.setVelocity(p.body, { x: 0, y: 0 })
         Body.setAngularVelocity(p.body, 0)
         p.el.classList.remove('sticker--scored')
@@ -193,8 +187,9 @@ function StickerPlayground() {
       width = sceneRef.current.clientWidth
       height = sceneRef.current.clientHeight
       Body.setPosition(floor, { x: width / 2, y: height + T / 2 })
+      Body.setPosition(ceil, { x: width / 2, y: -T / 2 })
       Body.setPosition(right, { x: width + T / 2, y: height / 2 })
-      placeRing()
+      placeHoop()
     })
     ro.observe(scene)
 
@@ -211,14 +206,20 @@ function StickerPlayground() {
   }, [total])
 
   return (
-    <div className="stickerboard" ref={sceneRef}>
-      <div ref={ringRef} className={`hoopring ${active ? 'hoopring--on' : ''}`} aria-hidden>
-        <span className="hoopring__label">aim here</span>
+    <div className="playground" ref={sceneRef}>
+      {/* decorative bordered box for the lower pile (side + bottom borders) */}
+      <div className="playbox" aria-hidden />
+
+      {/* basketball hoop mounted on the right wall (revealed on first fling) */}
+      <div ref={hoopRef} className={`hoop ${active ? 'hoop--on' : ''}`} aria-hidden>
+        <div className="hoop__net" />
+        <div className="hoop__rim" />
+        <div className="hoop__board" />
       </div>
 
       {active && !won && (
         <div className="game-hud label">
-          🎯 {score} / {total} — sink them through the ring!
+          🏀 {score} / {total} — fling them through the hoop!
         </div>
       )}
 

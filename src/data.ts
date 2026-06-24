@@ -6,7 +6,7 @@
 export const profile = {
   name: 'Gabriel Harlan',
   // hero one-liner
-  tagline: 'I turn big ideas into clean, human-centered interfaces.',
+  tagline: 'I turn big ideas into easily accessible, human-centered interfaces.',
   // rotating words in the hero ("I'm ___.")
   iAm: ['a web designer', 'a UX nerd', 'a caver', 'a keyboard builder', 'an informatics major'],
   about:
