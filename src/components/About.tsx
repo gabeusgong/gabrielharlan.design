@@ -132,7 +132,7 @@ export default function About() {
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="about__heading">
-              Hi — I&apos;m {profile.name.split(' ')[0]}.
+              Hi — I&apos;m Gabe.
               <span className="about__wink"> Nice to meet you.</span>
             </h2>
           </Reveal>
