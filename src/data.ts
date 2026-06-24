@@ -50,7 +50,6 @@ export const hobbies: Sticker[] = [
   { emoji: '🧗', label: 'caving', tone: 'sun', rotate: -8 },
   { emoji: '⌨️', label: 'custom keyboards', tone: 'cobalt', rotate: 6 },
   { emoji: '☕', label: 'coffee', tone: 'coral', rotate: -4 },
-  { emoji: '🎸', label: 'guitar', tone: 'pink', rotate: 9 },
   { emoji: '🥾', label: 'hiking', tone: 'lime', rotate: -10 },
   { emoji: '🖥️', label: 'PC building', tone: 'sun', rotate: 5 },
   { emoji: '🪴', label: 'plants', tone: 'cobalt', rotate: -6 },
