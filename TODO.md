@@ -28,6 +28,16 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
 - [ ] **"/now" line** — "currently building Karst · reading X · deepest cave so far",
       kept fresh, to make the site feel alive.
 
+## Gimmicks (pure delight)
+- [ ] **Scroll-velocity marquee** — the skills marquee speeds up / slows / reverses based on
+      scroll speed and direction. Quick to add, high impact.
+- [ ] **"Meters deep" depth gauge** — slim left-side gauge that fills as you scroll, labeled
+      like a cave descent (entrance → twilight zone → deep). On-theme + orienting.
+- [ ] **Idle surprise** — after ~20s of no input, a stray sticker drops in / the bat peeks
+      out / the headlamp flickers.
+- [ ] **More physics** — make the project cards (or hero letters) throwable: fling them
+      around with matter-js, then they spring back into place.
+
 ## Practical
 - [ ] **Privacy-friendly analytics** (e.g. Plausible) to see traffic when sharing for jobs.
 - [ ] **Real light/dark toggle** beyond cave mode.
