@@ -288,6 +288,12 @@
   color: var(--ink-soft);
   z-index: 2;
 }
+/* the "scroll" label uses letter-spacing, which adds trailing space after the
+   last letter and shifts its optical center; balance it with equal leading space
+   so the line below sits dead-center under the word */
+.hero__scroll .label {
+  padding-left: 0.22em;
+}
 .hero__scroll-line {
   width: 2px;
   height: 34px;
