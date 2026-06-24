@@ -52,7 +52,7 @@ export default function Contact() {
 
       <Reveal delay={0.18}>
         <a
-          className="btn btn--solid contact__resume"
+          className="btn btn--solid btn--resume contact__resume"
           href="./Gabriel-Harlan-Resume.pdf"
           target="_blank"
           rel="noreferrer"

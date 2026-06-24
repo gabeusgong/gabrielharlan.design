@@ -122,7 +122,7 @@ export default function Hero() {
             Say hello
           </a>
           <a
-            className="btn btn--ghost"
+            className="btn btn--ghost btn--resume"
             href="./Gabriel-Harlan-Resume.pdf"
             target="_blank"
             rel="noreferrer"
