@@ -230,6 +230,16 @@
 .hero__word:last-child .hero__letter-wrap:last-child .hero__letter {
   color: var(--pink); /* final n in Harlan */
 }
+/* mobile: keep the full name on a single line by scaling it to the viewport */
+@media (max-width: 720px) {
+  .hero__name {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    column-gap: 0.18em;
+    font-size: clamp(1.4rem, 8.6vw, 3.4rem);
+    letter-spacing: -0.03em;
+  }
+}
 
 .hero__sub {
   margin: 1.8rem auto 0;
