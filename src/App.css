@@ -211,7 +211,7 @@
   color: var(--cobalt);
 }
 .hero__name .hero__letter-wrap:nth-last-child(1) .hero__letter {
-  color: var(--lime);
+  color: var(--pink);
 }
 
 .hero__sub {
