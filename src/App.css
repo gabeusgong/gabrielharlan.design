@@ -779,6 +779,12 @@
   color: var(--ink);
   border-color: var(--ink);
 }
+/* hobby stickers stay bright; force dark text + outlines for contrast in cave mode */
+:root.cave-active .sticker {
+  color: #14100a;
+  border-color: #14100a;
+  box-shadow: 3px 3px 0 #14100a;
+}
 .cavemode {
   position: fixed;
   inset: 0;
