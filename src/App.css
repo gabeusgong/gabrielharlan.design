@@ -468,15 +468,15 @@
   }
 }
 @media (max-width: 720px) {
-  /* shrink the pill; right side sits slightly above the ring */
+  /* shrink the pill; align its left edge with the box's left border */
   .game-hud {
-    left: auto;
-    right: 0.4rem;
-    bottom: calc(var(--box-h, 400px) + 190px);
+    left: 0;
+    right: auto;
+    bottom: calc(var(--box-h, 400px) + 200px);
     padding: 0.32rem 0.62rem;
     font-size: 0.56rem;
     transform: rotate(-4deg);
-    transform-origin: right center;
+    transform-origin: left center;
   }
 }
 
