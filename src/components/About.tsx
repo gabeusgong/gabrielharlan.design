@@ -4,7 +4,7 @@ import { profile, hobbies, tones } from '../data'
 import Reveal from './Reveal'
 
 const CONFETTI = ['#f4502a', '#2d4df5', '#c8f02c', '#ff9ece', '#ffc23d']
-const GAP_H = 104 // ring opening height
+const GAP_H = 150 // ring opening height
 // bordered box height — smaller on mobile; the hidden zone is kept above it
 const boxHeight = () => (window.innerWidth <= 720 ? 400 : 540)
 const extHeight = () => (window.innerWidth <= 720 ? 220 : 320)
@@ -49,7 +49,7 @@ function StickerPlayground() {
     const BIG = 1400
 
     const boxTopY = () => height - boxHeight() // y of the visible top border
-    const gapY = () => boxTopY() - 70 // ring center, just above the border
+    const gapY = () => boxTopY() - 95 // ring center, just above the border
     const gapTop = () => gapY() - GAP_H / 2
     const gapBot = () => gapY() + GAP_H / 2
 
