@@ -75,17 +75,18 @@ function StickerPlayground() {
     layout()
 
     const startX = () => 50 + Math.random() * Math.max(40, width - 100)
-    const startY = (i: number) => boxTopY() + 40 + (i % 5) * 26
+    // spawn low in the box so settling stays calm and nothing pops above the border
+    const startY = (i: number) => height - 240 + (i % 5) * 30
 
     const pairs = itemRefs.current
       .map((el, i) => {
         if (!el) return null
         const body = Bodies.rectangle(startX(), startY(i), el.offsetWidth, el.offsetHeight, {
-          restitution: 0.5,
-          friction: 0.5,
+          restitution: 0.25,
+          friction: 0.6,
           frictionAir: 0.012,
           chamfer: { radius: 12 },
-          angle: (Math.random() - 0.5) * 0.6,
+          angle: (Math.random() - 0.5) * 0.4,
         })
         return { el, body, i }
       })
@@ -174,20 +175,24 @@ function StickerPlayground() {
     const runner = Runner.create()
     Runner.run(runner, engine)
 
+    let ticks = 0
     const sync = () => {
+      ticks++
       const top = boxTopY()
       // if the dragged sticker rises above the border, you lose control of it
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const held = (mc as any).body as Matter.Body | null
       if (held && held.position.y < top) release()
-      let aboveBorder = false
+      let flungAbove = false
       for (const { el, body } of pairs) {
-        if (body.position.y < top) aboveBorder = true
+        // a *moving* sticker above the border (a real fling, not settling) reveals the ring.
+        // grace period lets the initial drop settle first.
+        if (ticks > 150 && body.position.y < top && body.speed > 1.6) flungAbove = true
         el.style.transform =
           `translate(${body.position.x - el.offsetWidth / 2}px, ` +
           `${body.position.y - el.offsetHeight / 2}px) rotate(${body.angle}rad)`
       }
-      if (aboveBorder) activate() // a sticker crossed above the border → reveal the ring
+      if (flungAbove) activate()
     }
     Events.on(engine, 'afterUpdate', sync)
 
