@@ -8,7 +8,12 @@ const sections = [
   { id: 'contact', label: 'Say hi' },
 ]
 
-export default function Nav() {
+type Props = {
+  cave: boolean
+  onToggleCave: () => void
+}
+
+export default function Nav({ cave, onToggleCave }: Props) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -36,6 +41,18 @@ export default function Nav() {
           </li>
         ))}
       </ul>
+
+      <button
+        type="button"
+        className={`nav__lamp ${cave ? 'nav__lamp--on' : ''}`}
+        onClick={onToggleCave}
+        data-cursor
+        aria-pressed={cave}
+        title={cave ? 'Lights on' : 'Cave mode'}
+        aria-label={cave ? 'Turn off cave mode' : 'Turn on cave mode'}
+      >
+        {cave ? '💡' : '🔦'}
+      </button>
     </nav>
   )
 }

@@ -66,6 +66,22 @@ function StickerPlayground() {
     })
     Composite.add(engine.world, mouseConstraint)
 
+    // Mobile: matter binds touch listeners that some browsers treat as passive,
+    // which blocks dragging (the gesture scrolls the page instead). Re-bind them
+    // as non-passive so grabbing/flinging works on touch devices.
+    type Handler = (e: Event) => void
+    const m = mouse as unknown as {
+      mousedown: Handler
+      mousemove: Handler
+      mouseup: Handler
+    }
+    scene.removeEventListener('touchstart', m.mousedown)
+    scene.removeEventListener('touchmove', m.mousemove)
+    scene.removeEventListener('touchend', m.mouseup)
+    scene.addEventListener('touchstart', m.mousedown, { passive: false })
+    scene.addEventListener('touchmove', m.mousemove, { passive: false })
+    scene.addEventListener('touchend', m.mouseup, { passive: false })
+
     const runner = Runner.create()
     Runner.run(runner, engine)
 
@@ -90,6 +106,9 @@ function StickerPlayground() {
 
     return () => {
       ro.disconnect()
+      scene.removeEventListener('touchstart', m.mousedown)
+      scene.removeEventListener('touchmove', m.mousemove)
+      scene.removeEventListener('touchend', m.mouseup)
       Events.off(engine, 'afterUpdate', sync)
       Runner.stop(runner)
       Composite.clear(engine.world, false)

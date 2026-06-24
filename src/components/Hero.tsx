@@ -17,6 +17,7 @@ const letter = {
 }
 
 function KineticName({ text }: { text: string }) {
+  let idx = 0
   return (
     <motion.h1
       className="hero__name"
@@ -25,11 +26,18 @@ function KineticName({ text }: { text: string }) {
       animate="show"
       aria-label={text}
     >
-      {text.split('').map((ch, i) => (
-        <span className="hero__letter-wrap" key={i} aria-hidden>
-          <motion.span className="hero__letter" variants={letter}>
-            {ch === ' ' ? ' ' : ch}
-          </motion.span>
+      {text.split(' ').map((word, wi) => (
+        <span className="hero__word" key={wi} aria-hidden>
+          {word.split('').map((ch) => {
+            const i = idx++
+            return (
+              <span className="hero__letter-wrap" key={i}>
+                <motion.span className="hero__letter" variants={letter}>
+                  {ch}
+                </motion.span>
+              </span>
+            )
+          })}
         </span>
       ))}
     </motion.h1>
@@ -112,6 +120,15 @@ export default function Hero() {
           </a>
           <a className="btn btn--ghost" href="#contact" data-cursor>
             Say hello
+          </a>
+          <a
+            className="btn btn--ghost"
+            href="./Gabriel-Harlan-Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            data-cursor
+          >
+            Résumé ↓
           </a>
         </motion.div>
       </div>

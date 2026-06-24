@@ -72,6 +72,10 @@
   gap: 1.5rem;
   padding: 1.1rem 2rem;
   transition: background 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+  /* prevents fixed-element jitter/gap on iOS Safari momentum scroll */
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 .nav--scrolled {
   background: rgba(244, 236, 216, 0.82);
@@ -79,6 +83,14 @@
   padding: 0.7rem 2rem;
   box-shadow: 0 2px 0 var(--ink);
   border-bottom: 2.5px solid var(--ink);
+}
+/* On mobile, backdrop-filter on a fixed bar can render a gap under the
+   status bar during momentum scroll — use an opaque fill instead. */
+@media (max-width: 720px) {
+  .nav--scrolled {
+    background: var(--paper);
+    backdrop-filter: none;
+  }
 }
 .nav__brand {
   display: inline-flex;
@@ -186,7 +198,7 @@
   color: var(--ink-soft);
 }
 .hero__name {
-  font-size: clamp(3.6rem, 16vw, 13rem);
+  font-size: clamp(3rem, 15vw, 13rem);
   font-weight: 600;
   font-variation-settings: 'opsz' 144, 'SOFT' 0;
   letter-spacing: -0.045em;
@@ -194,6 +206,11 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  column-gap: 0.22em;
+}
+/* each word stays intact; wrapping happens only between words */
+.hero__word {
+  display: inline-flex;
 }
 .hero__letter-wrap {
   display: inline-block;
@@ -203,15 +220,15 @@
 .hero__letter {
   display: inline-block;
 }
-/* color a couple letters for playground energy via nth — applied loosely */
-.hero__name .hero__letter-wrap:nth-child(1) .hero__letter {
-  color: var(--coral);
+/* playground accent letters (word-relative so they survive wrapping) */
+.hero__word:first-child .hero__letter-wrap:first-child .hero__letter {
+  color: var(--coral); /* G */
 }
-.hero__name .hero__letter-wrap:nth-child(7) .hero__letter {
-  color: var(--cobalt);
+.hero__word:first-child .hero__letter-wrap:last-child .hero__letter {
+  color: var(--cobalt); /* last letter of Gabriel */
 }
-.hero__name .hero__letter-wrap:nth-last-child(1) .hero__letter {
-  color: var(--pink);
+.hero__word:last-child .hero__letter-wrap:last-child .hero__letter {
+  color: var(--pink); /* final n in Harlan */
 }
 
 .hero__sub {
@@ -515,6 +532,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
   padding: 1.8rem;
   border: var(--border-ink);
   border-radius: var(--r);
@@ -522,6 +540,13 @@
   overflow: hidden;
   transition: box-shadow 0.2s ease;
   transform-style: preserve-3d;
+  /* normalize when rendered as <button> (case-study card) */
+  font-family: inherit;
+  font-size: 1rem;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+  appearance: none;
 }
 .card:hover {
   box-shadow: var(--shadow-hard-lg);
@@ -651,4 +676,211 @@
 }
 .footer__top:hover {
   color: var(--coral);
+}
+
+/* ---------- résumé button spacing ---------- */
+.contact__resume {
+  margin-top: 2.6rem;
+}
+
+/* ---------- nav lamp (cave mode toggle) ---------- */
+.nav__lamp {
+  margin-left: 0.9rem;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  font-size: 1.15rem;
+  line-height: 1;
+  background: var(--paper);
+  border: var(--border-ink);
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 var(--ink);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.nav__lamp:hover {
+  transform: translate(-1px, -1px);
+  background: var(--sun);
+}
+.nav__lamp--on {
+  background: var(--sun);
+}
+@media (max-width: 720px) {
+  .nav__lamp {
+    margin-left: auto;
+  }
+}
+
+/* ---------- cave mode (headlamp) ---------- */
+.cavemode {
+  position: fixed;
+  inset: 0;
+  z-index: 8500;
+  pointer-events: none;
+  --mx: 50vw;
+  --my: 45vh;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  background: radial-gradient(
+    circle 160px at var(--mx) var(--my),
+    rgba(10, 8, 6, 0) 0,
+    rgba(10, 8, 6, 0) 100px,
+    rgba(12, 9, 6, 0.5) 165px,
+    rgba(8, 6, 4, 0.9) 300px,
+    rgba(4, 3, 2, 0.98) 600px
+  );
+}
+.cavemode--on {
+  opacity: 1;
+}
+
+/* ---------- case study modal ---------- */
+.cs__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  background: rgba(20, 16, 10, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 4vh 1rem;
+  overflow-y: auto;
+}
+.cs__panel {
+  position: relative;
+  width: min(960px, 100%);
+  margin: auto 0;
+  background: var(--paper);
+  border: var(--border-ink);
+  border-radius: 22px;
+  box-shadow: 12px 12px 0 var(--ink);
+  padding: 2.6rem clamp(1.2rem, 4vw, 3rem) 3rem;
+}
+.cs__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: var(--border-ink);
+  background: var(--paper);
+  box-shadow: 2px 2px 0 var(--ink);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--body);
+}
+.cs__close:hover {
+  background: var(--coral);
+  color: var(--paper);
+}
+.cs__head .label {
+  color: var(--ink-soft);
+}
+.cs__title {
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  margin: 0.5rem 0 0.8rem;
+}
+.cs__lede {
+  font-size: 1.2rem;
+  max-width: 60ch;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.cs__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.3rem;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.cs__meta strong {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 3px;
+}
+.cs__live {
+  margin-top: 0.3rem;
+}
+.cs__block {
+  margin-top: 2.7rem;
+}
+.cs__h3 {
+  font-size: 1.7rem;
+  margin-bottom: 0.9rem;
+}
+.cs__body {
+  color: var(--ink-soft);
+  line-height: 1.7;
+  max-width: 65ch;
+}
+.cs__decisions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+.cs__decision {
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 1.1rem 1.2rem;
+  background: var(--paper-2);
+}
+.cs__decision h4 {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  margin: 0 0 0.4rem;
+}
+.cs__decision p {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin: 0;
+}
+.cs__gallery {
+  display: flex;
+  gap: 1.4rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+}
+.cs__shot {
+  flex: 0 0 auto;
+  width: 220px;
+  margin: 0;
+  scroll-snap-align: start;
+}
+.cs__phone {
+  border: var(--border-ink);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 5px 5px 0 var(--ink);
+  background: #000;
+  aspect-ratio: 824 / 1830;
+}
+.cs__phone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cs__shot figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+@media (max-width: 700px) {
+  .cs__decisions {
+    grid-template-columns: 1fr;
+  }
 }

@@ -67,6 +67,7 @@ export type Project = {
   href?: string
   year?: string
   emoji: string
+  caseStudy?: boolean
 }
 
 export const projects: Project[] = [
@@ -79,6 +80,7 @@ export const projects: Project[] = [
     year: '2026',
     emoji: '🦇',
     href: 'https://spelunk-a-dunk.web.app',
+    caseStudy: true,
   },
   {
     title: 'ITIT — IT Inventory Tracker',

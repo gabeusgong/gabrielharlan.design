@@ -50,6 +50,18 @@ export default function Contact() {
         </ul>
       </Reveal>
 
+      <Reveal delay={0.18}>
+        <a
+          className="btn btn--solid contact__resume"
+          href="./Gabriel-Harlan-Resume.pdf"
+          target="_blank"
+          rel="noreferrer"
+          data-cursor
+        >
+          Download résumé ↓
+        </a>
+      </Reveal>
+
       <footer className="footer">
         <span className="label">
           © {profile.name} — built with too much care &amp; a little chaos
