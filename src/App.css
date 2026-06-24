@@ -769,6 +769,16 @@
   --text: var(--ink-soft);
   --text-h: var(--ink);
 }
+/* keep the gold rotator pill's word readable (dark on amber) in cave mode */
+:root.cave-active .hero__rotator {
+  color: #14100a;
+}
+/* recolor the status pill to fit the dark/amber cave theme */
+:root.cave-active .nav__status {
+  background: var(--paper-2);
+  color: var(--ink);
+  border-color: var(--ink);
+}
 .cavemode {
   position: fixed;
   inset: 0;
