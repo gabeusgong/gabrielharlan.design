@@ -338,18 +338,23 @@
 }
 .stickerboard {
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem;
-  padding: 1.6rem;
+  height: 400px;
+  padding: 0;
   border: 2.5px dashed var(--ink);
   border-radius: var(--r);
   background: rgba(255, 255, 255, 0.25);
-  min-height: 320px;
-  align-content: flex-start;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+}
+.stickerboard:active {
+  cursor: grabbing;
 }
 .sticker {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
