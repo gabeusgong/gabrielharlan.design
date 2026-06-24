@@ -595,7 +595,7 @@
 @media (max-width: 860px) {
   .about__grid {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 1.25rem;
   }
 }
 
@@ -1137,10 +1137,14 @@
   overflow: hidden;
   box-shadow: 5px 5px 0 var(--ink);
   background: #000;
+  /* uniform phone frame for every screenshot */
+  aspect-ratio: 824 / 1830;
 }
 .cs__phone img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: top; /* keep the top (app header/content), crop the bottom */
   display: block;
 }
 .cs__shot figcaption {

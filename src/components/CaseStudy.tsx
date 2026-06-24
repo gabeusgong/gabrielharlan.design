@@ -21,8 +21,8 @@ const shots = [
     cap: 'Cave detail — access notes, seasonal closures, and saved-cave hearts.',
   },
   {
-    src: `${base}karst/bc-record.png`,
-    cap: 'Dead reckoning in action — recording a breadcrumb trail (crumbs, distance, GPS accuracy) so you can retrace your steps back out.',
+    src: `${base}karst/dead-reckoning.png`,
+    cap: 'Dead reckoning — a GPS-free “way-out” trail you record to retrace your steps deep in the cave.',
   },
 ]
 
@@ -34,6 +34,10 @@ const decisions = [
   {
     h: 'Make conservation part of the loop',
     p: 'A dedicated guide to bats and White-Nose Syndrome decontamination lives right next to seasonal-closure notices — surfacing the responsibility instead of burying it in a policy page.',
+  },
+  {
+    h: 'Built around grotto groups',
+    p: 'Caving is social and local, so Karst is organized around grottos — regional caving clubs. Members form groups, share trip photos and events, and unlock trusted access like exact coordinates and member-only caves.',
   },
   {
     h: 'Earn engagement with gamification',
