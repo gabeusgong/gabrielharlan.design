@@ -4,6 +4,10 @@ import { projects, tones, type Project } from '../data'
 import Reveal from './Reveal'
 import CaseStudy from './CaseStudy'
 
+// throwable cards only on desktop (a fine pointer) — avoids hijacking mobile scroll
+const canDrag =
+  typeof window !== 'undefined' && window.matchMedia?.('(pointer: fine)').matches === true
+
 function TiltCard({
   p,
   index,
@@ -44,6 +48,12 @@ function TiltCard({
     },
     whileHover: { y: -6 },
     'data-cursor': true,
+    // fling it around — springs back to its spot
+    drag: canDrag,
+    dragSnapToOrigin: true,
+    dragElastic: 0.5,
+    dragMomentum: true,
+    whileDrag: { scale: 1.03, zIndex: 20, cursor: 'grabbing' },
   }
 
   const inner = (
