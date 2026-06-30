@@ -12,7 +12,6 @@
   margin: -8px 0 0 -8px;
   border-radius: 50%;
   background: var(--coral);
-  mix-blend-mode: multiply;
   pointer-events: none;
   z-index: 9999;
 }
@@ -1001,13 +1000,15 @@
   position: fixed;
   inset: 0;
   z-index: 9500;
-  background: rgba(20, 16, 10, 0.55);
-  backdrop-filter: blur(4px);
+  background: rgba(20, 16, 10, 0.62);
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: 4vh 1rem;
   overflow-y: auto;
+  /* don't blur on a scroll container (choppy); don't chain scroll to the page */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 .cs__panel {
   position: relative;
