@@ -38,6 +38,33 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
 - [x] **More physics** — make the project cards (or hero letters) throwable: fling them
       around with matter-js, then they spring back into place.
 
+## Bigger / interactive (standouts)
+- [ ] ⭐ **Visitor sticker wall / guestbook (Firebase)** — visitors drop a labeled sticker on a
+      shared wall, persisted in Firestore (reuse spelunk-a-dunk or a new free project). Extends
+      the sticker motif into something social AND shows full-stack/Firebase skill live on the
+      page. Wire security rules to prevent abuse.
+- [ ] ⭐ **"Explorer" achievements** — quietly track discovery of the hidden stuff (cave mode,
+      ring-game win, idle bat, Konami code) → unlock little badges + an "X/5 secrets found" count.
+      Ties to the gamification built in Karst.
+- [ ] **Interactive Corne keyboard** — on the keyboard project, clickable keycaps that depress
+      with a "thock" (pairs with the sound-toggle item). Most on-brand micro-interaction.
+- [ ] **Cave cross-section scroll** — an SVG cave profile you visually descend through as you
+      scroll, tied to the depth gauge.
+
+## More delight ideas
+- [ ] **Deepen cave mode** — idle bat follows the headlamp; faint water-drip ambient (behind the
+      mute toggle); depth gauge recolors in-theme.
+- [ ] **Real cave photos** — a small atmospheric gallery from the Bloomington Indiana Grotto.
+- [ ] **`/` command palette / fake terminal** — jump to sections or run `whoami` / `ls projects`.
+- [ ] **Now-playing chip** — Last.fm / Spotify "currently listening" for a living, personal touch.
+- [ ] **Blob parallax / gyro tilt** — hero blobs drift with the mouse (desktop) or phone tilt (gyro).
+- [ ] **Time-aware greeting** — "good evening" by the visitor's local time; "welcome back" for
+      returning visitors (localStorage).
+- [ ] **Chaos / motion dial** — let visitors turn the animation intensity up or down (fun + a11y).
+- [ ] **Animated nav mark** — the ✸ flaps into a bat on hover.
+- [ ] **Visitor count** — "you're explorer #N" (pairs with the Firebase guestbook).
+- [ ] **First-visit intro** — a brief headlamp-on "descent" before the hero (optional; mind load friction).
+
 ## Practical
 - [ ] **Privacy-friendly analytics** (e.g. Plausible) to see traffic when sharing for jobs.
 - [ ] **Real light/dark toggle** beyond cave mode.
@@ -52,9 +79,8 @@ Plus coworker fixes: cursor hides on exit + no blend flicker; modal scroll conta
 
 ---
 
-### Still pending from this round
-- [ ] Swap the dead-reckoning case-study image for the logged-in **recording** screen
-      (done — Media.jpeg). Revisit if a richer shot becomes available.
-- [ ] Buy/point a custom domain if you want something other than `gabrielharlan.is-a.dev`.
+### Notes
+- ✅ Custom domain **gabrielharlan.is-a.dev** is LIVE (is-a.dev PR #41704 merged, HTTPS on).
+- ✅ Dead-reckoning case-study image = the live "Record a route" recording screen.
 
-**Top 3 to start with:** more case studies · accessibility pass · keyboard Easter egg.
+**Top picks next:** ⭐ visitor guestbook (Firebase) · more case studies · accessibility pass · keyboard Easter egg.
