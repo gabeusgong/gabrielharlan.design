@@ -1,6 +1,9 @@
-import { motion } from 'motion/react'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import { profile, links } from '../data'
 import Reveal from './Reveal'
+
+const REPO = 'https://github.com/gabeusgong/gabrielharlan.design'
 
 const rows = [
   { key: 'email', label: 'Email', value: links.email, href: `mailto:${links.email}` },
@@ -9,7 +12,18 @@ const rows = [
   { key: 'twitter', label: 'Twitter / X', value: links.twitter, href: links.twitter },
 ].filter((r) => r.value)
 
+const clean = (v: string) => v.replace(/^https?:\/\//, '').replace(/\/$/, '')
+
 export default function Contact() {
+  const [copied, setCopied] = useState(false)
+
+  const copyEmail = () => {
+    navigator.clipboard?.writeText(links.email).then(() => {
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1800)
+    })
+  }
+
   return (
     <section className="section contact" id="contact">
       <Reveal>
@@ -30,25 +44,41 @@ export default function Contact() {
 
       <Reveal delay={0.12}>
         <ul className="contact__list">
-          {rows.map((r) => (
-            <li key={r.key}>
-              <motion.a
-                href={r.href}
-                target={r.key === 'email' ? undefined : '_blank'}
-                rel="noreferrer"
-                className="contact__row"
-                data-cursor
-                whileHover={{ x: 14 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              >
-                <span className="contact__row-label label">{r.label}</span>
-                <span className="contact__row-value">
-                  {r.value.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-                </span>
-                <span className="contact__row-arrow">↗</span>
-              </motion.a>
-            </li>
-          ))}
+          {rows.map((r) =>
+            r.key === 'email' ? (
+              <li key={r.key}>
+                <motion.div
+                  className="contact__row"
+                  whileHover={{ x: 14 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                >
+                  <span className="contact__row-label label">{r.label}</span>
+                  <a className="contact__row-value contact__maillink" href={r.href} data-cursor>
+                    {clean(r.value)}
+                  </a>
+                  <button className="contact__copy" onClick={copyEmail} data-cursor>
+                    {copied ? 'copied ✓' : 'copy'}
+                  </button>
+                </motion.div>
+              </li>
+            ) : (
+              <li key={r.key}>
+                <motion.a
+                  href={r.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="contact__row"
+                  data-cursor
+                  whileHover={{ x: 14 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                >
+                  <span className="contact__row-label label">{r.label}</span>
+                  <span className="contact__row-value">{clean(r.value)}</span>
+                  <span className="contact__row-arrow">↗</span>
+                </motion.a>
+              </li>
+            ),
+          )}
         </ul>
       </Reveal>
 
@@ -66,12 +96,28 @@ export default function Contact() {
 
       <footer className="footer">
         <span className="label">
-          © {profile.name} — built with too much care &amp; a little chaos
+          © {profile.name} — built with too much care &amp; a little chaos ·{' '}
+          <a href={REPO} target="_blank" rel="noreferrer" className="footer__src" data-cursor>
+            view source
+          </a>
         </span>
         <a href="#top" className="footer__top label" data-cursor>
           back to top ↑
         </a>
       </footer>
+
+      <AnimatePresence>
+        {copied && (
+          <motion.div
+            className="toast"
+            initial={{ opacity: 0, y: 12, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 12, x: '-50%' }}
+          >
+            Email copied ✓
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

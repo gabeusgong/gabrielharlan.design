@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lost in the dark — Gabriel Harlan</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f4ecd8;
+        --ink: #211b14;
+        --coral: #f4502a;
+        --cobalt: #2d4df5;
+      }
+      * { box-sizing: border-box; margin: 0; }
+      html, body { height: 100%; }
+      body {
+        background-color: var(--paper);
+        background-image: radial-gradient(circle at 1px 1px, rgba(33, 27, 20, 0.07) 1px, transparent 0);
+        background-size: 26px 26px;
+        color: var(--ink);
+        font-family: 'Space Mono', monospace;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+      }
+      .wrap { max-width: 540px; }
+      .bat { font-size: 3rem; display: inline-block; animation: bob 2.6s ease-in-out infinite; }
+      @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-12px) rotate(6deg); } }
+      h1 {
+        font-family: 'Fraunces', Georgia, serif;
+        font-weight: 600;
+        font-size: clamp(3.5rem, 18vw, 8rem);
+        line-height: 0.9;
+        letter-spacing: -0.03em;
+        margin: 0.5rem 0;
+      }
+      h1 .a { color: var(--coral); }
+      h1 .b { color: var(--cobalt); }
+      p { font-size: 1rem; line-height: 1.6; margin: 1rem auto 2rem; max-width: 38ch; }
+      a.home {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4em;
+        font-weight: 700;
+        text-decoration: none;
+        color: var(--paper);
+        background: var(--ink);
+        border: 2.5px solid var(--ink);
+        border-radius: 100px;
+        padding: 0.8em 1.5em;
+        box-shadow: 6px 6px 0 var(--ink);
+        transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+      }
+      a.home:hover { background: var(--coral); transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <span class="bat">🦇</span>
+      <h1><span class="a">4</span>0<span class="b">4</span></h1>
+      <p>You've wandered off the map and into an unmapped passage. There's nothing down here but bats.</p>
+      <a class="home" href="/">← Back to the entrance</a>
+    </div>
+  </body>
+</html>

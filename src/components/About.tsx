@@ -23,6 +23,8 @@ function StickerPlayground() {
   const [active, setActive] = useState(false)
   const [score, setScore] = useState(0)
   const [won, setWon] = useState(false)
+  const [winTime, setWinTime] = useState<number | null>(null)
+  const [best, setBest] = useState<number | null>(null)
 
   const total = hobbies.length
 
@@ -121,9 +123,11 @@ function StickerPlayground() {
 
     const scored = new Set<number>()
     let isActive = false
+    let startedAt = 0
     const activate = () => {
       if (!isActive) {
         isActive = true
+        startedAt = performance.now()
         setActive(true)
       }
     }
@@ -201,6 +205,16 @@ function StickerPlayground() {
           setScore(scored.size)
           if (scored.size === total) {
             burst(width / 2, height * 0.5, 60)
+            const elapsed = (performance.now() - startedAt) / 1000
+            const prev = Number(localStorage.getItem('karst-best')) || Infinity
+            const newBest = Math.min(prev, elapsed)
+            try {
+              localStorage.setItem('karst-best', String(newBest))
+            } catch {
+              /* ignore */
+            }
+            setWinTime(elapsed)
+            setBest(newBest)
             setWon(true)
           }
           continue
@@ -223,8 +237,10 @@ function StickerPlayground() {
         p.el.classList.remove('sticker--scored')
       })
       scored.clear()
+      startedAt = performance.now()
       setScore(0)
       setWon(false)
+      setWinTime(null)
     }
 
     const ro = new ResizeObserver(() => {
@@ -292,6 +308,11 @@ function StickerPlayground() {
         >
           <p className="game-win__big">YOU WON</p>
           <p className="game-win__sub">all {total} hobbies sunk 🎉</p>
+          {winTime != null && best != null && (
+            <p className="game-win__time">
+              ⏱ {winTime.toFixed(1)}s · best {best.toFixed(1)}s
+            </p>
+          )}
           <button
             type="button"
             className="btn btn--solid"

@@ -22,6 +22,19 @@ function App() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
+  // playful tab title when you leave the tab
+  useEffect(() => {
+    const original = document.title
+    const onVis = () => {
+      document.title = document.hidden ? '🦇 come back…' : original
+    }
+    document.addEventListener('visibilitychange', onVis)
+    return () => {
+      document.removeEventListener('visibilitychange', onVis)
+      document.title = original
+    }
+  }, [])
+
   return (
     <>
       <Cursor />

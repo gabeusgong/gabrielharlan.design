@@ -5,23 +5,23 @@ const base = import.meta.env.BASE_URL
 
 const shots = [
   {
-    src: `${base}karst/map.png`,
+    src: `${base}karst/map.webp`,
     cap: 'Privacy-first map — sensitive cave entrances are fuzzed to an approximate area, never an exact pin.',
   },
   {
-    src: `${base}karst/explore.png`,
+    src: `${base}karst/explore.webp`,
     cap: 'Field guide — browse wild & show caves with conditions and community photos.',
   },
   {
-    src: `${base}karst/bc-trail.png`,
+    src: `${base}karst/bc-trail.webp`,
     cap: 'AR “breadcrumb” trails — gamified routes that earn XP and badges.',
   },
   {
-    src: `${base}karst/cave.png`,
+    src: `${base}karst/cave.webp`,
     cap: 'Cave detail — access notes, seasonal closures, and saved-cave hearts.',
   },
   {
-    src: `${base}karst/dead-reckoning.png`,
+    src: `${base}karst/dead-reckoning.webp`,
     cap: 'Dead reckoning — a GPS-free “way-out” trail you record to retrace your steps deep in the cave.',
   },
 ]

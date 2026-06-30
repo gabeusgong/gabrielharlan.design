@@ -1257,3 +1257,58 @@
     transform: translate(114vw, 3vh) rotate(-8deg);
   }
 }
+
+/* ---------- copy email + toast + footer source ---------- */
+.contact__maillink {
+  text-decoration: none;
+}
+.contact__copy {
+  flex: none;
+  margin-left: 1rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: transparent;
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  padding: 0.28rem 0.65rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.contact__copy:hover {
+  background: var(--cobalt);
+  color: var(--paper);
+}
+.footer__src {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.footer__src:hover {
+  color: var(--coral);
+}
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  z-index: 9600;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  padding: 0.6rem 1.1rem;
+  border-radius: 100px;
+  box-shadow: var(--shadow-hard);
+  pointer-events: none;
+}
+
+/* sticker-game best time */
+.game-win__time {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  margin: -0.2rem 0 0.8rem;
+}
