@@ -8,6 +8,7 @@ import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Contact from './components/Contact'
 import CaveMode from './components/CaveMode'
+import DepthGauge from './components/DepthGauge'
 
 function App() {
   const [cave, setCave] = useState(false)
@@ -23,6 +24,7 @@ function App() {
   return (
     <>
       <Cursor />
+      <DepthGauge />
       <Nav cave={cave} onToggleCave={() => setCave((v) => !v)} />
       <main>
         <Hero />

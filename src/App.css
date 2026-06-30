@@ -1173,3 +1173,57 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- depth gauge (left rail, scroll-driven cave descent) ---------- */
+.depthgauge {
+  position: fixed;
+  left: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 60;
+  pointer-events: none;
+}
+.depthgauge__track {
+  position: relative;
+  width: 3px;
+  height: 42vh;
+  background: rgba(33, 27, 20, 0.16);
+  border-radius: 2px;
+}
+.depthgauge__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: var(--coral);
+  border-radius: 2px;
+}
+.depthgauge__marker {
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--coral);
+  border: 2px solid var(--ink);
+  transform: translate(-50%, -50%);
+}
+.depthgauge__label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+@media (max-width: 1000px) {
+  .depthgauge {
+    display: none;
+  }
+}
