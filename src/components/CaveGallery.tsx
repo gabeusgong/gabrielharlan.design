@@ -66,45 +66,59 @@ export default function CaveGallery() {
     }
   }, [open, close, prev, next])
 
+  // this is its own page — start at the top
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
-    <section className="section caves" id="caves">
-      <Reveal>
-        <p className="label">
-          <span className="tick">04</span> / underground
-        </p>
-      </Reveal>
-      <Reveal delay={0.05}>
-        <h2 className="caves__heading">
-          Off the clock, <span className="caves__word">underground.</span>
-        </h2>
-      </Reveal>
-      <Reveal delay={0.1}>
-        <p className="caves__sub">
-          Weekends with the Bloomington Indiana Grotto and beyond — the karst country that inspired
-          Karst. Every shot my own, mud and all. Tap any photo to open it.
-        </p>
-      </Reveal>
+    <div className="cavespage" id="caves">
+      <header className="cavespage__bar">
+        <a href="#top" className="cavespage__back" data-cursor>
+          ← Gabriel Harlan
+        </a>
+        <span className="label cavespage__tag">photo log</span>
+      </header>
 
-      <Reveal delay={0.14}>
-        <figure className="caves__feature">
-          <img src={FEATURED.src} alt={FEATURED.alt} loading="lazy" />
-          <figcaption>{FEATURED.alt}.</figcaption>
-        </figure>
-      </Reveal>
+      <div className="cavespage__inner section">
+        <Reveal>
+          <p className="label">
+            <span className="tick">✦</span> underground
+          </p>
+        </Reveal>
+        <Reveal delay={0.05}>
+          <h2 className="caves__heading">
+            Off the clock, <span className="caves__word">underground.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="caves__sub">
+            Weekends with the Bloomington Indiana Grotto and beyond — the karst country that inspired
+            Karst. Every shot my own, mud and all. Tap any photo to open it.
+          </p>
+        </Reveal>
 
-      <div className="caves__grid">
-        {PHOTOS.map((p, i) => (
-          <button
-            key={p.src}
-            type="button"
-            className="caves__item"
-            data-cursor
-            onClick={() => setIdx(i)}
-            aria-label={`Open photo: ${p.alt}`}
-          >
-            <img src={p.src} alt={p.alt} loading="lazy" />
-          </button>
-        ))}
+        <Reveal delay={0.14}>
+          <figure className="caves__feature">
+            <img src={FEATURED.src} alt={FEATURED.alt} loading="lazy" />
+            <figcaption>{FEATURED.alt}.</figcaption>
+          </figure>
+        </Reveal>
+
+        <div className="caves__grid">
+          {PHOTOS.map((p, i) => (
+            <button
+              key={p.src}
+              type="button"
+              className="caves__item"
+              data-cursor
+              onClick={() => setIdx(i)}
+              aria-label={`Open photo: ${p.alt}`}
+            >
+              <img src={p.src} alt={p.alt} loading="lazy" />
+            </button>
+          ))}
+        </div>
       </div>
 
       <AnimatePresence>
@@ -164,6 +178,6 @@ export default function CaveGallery() {
           </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </div>
   )
 }

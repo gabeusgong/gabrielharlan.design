@@ -5,7 +5,7 @@ const sections = [
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
   { id: 'work', label: 'Work' },
-  { id: 'caves', label: 'Caves' },
+  { id: 'caves', label: 'Caves', href: '#/caves' },
   { id: 'wall', label: 'Wall' },
   { id: 'contact', label: 'Say hi' },
 ]
@@ -39,7 +39,7 @@ export default function Nav({ cave, onToggleCave }: Props) {
       <ul className="nav__links">
         {sections.map((s) => (
           <li key={s.id}>
-            <a href={`#${s.id}`}>{s.label}</a>
+            <a href={s.href ?? `#${s.id}`}>{s.label}</a>
           </li>
         ))}
       </ul>

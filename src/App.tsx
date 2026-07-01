@@ -19,8 +19,20 @@ import IdleSurprise from './components/IdleSurprise'
 import Achievements from './components/Achievements'
 import { unlock } from './lib/achievements'
 
+const getRoute = () =>
+  typeof window !== 'undefined' && window.location.hash === '#/caves' ? 'caves' : 'home'
+
 function App() {
   const [cave, setCave] = useState(false)
+  const [route, setRoute] = useState(getRoute)
+
+  // tiny hash router so the cave gallery lives on its own page (#/caves) and
+  // never appears inline on the main site
+  useEffect(() => {
+    const onHash = () => setRoute(getRoute())
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
 
   const toggleCave = () =>
     setCave((v) => {
@@ -49,6 +61,17 @@ function App() {
     }
   }, [])
 
+  if (route === 'caves') {
+    return (
+      <MotionConfig reducedMotion="user">
+        <Cursor />
+        <Suspense fallback={null}>
+          <CaveGallery />
+        </Suspense>
+      </MotionConfig>
+    )
+  }
+
   return (
     <MotionConfig reducedMotion="user">
       <a href="#main" className="skip-link">
@@ -62,9 +85,6 @@ function App() {
         <About />
         <Skills />
         <Projects />
-        <Suspense fallback={null}>
-          <CaveGallery />
-        </Suspense>
         <Suspense fallback={null}>
           <Wall />
         </Suspense>
