@@ -7,6 +7,12 @@ const KONAMI = [
   'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a',
 ]
 
+// Konami needs a keyboard, so drop it on touch devices — it isn't attainable
+// there and shouldn't sit in the count as an impossible secret.
+const isCoarse =
+  typeof window !== 'undefined' && !!window.matchMedia?.('(pointer: coarse)').matches
+const VISIBLE_SECRETS = isCoarse ? SECRETS.filter((s) => s.id !== 'konami') : SECRETS
+
 /* Tracks hidden "secrets" the visitor discovers (cave mode, ring win, the bat,
    flinging a card, the Konami code) and shows a count + unlock toasts. */
 export default function Achievements() {
@@ -34,51 +40,14 @@ export default function Achievements() {
     }
     window.addEventListener('keydown', onKey)
 
-    // mobile Konami: swipe ↑↑↓↓←→←→. Committed once per gesture on whichever of
-    // touchmove / touchend / touchcancel first shows a clear displacement — a
-    // scrolling swipe may end in any of those, so we listen for all three.
-    const SWIPES = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right']
-    let tSeq: string[] = []
-    let sx = 0
-    let sy = 0
-    let recorded = false
-    const record = (dx: number, dy: number) => {
-      if (recorded) return
-      const adx = Math.abs(dx)
-      const ady = Math.abs(dy)
-      if (adx < 24 && ady < 24) return // not a swipe yet
-      recorded = true
-      const tok = ady > adx ? (dy < 0 ? 'up' : 'down') : dx < 0 ? 'left' : 'right'
-      tSeq = [...tSeq, tok].slice(-SWIPES.length)
-      if (SWIPES.every((k, i) => k === tSeq[i])) unlock('konami')
-    }
-    const onTS = (e: TouchEvent) => {
-      const t = e.changedTouches[0]
-      sx = t.clientX
-      sy = t.clientY
-      recorded = false
-    }
-    const onMove = (e: TouchEvent) => {
-      const t = e.changedTouches[0]
-      record(t.clientX - sx, t.clientY - sy)
-    }
-    window.addEventListener('touchstart', onTS, { passive: true })
-    window.addEventListener('touchmove', onMove, { passive: true })
-    window.addEventListener('touchend', onMove, { passive: true })
-    window.addEventListener('touchcancel', onMove, { passive: true })
-
     return () => {
       window.removeEventListener('secret-unlocked', onUnlock)
       window.removeEventListener('keydown', onKey)
-      window.removeEventListener('touchstart', onTS)
-      window.removeEventListener('touchmove', onMove)
-      window.removeEventListener('touchend', onMove)
-      window.removeEventListener('touchcancel', onMove)
     }
   }, [])
 
-  const count = unlocked.length
-  const total = SECRETS.length
+  const total = VISIBLE_SECRETS.length
+  const count = unlocked.filter((id) => VISIBLE_SECRETS.some((s) => s.id === id)).length
 
   return (
     <>
@@ -86,7 +55,7 @@ export default function Achievements() {
         {open && (
           <div className="achv__list">
             <p className="achv__title label">secrets · {count}/{total}</p>
-            {SECRETS.map((s) => {
+            {VISIBLE_SECRETS.map((s) => {
               const got = unlocked.includes(s.id)
               return (
                 <div key={s.id} className={`achv__item ${got ? 'is-got' : ''}`}>
