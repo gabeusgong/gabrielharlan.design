@@ -75,6 +75,8 @@ export default function Achievements() {
         {toast && (
           <motion.div
             className="achv-toast"
+            role="status"
+            aria-live="polite"
             initial={{ opacity: 0, x: '-50%', y: 16 }}
             animate={{ opacity: 1, x: '-50%', y: 0 }}
             exit={{ opacity: 0, x: '-50%', y: 16 }}

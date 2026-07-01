@@ -3,23 +3,26 @@
 Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact.
 
 ## Portfolio depth (best ROI for the job hunt)
-- [ ] ⭐ **More case studies** — give **ITIT (capstone)** and the **Corne 42 LP keyboard** the
-      same modal treatment Karst has (problem → process → screenshots → outcome).
-      Only Karst tells a full story right now.
+- [~] ⭐ **More case studies** — ✅ **ITIT capstone** now has a full case-study modal (problem →
+      signature feature → decisions → data-model diagram → outcome; CaseStudy.tsx is now
+      data-driven). Still open: the **Corne 42 LP keyboard** study.
 - [ ] **Process / "how I work" beat** — a couple of wireframe→final shots or a short
       blurb on the design loop. Show the UX thinking, not just the result.
 - [ ] **A testimonial** — one short quote from a professor, teammate, or the IT-team lead.
 
 ## Walk-the-talk accessibility (the hero literally says "accessible")
-- [ ] ⭐ **Accessibility pass**
-  - Keyboard-operable sticker game (focus + key controls)
-  - Visible focus states across the site
-  - `prefers-reduced-motion` variants for the heavy hero/scroll animations
-  - Alt text / ARIA sweep; color-contrast check
+- [~] ⭐ **Accessibility pass**
+  - [x] Visible `:focus-visible` focus ring site-wide (amber in cave mode)
+  - [x] Skip-to-content link; `<main>` landmark
+  - [x] `prefers-reduced-motion` — `MotionConfig reducedMotion="user"` + static marquee
+  - [x] Allow pinch-zoom (removed `user-scalable=no` / `maximum-scale`)
+  - [x] Screen-reader hobbies list (game isn't keyboard-operable); polite live region for unlock toasts
+  - [ ] Still open: keyboard-operable sticker game (focus + key controls); color-contrast audit
 
 ## Performance
-- [ ] **Lazy-load matter-js** — it's most of the ~137 KB gzipped bundle. Load the physics
-      engine only when the About section scrolls into view, for a snappier first paint.
+- [x] **Lazy-load matter-js** — done via `StickerPlayground.tsx` (React.lazy + IntersectionObserver).
+      Initial JS bundle dropped **139.8 → 112.8 KB gzip**; physics engine is now a 28.6 KB chunk
+      loaded only as About scrolls near.
 
 ## Delight / signature
 - [ ] ⭐ **Keyboard Easter egg** — type a secret word (e.g. `karst`) or the Konami code to

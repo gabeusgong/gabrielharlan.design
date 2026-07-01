@@ -14,7 +14,7 @@ export default function IdleSurprise() {
       timer = window.setTimeout(() => {
         setFlying(true)
         unlock('bat')
-      }, 20000)
+      }, 30000)
     }
     const events = ['mousemove', 'scroll', 'keydown', 'touchstart', 'pointerdown']
     events.forEach((e) => window.addEventListener(e, arm, { passive: true }))

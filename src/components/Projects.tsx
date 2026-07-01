@@ -99,7 +99,7 @@ function TiltCard({
 }
 
 export default function Projects() {
-  const [caseOpen, setCaseOpen] = useState(false)
+  const [study, setStudy] = useState<string | null>(null)
 
   return (
     <section className="section work" id="work">
@@ -122,12 +122,12 @@ export default function Projects() {
             key={p.title}
             p={p}
             index={i}
-            onOpen={p.caseStudy ? () => setCaseOpen(true) : undefined}
+            onOpen={p.caseStudy && p.study ? () => setStudy(p.study!) : undefined}
           />
         ))}
       </div>
 
-      <CaseStudy open={caseOpen} onClose={() => setCaseOpen(false)} />
+      <CaseStudy study={study} onClose={() => setStudy(null)} />
     </section>
   )
 }

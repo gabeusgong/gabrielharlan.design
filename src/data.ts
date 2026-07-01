@@ -68,6 +68,7 @@ export type Project = {
   year?: string
   emoji: string
   caseStudy?: boolean
+  study?: 'karst' | 'itit'
 }
 
 export const projects: Project[] = [
@@ -81,6 +82,7 @@ export const projects: Project[] = [
     emoji: '🦇',
     href: 'https://spelunk-a-dunk.web.app',
     caseStudy: true,
+    study: 'karst',
   },
   {
     title: 'ITIT — IT Inventory Tracker',
@@ -91,6 +93,8 @@ export const projects: Project[] = [
     year: '2025',
     emoji: '📦',
     href: 'https://zion.luddy.indiana.edu/info-capstone-2026/itit',
+    caseStudy: true,
+    study: 'itit',
   },
   {
     title: 'Corne 42 LP Split Wireless Keyboard',

@@ -1,4 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
+import { MotionConfig } from 'motion/react'
 import './App.css'
 import Cursor from './components/Cursor'
 import Nav from './components/Nav'
@@ -47,11 +48,14 @@ function App() {
   }, [])
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
       <Cursor />
       <DepthGauge />
       <Nav cave={cave} onToggleCave={toggleCave} />
-      <main>
+      <main id="main" tabIndex={-1}>
         <Hero />
         <About />
         <Skills />
@@ -64,7 +68,7 @@ function App() {
       <CaveMode active={cave} />
       <IdleSurprise />
       <Achievements />
-    </>
+    </MotionConfig>
   )
 }
 
