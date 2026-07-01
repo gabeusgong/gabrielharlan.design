@@ -5,7 +5,7 @@ export const SECRETS: Secret[] = [
   { id: 'ring', label: 'Sharpshooter', emoji: '🎯', hint: 'sank every sticker' },
   { id: 'bat', label: 'Bat spotter', emoji: '🦇', hint: 'waited for the bat' },
   { id: 'fling', label: 'Card flinger', emoji: '🃏', hint: 'flung a project card' },
-  { id: 'konami', label: 'Old school', emoji: '🕹️', hint: '↑↑↓↓←→←→ b a · swipe + tap on mobile' },
+  { id: 'konami', label: 'Old school', emoji: '🕹️', hint: '↑↑↓↓←→←→ b a · swipe it on mobile' },
   { id: 'terminal', label: 'Power user', emoji: '💻', hint: 'opened the terminal' },
 ]
 

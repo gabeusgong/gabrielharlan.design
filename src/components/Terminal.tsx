@@ -59,6 +59,13 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
+  // let a nav button (mobile-friendly) toggle the terminal
+  useEffect(() => {
+    const onToggle = () => setOpen((o) => !o)
+    window.addEventListener('toggle-terminal', onToggle)
+    return () => window.removeEventListener('toggle-terminal', onToggle)
+  }, [])
+
   useEffect(() => {
     if (open) {
       unlock('terminal')

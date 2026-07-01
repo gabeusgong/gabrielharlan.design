@@ -2426,3 +2426,27 @@
 :root[data-theme='dark'] .cs__spotlight strong {
   color: #1a140c;
 }
+
+/* terminal launcher button in the nav controls */
+.nav__term {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+  background: var(--paper);
+  color: var(--ink);
+  border: var(--border-ink);
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 var(--ink);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.nav__term:hover {
+  transform: translate(-1px, -1px);
+  background: var(--lime);
+}

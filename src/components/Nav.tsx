@@ -46,6 +46,16 @@ export default function Nav({ cave, onToggleCave }: Props) {
       </ul>
 
       <div className="nav__controls">
+        <button
+          type="button"
+          className="nav__term"
+          onClick={() => window.dispatchEvent(new Event('toggle-terminal'))}
+          data-cursor
+          title="Terminal ( / )"
+          aria-label="Open terminal"
+        >
+          ❯_
+        </button>
         <Settings />
         <button
           type="button"

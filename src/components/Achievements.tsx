@@ -34,8 +34,9 @@ export default function Achievements() {
     }
     window.addEventListener('keydown', onKey)
 
-    // mobile Konami: swipe ↑↑↓↓←→←→ then two taps
-    const TOUCH_SEQ = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'tap', 'tap']
+    // mobile Konami: swipe ↑↑↓↓←→←→ (taps/small moves are ignored, so stray
+    // touches never break the sequence)
+    const SWIPES = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right']
     let tSeq: string[] = []
     let sx = 0
     let sy = 0
@@ -50,12 +51,10 @@ export default function Achievements() {
       const dy = t.clientY - sy
       const adx = Math.abs(dx)
       const ady = Math.abs(dy)
-      let tok: string
-      if (adx < 24 && ady < 24) tok = 'tap'
-      else if (ady > adx) tok = dy < 0 ? 'up' : 'down'
-      else tok = dx < 0 ? 'left' : 'right'
-      tSeq = [...tSeq, tok].slice(-TOUCH_SEQ.length)
-      if (TOUCH_SEQ.every((k, i) => k === tSeq[i])) unlock('konami')
+      if (adx < 28 && ady < 28) return // ignore taps — only swipes count
+      const tok = ady > adx ? (dy < 0 ? 'up' : 'down') : dx < 0 ? 'left' : 'right'
+      tSeq = [...tSeq, tok].slice(-SWIPES.length)
+      if (SWIPES.every((k, i) => k === tSeq[i])) unlock('konami')
     }
     window.addEventListener('touchstart', onTS, { passive: true })
     window.addEventListener('touchend', onTE, { passive: true })

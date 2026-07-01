@@ -5,10 +5,11 @@ import Reveal from './Reveal'
 import CaseStudy from './CaseStudy'
 import { unlock } from '../lib/achievements'
 
-// throwable cards on non-touch devices — disable only when the primary pointer
-// is coarse (touch), so it never hijacks mobile scrolling
-const canDrag =
-  typeof window === 'undefined' || !window.matchMedia?.('(pointer: coarse)').matches
+// throwable cards. On touch, constrain to the x-axis so vertical scrolling
+// still works while cards can still be flung sideways; full 2D on desktop.
+const coarse =
+  typeof window !== 'undefined' && !!window.matchMedia?.('(pointer: coarse)').matches
+const dragMode: boolean | 'x' = coarse ? 'x' : true
 
 function TiltCard({
   p,
@@ -55,7 +56,7 @@ function TiltCard({
     whileHover: { y: -6 },
     'data-cursor': true,
     // fling it around — springs back to its spot
-    drag: canDrag,
+    drag: dragMode,
     dragSnapToOrigin: true,
     dragElastic: 0.5,
     dragMomentum: true,
