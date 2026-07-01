@@ -1480,7 +1480,13 @@
   z-index: 70;
   pointer-events: none;
   will-change: transform;
-  animation: bat-fly 6s linear forwards;
+  /* fly across the screen while the wings flap (separate `scale` property so it
+     composes with the transform-based flight path) */
+  animation: bat-fly 6s linear forwards, bat-flap 0.45s ease-in-out infinite;
+}
+@keyframes bat-flap {
+  0%, 100% { scale: 1 1; }
+  50% { scale: 0.68 1.06; }
 }
 @keyframes bat-fly {
   0% {
