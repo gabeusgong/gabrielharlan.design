@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { profile, links } from '../data'
 import Reveal from './Reveal'
+import ContactForm from './ContactForm'
 
 const REPO = 'https://github.com/gabeusgong/gabrielharlan.design'
 
@@ -41,6 +42,8 @@ export default function Contact() {
           to build?
         </h2>
       </Reveal>
+
+      <ContactForm />
 
       <Reveal delay={0.12}>
         <ul className="contact__list">

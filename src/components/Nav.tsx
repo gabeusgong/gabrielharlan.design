@@ -28,7 +28,10 @@ export default function Nav({ cave, onToggleCave }: Props) {
   return (
     <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
       <a href="#top" className="nav__brand">
-        <span className="nav__mark">✸</span>
+        <span className="nav__mark" aria-hidden>
+          <span className="nav__mark-star">✸</span>
+          <span className="nav__mark-bat">🦇</span>
+        </span>
         {profile.name.split(' ')[0]}
       </a>
 

@@ -13,6 +13,12 @@ export const profile = {
     "I'm a senior Informatics student at Indiana University, minoring in Human-Centered Computing and Web Design. I like turning big ideas into clean, accessible, human-centered interfaces, and I care about building things that feel good for everyone to use, not just things that look good. I spent the last couple years leading a campus IT support team at IU; on weekends I'm underground with the Bloomington Indiana Grotto, which is exactly how the cave field-guide app below got started.",
   location: 'Bloomington, Indiana',
   status: 'open to new roles',
+  // a little "/now" line — edit anytime to keep the site feeling alive
+  now: [
+    'building Karst, my caving field guide',
+    'leading the IU support desk (SCIPS)',
+    'deepest trip yet: Buckner Cave, IN',
+  ],
 }
 
 export type Skill = { name: string; tone: keyof typeof tones }

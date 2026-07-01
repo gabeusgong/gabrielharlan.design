@@ -57,6 +57,14 @@ export default function About() {
           <Reveal delay={0.12}>
             <p className="about__body">{profile.about}</p>
           </Reveal>
+          <Reveal delay={0.16}>
+            <p className="about__now">
+              <span className="about__now-tag">
+                <span className="about__now-dot" /> now
+              </span>
+              {profile.now.join('  ·  ')}
+            </p>
+          </Reveal>
         </div>
 
         <Reveal delay={0.15} className="about__stickers-col">

@@ -30,7 +30,7 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
 - [x] ⭐ **Keyboard Easter egg** — type a secret word (e.g. `karst`) or the Konami code to
       trigger something playful. On-brand for the keyboard nerd.
 - [x] **Sound + mute toggle** — subtle clicks on sticker collisions, a chime on the win.
-- [ ] **"/now" line** — "currently building Karst · reading X · deepest cave so far",
+- [x] **"/now" line** — "currently building Karst · reading X · deepest cave so far",
       kept fresh, to make the site feel alive.
 
 ## Gimmicks (pure delight)
@@ -52,13 +52,12 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
       fling / Konami). See `src/lib/achievements.ts`.
 - [x] **Interactive Corne keyboard** — the case-study keymap has 42 clickable keycaps that depress
       and play a synthesized Web Audio "thock" (no audio files). Sound-toggle still a future item.
-- [ ] **Cave cross-section scroll** — an SVG cave profile you visually descend through as you
+- [x] **Cave cross-section scroll** — an SVG cave profile you visually descend through as you
       scroll, tied to the depth gauge.
 
 ## More delight ideas
-- [~] **Deepen cave mode** — ✅ faint synthesized water-drip ambience (Web Audio, echo via feedback
-      delay) while underground, now silenceable via the Settings mute. (Bat removed.) Still open:
-      depth-gauge recolor in-theme.
+- [x] **Deepen cave mode** — ✅ water-drip ambience (silenceable via mute) + the depth-gauge
+      cave cross-section recolors amber-on-black in cave mode. (Bat removed.)
 - [x] **Real cave photos** — ✅ "Underground" gallery section: featured hero shot + 23-photo masonry
       grid with a keyboard-navigable lightbox (`CaveGallery.tsx`, lazy-loaded; `public/caves/*.webp`).
       Plus a portrait polaroid in the About intro (`public/portrait.webp`).
@@ -68,15 +67,15 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
 - [x] **Time-aware greeting** — hero eyebrow greets by the visitor's local hour; "welcome back"
       for returning visitors (localStorage).
 - [—] **Chaos / motion dial** — removed along with reduced-motion mode (per request).
-- [ ] **Animated nav mark** — the ✸ flaps into a bat on hover.
+- [x] **Animated nav mark** — the ✸ flaps into a bat on hover.
 - [x] **Visitor count** — "you're explorer #N" (shipped with the Firebase wall).
 - [ ] **First-visit intro** — a brief headlamp-on "descent" before the hero (optional; mind load friction).
 
 ## Practical
 - [x] **Privacy-friendly analytics** (e.g. Plausible) to see traffic when sharing for jobs.
 - [x] **Real light/dark toggle** beyond cave mode.
-- [ ] **Installable PWA** — manifest + service worker ("add to home screen"). Deferred.
-- [ ] **Contact form** (e.g. Formspree) so people can message without an email client. Deferred.
+- [x] **Installable PWA** — manifest + service worker ("add to home screen"). Deferred.
+- [~] **Contact form** (e.g. Formspree) so people can message without an email client. Deferred.
 
 ## Shipped 2026-06-30
 Custom 404 page · JSON-LD/SEO meta · "view source" footer · WebP case-study images

@@ -98,9 +98,35 @@
   color: var(--ink);
 }
 .nav__mark {
-  color: var(--coral);
+  position: relative;
+  display: inline-flex;
+  width: 1.15em;
+  height: 1.15em;
   font-size: 1.1rem;
+}
+.nav__mark-star,
+.nav__mark-bat {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+}
+.nav__mark-star {
+  color: var(--coral);
   animation: spin 8s linear infinite;
+}
+.nav__mark-bat {
+  opacity: 0;
+  font-size: 0.9em;
+}
+.nav__brand:hover .nav__mark-star {
+  opacity: 0;
+}
+.nav__brand:hover .nav__mark-bat {
+  opacity: 1;
+  animation: bat-flap 0.4s ease-in-out infinite;
 }
 @keyframes spin {
   to {
@@ -1451,37 +1477,35 @@
   z-index: 60;
   pointer-events: none;
 }
-.depthgauge__track {
+.depthgauge__cave {
   position: relative;
-  width: 3px;
-  height: 42vh;
-  background: rgba(33, 27, 20, 0.16);
-  border-radius: 2px;
+  width: 26px;
+  height: 46vh;
 }
-.depthgauge__fill {
-  position: absolute;
-  top: 0;
-  left: 0;
+.depthgauge__svg {
   width: 100%;
-  height: 0%;
-  background: var(--coral);
-  border-radius: 2px;
+  height: 100%;
+  display: block;
+  overflow: visible;
 }
-.depthgauge__marker {
-  position: absolute;
-  left: 50%;
-  top: 0%;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--coral);
-  border: 2px solid var(--ink);
-  transform: translate(-50%, -50%);
+.depthgauge__wall {
+  fill: var(--paper-2);
+  stroke: rgba(33, 27, 20, 0.22);
+  stroke-width: 0.5;
+}
+.depthgauge__water {
+  fill: var(--coral);
+  opacity: 0.85;
+}
+.depthgauge__dot {
+  fill: var(--coral);
+  stroke: var(--ink);
+  stroke-width: 1.5;
 }
 .depthgauge__label {
   position: absolute;
-  left: 16px;
-  top: 50%;
+  left: 34px;
+  top: 0%;
   transform: translateY(-50%);
   white-space: nowrap;
   font-family: var(--mono);
@@ -1489,6 +1513,18 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-soft);
+}
+/* recolor the descent in cave mode (amber on black) */
+:root.cave-active .depthgauge__wall {
+  fill: #1a140c;
+  stroke: rgba(255, 215, 156, 0.28);
+}
+:root.cave-active .depthgauge__water {
+  fill: var(--sun);
+}
+:root.cave-active .depthgauge__dot {
+  fill: var(--sun);
+  stroke: #1a140c;
 }
 @media (max-width: 1000px) {
   .depthgauge {
@@ -2583,4 +2619,92 @@
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   color: var(--ink-soft);
+}
+
+/* ---------- "/now" line in About ---------- */
+.about__now {
+  margin-top: 1.2rem;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  line-height: 1.9;
+}
+.about__now-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-right: 0.55rem;
+  padding: 0.22em 0.6em;
+  background: var(--lime);
+  color: #26201a;
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.64rem;
+  white-space: nowrap;
+}
+.about__now-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--coral);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+/* ---------- contact form (Formspree) ---------- */
+.cform {
+  margin: 1.6rem 0 0.4rem;
+  max-width: 640px;
+}
+.cform__row {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+.cform__input {
+  flex: 1 1 220px;
+  min-width: 0;
+  font-family: var(--body);
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--paper);
+  padding: 0.8em 1.05em;
+  border: var(--border-ink);
+  border-radius: 14px;
+  box-shadow: var(--shadow-hard);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cform__input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.75;
+}
+.cform__input:focus {
+  outline: none;
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+.cform__area {
+  width: 100%;
+  margin-top: 0.8rem;
+  resize: vertical;
+}
+.cform__foot {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.9rem;
+}
+.cform__err {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--coral);
+}
+.cform__done {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  color: var(--ink);
+  padding: 1rem 0;
 }
