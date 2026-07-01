@@ -1601,23 +1601,6 @@
   }
 }
 
-/* ---------- cave-mode companion bat ---------- */
-.cavemode__bat {
-  position: absolute;
-  left: var(--mx);
-  top: var(--my);
-  font-size: 1.5rem;
-  transform: translate(-55%, -170%);
-  transition: left 0.35s ease-out, top 0.35s ease-out;
-  animation: bat-flap 0.9s ease-in-out infinite;
-  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.6));
-  pointer-events: none;
-}
-@keyframes bat-flap {
-  0%, 100% { scale: 1 1; }
-  50% { scale: 0.7 1.05; }
-}
-
 /* ---------- the wall (visitor guestbook + count) ---------- */
 .wall__heading {
   font-size: clamp(2.2rem, 6vw, 4.2rem);

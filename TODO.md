@@ -55,8 +55,9 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
       scroll, tied to the depth gauge.
 
 ## More delight ideas
-- [~] **Deepen cave mode** — ✅ idle bat now trails the headlamp beam. Still open: faint water-drip
-      ambient (behind a future mute toggle); depth-gauge recolor in-theme.
+- [~] **Deepen cave mode** — ✅ faint synthesized water-drip ambience (Web Audio, echo via feedback
+      delay) while underground. (The headlamp-trailing bat was removed.) Still open: a mute toggle;
+      depth-gauge recolor in-theme.
 - [ ] **Real cave photos** — a small atmospheric gallery from the Bloomington Indiana Grotto. (skipped for now)
 - [ ] **`/` command palette / fake terminal** — jump to sections or run `whoami` / `ls projects`.
 - [ ] **Now-playing chip** — Last.fm / Spotify "currently listening" for a living, personal touch.
