@@ -17,14 +17,42 @@ import CaveMode from './components/CaveMode'
 import DepthGauge from './components/DepthGauge'
 import IdleSurprise from './components/IdleSurprise'
 import Achievements from './components/Achievements'
+import Terminal from './components/Terminal'
 import { unlock } from './lib/achievements'
+import { apply as applyPrefs, getMotion } from './lib/prefs'
 
 const getRoute = () =>
   typeof window !== 'undefined' && window.location.hash === '#/caves' ? 'caves' : 'home'
 
+const motionMode = (): 'always' | 'never' | 'user' => {
+  const m = getMotion()
+  return m === 'reduced' ? 'always' : m === 'full' ? 'never' : 'user'
+}
+
 function App() {
   const [cave, setCave] = useState(false)
   const [route, setRoute] = useState(getRoute)
+  const [reducedMotion, setReducedMotion] = useState(motionMode)
+
+  // keep theme/motion attributes + MotionConfig in sync with prefs and the OS
+  useEffect(() => {
+    applyPrefs()
+    const onPref = () => setReducedMotion(motionMode())
+    window.addEventListener('pref-change', onPref)
+    const dark = window.matchMedia('(prefers-color-scheme: dark)')
+    const red = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const onOS = () => {
+      applyPrefs()
+      setReducedMotion(motionMode())
+    }
+    dark.addEventListener?.('change', onOS)
+    red.addEventListener?.('change', onOS)
+    return () => {
+      window.removeEventListener('pref-change', onPref)
+      dark.removeEventListener?.('change', onOS)
+      red.removeEventListener?.('change', onOS)
+    }
+  }, [])
 
   // tiny hash router so the cave gallery lives on its own page (#/caves) and
   // never appears inline on the main site
@@ -48,6 +76,23 @@ function App() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
+  // type the word "karst" anywhere to drop into cave mode
+  useEffect(() => {
+    let seq = ''
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return
+      if (e.key.length !== 1) return
+      seq = (seq + e.key.toLowerCase()).slice(-5)
+      if (seq === 'karst') {
+        setCave(true)
+        unlock('cave')
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   // playful tab title when you leave the tab
   useEffect(() => {
     const original = document.title
@@ -63,7 +108,7 @@ function App() {
 
   if (route === 'caves') {
     return (
-      <MotionConfig reducedMotion="user">
+      <MotionConfig reducedMotion={reducedMotion}>
         <Cursor />
         <Suspense fallback={null}>
           <CaveGallery />
@@ -73,7 +118,7 @@ function App() {
   }
 
   return (
-    <MotionConfig reducedMotion="user">
+    <MotionConfig reducedMotion={reducedMotion}>
       <a href="#main" className="skip-link">
         Skip to content
       </a>
@@ -93,6 +138,7 @@ function App() {
       <CaveMode active={cave} />
       <IdleSurprise />
       <Achievements />
+      <Terminal onToggleCave={toggleCave} />
     </MotionConfig>
   )
 }

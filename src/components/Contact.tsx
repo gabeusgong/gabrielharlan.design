@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { profile, links } from '../data'
 import Reveal from './Reveal'
+import NowPlaying from './NowPlaying'
 
 const REPO = 'https://github.com/gabeusgong/gabrielharlan.design'
 
@@ -92,6 +93,10 @@ export default function Contact() {
         >
           Download résumé ↓
         </a>
+      </Reveal>
+
+      <Reveal delay={0.22}>
+        <NowPlaying />
       </Reveal>
 
       <footer className="footer">

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { profile } from '../data'
+import Settings from './Settings'
 
 const sections = [
   { id: 'about', label: 'About' },
@@ -44,17 +45,20 @@ export default function Nav({ cave, onToggleCave }: Props) {
         ))}
       </ul>
 
-      <button
-        type="button"
-        className={`nav__lamp ${cave ? 'nav__lamp--on' : ''}`}
-        onClick={onToggleCave}
-        data-cursor
-        aria-pressed={cave}
-        title={cave ? 'Lights on' : 'Cave mode'}
-        aria-label={cave ? 'Turn off cave mode' : 'Turn on cave mode'}
-      >
-        {cave ? '💡' : '🔦'}
-      </button>
+      <div className="nav__controls">
+        <Settings />
+        <button
+          type="button"
+          className={`nav__lamp ${cave ? 'nav__lamp--on' : ''}`}
+          onClick={onToggleCave}
+          data-cursor
+          aria-pressed={cave}
+          title={cave ? 'Lights on' : 'Cave mode'}
+          aria-label={cave ? 'Turn off cave mode' : 'Turn on cave mode'}
+        >
+          {cave ? '💡' : '🔦'}
+        </button>
+      </div>
     </nav>
   )
 }

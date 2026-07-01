@@ -187,3 +187,31 @@ main:focus {
     scroll-behavior: auto !important;
   }
 }
+/* manual "reduced motion" preference (Settings) mirrors the media query */
+:root[data-motion='reduced'] *,
+:root[data-motion='reduced'] *::before,
+:root[data-motion='reduced'] *::after {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ---- dark theme (Settings toggle / OS preference) ---- */
+:root[data-theme='dark'] {
+  --paper: #1a150e; /* warm near-black */
+  --paper-2: #231b12;
+  --ink: #f4ecd8; /* cream text/borders */
+  --ink-soft: #b9a988;
+  --cobalt: #6b83ff; /* lifted for contrast on dark */
+  --bg: var(--paper);
+  --text: var(--ink-soft);
+  --text-h: var(--ink);
+  color-scheme: dark;
+}
+:root[data-theme='dark'] body {
+  background-image: radial-gradient(circle at 1px 1px, rgba(244, 236, 216, 0.05) 1px, transparent 0);
+}
+:root[data-theme='dark'] body::before {
+  mix-blend-mode: screen;
+  opacity: 0.03;
+}

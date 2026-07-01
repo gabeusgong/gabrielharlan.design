@@ -4,6 +4,23 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- apply theme/motion before paint to avoid a flash -->
+    <script>
+      (function () {
+        try {
+          var d = document.documentElement,
+            t = localStorage.getItem('gh-theme'),
+            m = localStorage.getItem('gh-motion')
+          d.dataset.theme =
+            (t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'
+          d.dataset.motion =
+            (m ? m === 'reduced' : matchMedia('(prefers-reduced-motion: reduce)').matches)
+              ? 'reduced'
+              : 'full'
+        } catch (e) {}
+      })()
+    </script>
     <meta name="description" content="Gabriel Harlan — web & UX designer and Informatics student at Indiana University. Human-centered design, above ground and below it." />
 
     <!-- Open Graph / social cards -->
@@ -52,5 +69,12 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- privacy-friendly analytics (no cookies). Register the "gabrielharlan"
+         subdomain (free) at goatcounter.com to activate. -->
+    <script
+      data-goatcounter="https://gabrielharlan.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
   </body>
 </html>

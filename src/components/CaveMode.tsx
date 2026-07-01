@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { isMuted } from '../lib/prefs'
 
 /* Synthesized cave "water drip" ambience — faint, randomly-timed drops fed
    through a feedback delay for an underground echo. No audio files; the
@@ -113,13 +114,20 @@ export default function CaveMode({ active }: { active: boolean }) {
     // recolor the whole site into the underground (black/amber) theme
     document.documentElement.classList.add('cave-active')
 
-    // faint dripping-water ambience while underground
-    const stopAmbience = startCaveAmbience()
+    // faint dripping-water ambience while underground (respects the mute pref,
+    // and starts/stops live when the user toggles sound)
+    let stopAmbience = isMuted() ? () => {} : startCaveAmbience()
+    const onPref = () => {
+      stopAmbience()
+      stopAmbience = isMuted() ? () => {} : startCaveAmbience()
+    }
+    window.addEventListener('pref-change', onPref)
 
     return () => {
       window.removeEventListener('mousemove', onMouse)
       window.removeEventListener('touchstart', onTouch)
       window.removeEventListener('touchmove', onTouch)
+      window.removeEventListener('pref-change', onPref)
       document.documentElement.classList.remove('cave-active')
       stopAmbience()
     }

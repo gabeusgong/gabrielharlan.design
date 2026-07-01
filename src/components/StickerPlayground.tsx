@@ -136,6 +136,30 @@ export default function StickerPlayground() {
       }
     }
 
+    // keyboard operability: focus a sticker and fling it with the arrow keys
+    // (Up / Space / Enter launches it toward the ring); works without a mouse
+    const keyHandlers: Array<{ el: HTMLDivElement; fn: (e: KeyboardEvent) => void }> = []
+    pairs.forEach((p) => {
+      p.el.setAttribute('tabindex', '0')
+      p.el.setAttribute('role', 'button')
+      const fn = (e: KeyboardEvent) => {
+        let vx = 0
+        let vy = 0
+        if (e.key === 'ArrowUp' || e.key === ' ' || e.key === 'Enter') {
+          vy = -15
+          vx = Math.random() * 6 - 3
+        } else if (e.key === 'ArrowLeft') vx = -9
+        else if (e.key === 'ArrowRight') vx = 9
+        else if (e.key === 'ArrowDown') vy = 9
+        else return
+        e.preventDefault()
+        Body.setVelocity(p.body, { x: vx, y: vy })
+        activate()
+      }
+      p.el.addEventListener('keydown', fn)
+      keyHandlers.push({ el: p.el, fn })
+    })
+
     const mouse = Mouse.create(scene)
     const mc = MouseConstraint.create(engine, {
       mouse,
@@ -259,6 +283,7 @@ export default function StickerPlayground() {
 
     return () => {
       ro.disconnect()
+      keyHandlers.forEach(({ el, fn }) => el.removeEventListener('keydown', fn))
       scene.removeEventListener('touchstart', onTouchStart)
       scene.removeEventListener('touchmove', onTouchMove)
       scene.removeEventListener('touchend', onTouchEnd)

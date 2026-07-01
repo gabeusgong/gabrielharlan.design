@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { skills, tones } from '../data'
+import { resolvedReduced } from '../lib/prefs'
 
 function Chips({ k }: { k: string }) {
   const row = [...skills, ...skills]
@@ -23,8 +24,8 @@ export default function Skills() {
   const t2 = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // honor reduced-motion: leave the marquees static (no auto-scroll)
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
+    // honor reduced-motion (OS or the in-site Motion pref): leave marquees static
+    if (resolvedReduced()) return
 
     const tracks = [t1.current, t2.current].filter(Boolean) as HTMLDivElement[]
     if (tracks.length < 2) return

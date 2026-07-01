@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'motion/react'
 import { profile } from '../data'
+import { resolvedReduced } from '../lib/prefs'
 
 const container = {
   hidden: {},
@@ -114,24 +115,61 @@ export default function Hero() {
     return seen ? 'welcome back' : greeting
   })
 
+  // parallax: blobs drift with the mouse (desktop) or device tilt (mobile)
+  const px = useMotionValue(0)
+  const py = useMotionValue(0)
+  const sx = useSpring(px, { stiffness: 50, damping: 18 })
+  const sy = useSpring(py, { stiffness: 50, damping: 18 })
+  const coralX = useTransform(sx, [-1, 1], [-34, 34])
+  const coralY = useTransform(sy, [-1, 1], [-24, 24])
+  const cobaltX = useTransform(sx, [-1, 1], [30, -30])
+  const cobaltY = useTransform(sy, [-1, 1], [24, -24])
+  const limeX = useTransform(sx, [-1, 1], [-16, 16])
+  const limeY = useTransform(sy, [-1, 1], [18, -18])
+
+  useEffect(() => {
+    if (resolvedReduced()) return
+    if (window.matchMedia?.('(pointer: coarse)').matches) {
+      const onTilt = (e: DeviceOrientationEvent) => {
+        if (e.gamma == null || e.beta == null) return
+        px.set(Math.max(-1, Math.min(1, e.gamma / 35)))
+        py.set(Math.max(-1, Math.min(1, (e.beta - 45) / 35)))
+      }
+      window.addEventListener('deviceorientation', onTilt)
+      return () => window.removeEventListener('deviceorientation', onTilt)
+    }
+    const onMove = (e: MouseEvent) => {
+      px.set((e.clientX / window.innerWidth) * 2 - 1)
+      py.set((e.clientY / window.innerHeight) * 2 - 1)
+    }
+    window.addEventListener('mousemove', onMove)
+    return () => window.removeEventListener('mousemove', onMove)
+  }, [px, py])
+
   return (
     <header className="hero" id="top">
-      {/* floating playground shapes */}
-      <motion.div
-        className="blob blob--coral"
-        animate={{ y: [0, -24, 0], rotate: [0, 12, 0] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="blob blob--cobalt"
-        animate={{ y: [0, 26, 0], x: [0, -14, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="blob blob--lime"
-        animate={{ y: [0, -18, 0], rotate: [0, -16, 0] }}
-        transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut' }}
-      />
+      {/* floating playground shapes (with pointer/tilt parallax) */}
+      <motion.div className="blob-parallax" style={{ x: coralX, y: coralY }}>
+        <motion.div
+          className="blob blob--coral"
+          animate={{ y: [0, -24, 0], rotate: [0, 12, 0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </motion.div>
+      <motion.div className="blob-parallax" style={{ x: cobaltX, y: cobaltY }}>
+        <motion.div
+          className="blob blob--cobalt"
+          animate={{ y: [0, 26, 0], x: [0, -14, 0] }}
+          transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </motion.div>
+      <motion.div className="blob-parallax" style={{ x: limeX, y: limeY }}>
+        <motion.div
+          className="blob blob--lime"
+          animate={{ y: [0, -18, 0], rotate: [0, -16, 0] }}
+          transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </motion.div>
 
       <div className="hero__inner">
         <motion.p

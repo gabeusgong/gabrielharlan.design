@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
+import { isMuted } from '../lib/prefs'
 
 const base = import.meta.env.BASE_URL
 
@@ -85,6 +86,7 @@ const KB_LAYERS = [
 // the first click (a user gesture, so autoplay policies are satisfied).
 let audioCtx: AudioContext | null = null
 function thock() {
+  if (isMuted()) return
   try {
     const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
     if (!AC) return

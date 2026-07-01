@@ -12,13 +12,14 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
 - [ ] **A testimonial** — one short quote from a professor, teammate, or the IT-team lead.
 
 ## Walk-the-talk accessibility (the hero literally says "accessible")
-- [~] ⭐ **Accessibility pass**
+- [x] ⭐ **Accessibility pass**
   - [x] Visible `:focus-visible` focus ring site-wide (amber in cave mode)
   - [x] Skip-to-content link; `<main>` landmark
-  - [x] `prefers-reduced-motion` — `MotionConfig reducedMotion="user"` + static marquee
+  - [x] `prefers-reduced-motion` + in-site Motion toggle (Settings) + static marquee
   - [x] Allow pinch-zoom (removed `user-scalable=no` / `maximum-scale`)
-  - [x] Screen-reader hobbies list (game isn't keyboard-operable); polite live region for unlock toasts
-  - [ ] Still open: keyboard-operable sticker game (focus + key controls); color-contrast audit
+  - [x] Screen-reader hobbies list; polite live region for unlock toasts
+  - [x] Keyboard-operable sticker game — stickers focusable; arrow keys / space fling them
+  - [x] Color-contrast reviewed (body text AA on cream & dark; accents for large/decorative only)
 
 ## Performance
 - [x] **Lazy-load matter-js** — done via `StickerPlayground.tsx` (React.lazy + IntersectionObserver).
@@ -26,9 +27,9 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
       loaded only as About scrolls near.
 
 ## Delight / signature
-- [ ] ⭐ **Keyboard Easter egg** — type a secret word (e.g. `karst`) or the Konami code to
+- [x] ⭐ **Keyboard Easter egg** — type a secret word (e.g. `karst`) or the Konami code to
       trigger something playful. On-brand for the keyboard nerd.
-- [ ] **Sound + mute toggle** — subtle clicks on sticker collisions, a chime on the win.
+- [x] **Sound + mute toggle** — subtle clicks on sticker collisions, a chime on the win.
 - [ ] **"/now" line** — "currently building Karst · reading X · deepest cave so far",
       kept fresh, to make the site feel alive.
 
@@ -56,24 +57,24 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
 
 ## More delight ideas
 - [~] **Deepen cave mode** — ✅ faint synthesized water-drip ambience (Web Audio, echo via feedback
-      delay) while underground. (The headlamp-trailing bat was removed.) Still open: a mute toggle;
+      delay) while underground, now silenceable via the Settings mute. (Bat removed.) Still open:
       depth-gauge recolor in-theme.
 - [x] **Real cave photos** — ✅ "Underground" gallery section: featured hero shot + 23-photo masonry
       grid with a keyboard-navigable lightbox (`CaveGallery.tsx`, lazy-loaded; `public/caves/*.webp`).
       Plus a portrait polaroid in the About intro (`public/portrait.webp`).
-- [ ] **`/` command palette / fake terminal** — jump to sections or run `whoami` / `ls projects`.
-- [ ] **Now-playing chip** — Last.fm / Spotify "currently listening" for a living, personal touch.
-- [ ] **Blob parallax / gyro tilt** — hero blobs drift with the mouse (desktop) or phone tilt (gyro).
+- [x] **`/` command palette / fake terminal** — jump to sections or run `whoami` / `ls projects`.
+- [x] **Now-playing chip** — Last.fm / Spotify "currently listening" for a living, personal touch.
+- [x] **Blob parallax / gyro tilt** — hero blobs drift with the mouse (desktop) or phone tilt (gyro).
 - [x] **Time-aware greeting** — hero eyebrow greets by the visitor's local hour; "welcome back"
       for returning visitors (localStorage).
-- [ ] **Chaos / motion dial** — let visitors turn the animation intensity up or down (fun + a11y).
+- [x] **Chaos / motion dial** — let visitors turn the animation intensity up or down (fun + a11y).
 - [ ] **Animated nav mark** — the ✸ flaps into a bat on hover.
 - [x] **Visitor count** — "you're explorer #N" (shipped with the Firebase wall).
 - [ ] **First-visit intro** — a brief headlamp-on "descent" before the hero (optional; mind load friction).
 
 ## Practical
-- [ ] **Privacy-friendly analytics** (e.g. Plausible) to see traffic when sharing for jobs.
-- [ ] **Real light/dark toggle** beyond cave mode.
+- [~] **Privacy-friendly analytics** (e.g. Plausible) to see traffic when sharing for jobs.
+- [x] **Real light/dark toggle** beyond cave mode.
 - [ ] **Installable PWA** — manifest + service worker ("add to home screen"). Deferred.
 - [ ] **Contact form** (e.g. Formspree) so people can message without an email client. Deferred.
 
