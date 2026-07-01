@@ -56,7 +56,6 @@ export default function Nav({ cave, onToggleCave }: Props) {
         >
           ❯_
         </button>
-        <Settings />
         <button
           type="button"
           className={`nav__lamp ${cave ? 'nav__lamp--on' : ''}`}
@@ -68,6 +67,7 @@ export default function Nav({ cave, onToggleCave }: Props) {
         >
           {cave ? '💡' : '🔦'}
         </button>
+        <Settings />
       </div>
     </nav>
   )
