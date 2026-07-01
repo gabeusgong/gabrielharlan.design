@@ -130,4 +130,11 @@ export const links = {
 // Add quotes here (with the person's permission) and the "Kind words" section
 // appears automatically. Leave empty to hide it.
 export type Testimonial = { quote: string; name: string; role: string }
-export const testimonials: Testimonial[] = []
+export const testimonials: Testimonial[] = [
+  {
+    quote:
+      'Gabriel quickly climbed the ranks of our team and was promoted to a supervisor… a reliable and dependable asset, consistently delivering outstanding results. His leadership skills not only drive results but also cultivate a positive and high-performing team culture.',
+    name: 'Wesley Clifford',
+    role: 'IT Coordinator · IU Support Center (SCIPS)',
+  },
+]

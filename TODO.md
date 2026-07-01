@@ -9,7 +9,7 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
       data-driven (karst / itit / corne). All three projects now tell a full story.
 - [x] **Process / "how I work" beat** — a couple of wireframe→final shots or a short
       blurb on the design loop. Show the UX thinking, not just the result.
-- [ ] **A testimonial** — one short quote from a professor, teammate, or the IT-team lead.
+- [x] **A testimonial** — one short quote from a professor, teammate, or the IT-team lead.
 
 ## Walk-the-talk accessibility (the hero literally says "accessible")
 - [x] ⭐ **Accessibility pass**
