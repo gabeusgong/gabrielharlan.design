@@ -73,7 +73,7 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
 - [ ] **First-visit intro** — a brief headlamp-on "descent" before the hero (optional; mind load friction).
 
 ## Practical
-- [~] **Privacy-friendly analytics** (e.g. Plausible) to see traffic when sharing for jobs.
+- [x] **Privacy-friendly analytics** (e.g. Plausible) to see traffic when sharing for jobs.
 - [x] **Real light/dark toggle** beyond cave mode.
 - [ ] **Installable PWA** — manifest + service worker ("add to home screen"). Deferred.
 - [ ] **Contact form** (e.g. Formspree) so people can message without an email client. Deferred.
