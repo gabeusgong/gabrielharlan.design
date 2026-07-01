@@ -1366,6 +1366,51 @@
   color: var(--ink-soft);
   line-height: 1.45;
 }
+
+/* browser-framed gallery (for website case studies) */
+.cs__shot--wide {
+  width: 460px;
+  max-width: 82vw;
+}
+.cs__browser {
+  border: var(--border-ink);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 6px 6px 0 var(--ink);
+  background: var(--paper);
+}
+.cs__browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 12px;
+  background: var(--paper-2);
+  border-bottom: 2px solid var(--ink);
+}
+.cs__browser-bar span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink);
+  opacity: 0.4;
+}
+.cs__browser-bar span:first-child {
+  background: var(--coral);
+  opacity: 1;
+}
+.cs__browser-bar span:nth-child(2) {
+  background: var(--sun);
+  opacity: 1;
+}
+.cs__browser-bar span:nth-child(3) {
+  background: var(--lime);
+  opacity: 1;
+}
+.cs__browser img {
+  width: 100%;
+  display: block;
+}
 @media (max-width: 700px) {
   .cs__decisions {
     grid-template-columns: 1fr;

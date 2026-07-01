@@ -16,7 +16,7 @@ type Study = {
   problem: ReactNode
   spotlight: { tag: string; h: string; body: ReactNode }
   decisions: Decision[]
-  gallery?: { heading: string; shots: Shot[] }
+  gallery?: { heading: string; shots: Shot[]; frame?: 'phone' | 'browser' }
   diagram?: { heading: string; node: ReactNode }
   closing: { h: string; body: ReactNode }
 }
@@ -428,6 +428,94 @@ const STUDIES: Record<string, Study> = {
       ),
     },
   },
+
+  blenz: {
+    slug: 'blenz',
+    title: (
+      <>
+        Blenz Preserve <span className="cs__cube">🏞️</span>
+      </>
+    ),
+    year: '2025',
+    lede: (
+      <>
+        A ground-up <strong>responsive redesign</strong> of the National Speleological Society&apos;s
+        Buckner Cave / Richard Blenz Nature Preserve site — my final for I360 Web Design, hand-coded
+        and photographed on-site.
+      </>
+    ),
+    meta: [
+      { label: 'Role', value: 'Design, build & photography' },
+      { label: 'Course', value: 'I360 Web Design · SP25' },
+      { label: 'Built with', value: 'HTML · CSS · vanilla JS' },
+    ],
+    problem: (
+      <>
+        The preserve&apos;s real web presence is dense and dated — the things that matter most
+        (access permits, White-Nose Syndrome decontamination, the management plan) are buried in
+        walls of text. I rebuilt it as a welcoming, responsive site that still leads with the
+        preserve&apos;s conservation-first mission.
+      </>
+    ),
+    spotlight: {
+      tag: '★ Signature',
+      h: 'Designed around photos I shot underground',
+      body: (
+        <>
+          The hero slideshow and the blurred backdrop are <strong>my own photography from inside
+          Buckner Cave</strong>, and the palette is pulled straight from the rock — limestone tans,
+          cave-water blue, and a clay red — set in Libre Baskerville over Poppins. The design starts
+          from the place itself.
+        </>
+      ),
+    },
+    decisions: [
+      {
+        h: 'Responsive, trailhead to desktop',
+        p: 'Hand-coded layout with a collapsing hamburger nav that reveals its items in a quick stagger — so it reads just as well on a phone at the cave gate as on a laptop.',
+      },
+      {
+        h: 'Progressive disclosure for dense science',
+        p: 'History, Biology, Geology, Hydrology, and Archaeology fold into accordions, so the page stays scannable and the deep detail is one tap away instead of a wall of text.',
+      },
+      {
+        h: 'Conservation up front',
+        p: 'The White-Nose Syndrome decontamination notice and the access-permit flow sit near the top, not buried in a policy page — mirroring the preserve’s real priorities.',
+      },
+      {
+        h: 'An earthy, on-site palette',
+        p: 'Colors and type were chosen to feel like the cave, not a generic template — warm limestone neutrals, a topographic-line motif, and a restrained serif/sans pairing.',
+      },
+    ],
+    gallery: {
+      heading: 'A look at the site',
+      frame: 'browser',
+      shots: [
+        {
+          src: `${base}webdesign/home.webp`,
+          cap: 'Homepage — a full-bleed hero slideshow of my Buckner Cave photos under the preserve name.',
+        },
+        {
+          src: `${base}webdesign/info.webp`,
+          cap: 'News, the management-plan callout, and accordion sections for the cave’s geology, biology, and history.',
+        },
+        {
+          src: `${base}webdesign/access.webp`,
+          cap: 'Interior page template — a topographic-line header, breadcrumb, and the permit-request flow.',
+        },
+      ],
+    },
+    closing: {
+      h: 'Where it stands',
+      body: (
+        <>
+          A hand-coded static site — HTML, CSS, and vanilla JS, no frameworks — built for I360 Web
+          Design. It&apos;s the project that first fused the two things this whole portfolio is about:
+          caving and building for the web. A direct ancestor of Karst.
+        </>
+      ),
+    },
+  },
 }
 
 export default function CaseStudy({
@@ -538,21 +626,36 @@ export default function CaseStudy({
               </section>
             )}
 
-            {data.gallery && (
-              <section className="cs__block">
-                <h3 className="cs__h3">{data.gallery.heading}</h3>
-                <div className="cs__gallery">
-                  {data.gallery.shots.map((s) => (
-                    <figure className="cs__shot" key={s.src}>
-                      <div className="cs__phone">
-                        <img src={s.src} alt={s.cap} loading="lazy" />
-                      </div>
-                      <figcaption>{s.cap}</figcaption>
-                    </figure>
-                  ))}
-                </div>
-              </section>
-            )}
+            {data.gallery &&
+              (() => {
+                const browser = data.gallery.frame === 'browser'
+                return (
+                  <section className="cs__block">
+                    <h3 className="cs__h3">{data.gallery.heading}</h3>
+                    <div className={`cs__gallery ${browser ? 'cs__gallery--browser' : ''}`}>
+                      {data.gallery.shots.map((s) => (
+                        <figure className={`cs__shot ${browser ? 'cs__shot--wide' : ''}`} key={s.src}>
+                          {browser ? (
+                            <div className="cs__browser">
+                              <span className="cs__browser-bar">
+                                <span />
+                                <span />
+                                <span />
+                              </span>
+                              <img src={s.src} alt={s.cap} loading="lazy" />
+                            </div>
+                          ) : (
+                            <div className="cs__phone">
+                              <img src={s.src} alt={s.cap} loading="lazy" />
+                            </div>
+                          )}
+                          <figcaption>{s.cap}</figcaption>
+                        </figure>
+                      ))}
+                    </div>
+                  </section>
+                )
+              })()}
 
             <section className="cs__block">
               <h3 className="cs__h3">{data.closing.h}</h3>

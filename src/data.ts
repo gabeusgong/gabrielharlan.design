@@ -68,7 +68,7 @@ export type Project = {
   year?: string
   emoji: string
   caseStudy?: boolean
-  study?: 'karst' | 'itit' | 'corne'
+  study?: 'karst' | 'itit' | 'corne' | 'blenz'
 }
 
 export const projects: Project[] = [
@@ -106,6 +106,17 @@ export const projects: Project[] = [
     emoji: '⌨️',
     caseStudy: true,
     study: 'corne',
+  },
+  {
+    title: 'Richard Blenz Nature Preserve',
+    blurb:
+      "A responsive redesign of the National Speleological Society's Buckner Cave preserve site — my I360 Web Design final. Hand-coded HTML/CSS/JS with an animated nav, a photo slideshow, and accordion geology & biology sections, all built around cave photography I shot on-site.",
+    tags: ['HTML', 'CSS', 'JavaScript', 'Responsive'],
+    tone: 'lime',
+    year: '2025',
+    emoji: '🏞️',
+    caseStudy: true,
+    study: 'blenz',
   },
 ]
 

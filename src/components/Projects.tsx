@@ -13,10 +13,12 @@ const canDrag =
 function TiltCard({
   p,
   index,
+  total,
   onOpen,
 }: {
   p: Project
   index: number
+  total: number
   onOpen?: () => void
 }) {
   const mx = useMotionValue(0.5)
@@ -34,7 +36,9 @@ function TiltCard({
     my.set(0.5)
   }
 
-  const big = index === 0
+  // the first card is the feature; also make the last card span full-width when
+  // it would otherwise be orphaned alone on a 2-column row
+  const big = index === 0 || (index === total - 1 && (total - 1) % 2 === 1)
   const isCase = !!(p.caseStudy && onOpen)
   const cta = isCase ? 'Read the case study' : p.href ? 'Visit' : 'Case study soon'
 
@@ -122,6 +126,7 @@ export default function Projects() {
             key={p.title}
             p={p}
             index={i}
+            total={projects.length}
             onOpen={p.caseStudy && p.study ? () => setStudy(p.study!) : undefined}
           />
         ))}
