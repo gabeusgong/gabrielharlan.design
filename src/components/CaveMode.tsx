@@ -40,5 +40,10 @@ export default function CaveMode({ active }: { active: boolean }) {
     }
   }, [active])
 
-  return <div ref={ref} className={`cavemode ${active ? 'cavemode--on' : ''}`} aria-hidden />
+  return (
+    <div ref={ref} className={`cavemode ${active ? 'cavemode--on' : ''}`} aria-hidden>
+      {/* a bat that trails the headlamp beam */}
+      <span className="cavemode__bat">🦇</span>
+    </div>
+  )
 }

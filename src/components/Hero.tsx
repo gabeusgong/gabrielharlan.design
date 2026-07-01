@@ -99,6 +99,21 @@ function RotatingWord({ words }: { words: string[] }) {
 }
 
 export default function Hero() {
+  // time-aware greeting; "welcome back" for returning visitors
+  const [lead] = useState(() => {
+    const h = new Date().getHours()
+    const greeting =
+      h < 5 ? 'up late?' : h < 12 ? 'good morning' : h < 17 ? 'good afternoon' : h < 21 ? 'good evening' : 'good night'
+    let seen = false
+    try {
+      seen = !!localStorage.getItem('gh-visited')
+      localStorage.setItem('gh-visited', '1')
+    } catch {
+      /* ignore */
+    }
+    return seen ? 'welcome back' : greeting
+  })
+
   return (
     <header className="hero" id="top">
       {/* floating playground shapes */}
@@ -125,7 +140,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
         >
-          ✦ {profile.location} · portfolio &apos;26
+          ✦ {lead} · {profile.location}
         </motion.p>
 
         <KineticName text={profile.name} />

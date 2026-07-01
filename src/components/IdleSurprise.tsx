@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { unlock } from '../lib/achievements'
 
 /* After a stretch of no input, a little bat flutters across the screen.
    Any activity dismisses it and resets the timer. */
@@ -10,7 +11,10 @@ export default function IdleSurprise() {
     const arm = () => {
       setFlying(false)
       window.clearTimeout(timer)
-      timer = window.setTimeout(() => setFlying(true), 20000)
+      timer = window.setTimeout(() => {
+        setFlying(true)
+        unlock('bat')
+      }, 20000)
     }
     const events = ['mousemove', 'scroll', 'keydown', 'touchstart', 'pointerdown']
     events.forEach((e) => window.addEventListener(e, arm, { passive: true }))

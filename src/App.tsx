@@ -10,9 +10,17 @@ import Contact from './components/Contact'
 import CaveMode from './components/CaveMode'
 import DepthGauge from './components/DepthGauge'
 import IdleSurprise from './components/IdleSurprise'
+import Achievements from './components/Achievements'
+import { unlock } from './lib/achievements'
 
 function App() {
   const [cave, setCave] = useState(false)
+
+  const toggleCave = () =>
+    setCave((v) => {
+      if (!v) unlock('cave')
+      return !v
+    })
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -39,7 +47,7 @@ function App() {
     <>
       <Cursor />
       <DepthGauge />
-      <Nav cave={cave} onToggleCave={() => setCave((v) => !v)} />
+      <Nav cave={cave} onToggleCave={toggleCave} />
       <main>
         <Hero />
         <About />
@@ -49,6 +57,7 @@ function App() {
       </main>
       <CaveMode active={cave} />
       <IdleSurprise />
+      <Achievements />
     </>
   )
 }

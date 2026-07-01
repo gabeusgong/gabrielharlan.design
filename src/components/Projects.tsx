@@ -3,6 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 import { projects, tones, type Project } from '../data'
 import Reveal from './Reveal'
 import CaseStudy from './CaseStudy'
+import { unlock } from '../lib/achievements'
 
 // throwable cards on non-touch devices — disable only when the primary pointer
 // is coarse (touch), so it never hijacks mobile scrolling
@@ -54,6 +55,7 @@ function TiltCard({
     dragSnapToOrigin: true,
     dragElastic: 0.5,
     dragMomentum: true,
+    onDragStart: () => unlock('fling'),
     whileDrag: { scale: 1.03, zIndex: 20, cursor: 'grabbing' },
   }
 

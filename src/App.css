@@ -1312,3 +1312,111 @@
   color: var(--ink-soft);
   margin: -0.2rem 0 0.8rem;
 }
+
+/* ---------- achievements / secrets ---------- */
+.achv {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+.achv__toggle {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  background: var(--paper);
+  border: var(--border-ink);
+  border-radius: 100px;
+  box-shadow: 3px 3px 0 var(--ink);
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.achv__toggle:hover {
+  transform: translate(-1px, -1px);
+  background: var(--sun);
+}
+.achv__list {
+  width: 240px;
+  background: var(--paper);
+  border: var(--border-ink);
+  border-radius: 14px;
+  box-shadow: var(--shadow-hard);
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.achv__title {
+  color: var(--ink-soft);
+  margin-bottom: 0.2rem;
+}
+.achv__item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: var(--body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  opacity: 0.45;
+}
+.achv__item.is-got {
+  opacity: 1;
+}
+.achv__emoji {
+  font-size: 1.05rem;
+}
+.achv__hint {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+.achv-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 5rem;
+  z-index: 9600;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  padding: 0.6rem 1.1rem;
+  border-radius: 100px;
+  box-shadow: var(--shadow-hard);
+  pointer-events: none;
+}
+.achv-toast strong {
+  color: var(--sun);
+}
+@media (max-width: 720px) {
+  .achv__list {
+    width: 210px;
+  }
+}
+
+/* ---------- cave-mode companion bat ---------- */
+.cavemode__bat {
+  position: absolute;
+  left: var(--mx);
+  top: var(--my);
+  font-size: 1.5rem;
+  transform: translate(-55%, -170%);
+  transition: left 0.35s ease-out, top 0.35s ease-out;
+  animation: bat-flap 0.9s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.6));
+  pointer-events: none;
+}
+@keyframes bat-flap {
+  0%, 100% { scale: 1 1; }
+  50% { scale: 0.7 1.05; }
+}

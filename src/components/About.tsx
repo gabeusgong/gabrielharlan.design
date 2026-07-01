@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Matter from 'matter-js'
 import { profile, hobbies, tones } from '../data'
 import Reveal from './Reveal'
+import { unlock } from '../lib/achievements'
 
 const CONFETTI = ['#f4502a', '#2d4df5', '#c8f02c', '#ff9ece', '#ffc23d']
 const GAP_H = 128 // ring opening height
@@ -216,6 +217,7 @@ function StickerPlayground() {
             setWinTime(elapsed)
             setBest(newBest)
             setWon(true)
+            unlock('ring')
           }
           continue
         }
