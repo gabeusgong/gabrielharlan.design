@@ -3,7 +3,7 @@ import Reveal from './Reveal'
 
 // Create a free form at formspree.io and paste its ID here (the part after /f/).
 // While this is empty the form is hidden and the direct links below still work.
-const FORMSPREE_ID = ''
+const FORMSPREE_ID = 'xeebrvgd'
 
 export default function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle')
