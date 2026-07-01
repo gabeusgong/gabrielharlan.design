@@ -68,7 +68,7 @@ export type Project = {
   year?: string
   emoji: string
   caseStudy?: boolean
-  study?: 'karst' | 'itit'
+  study?: 'karst' | 'itit' | 'corne'
 }
 
 export const projects: Project[] = [
@@ -99,11 +99,13 @@ export const projects: Project[] = [
   {
     title: 'Corne 42 LP Split Wireless Keyboard',
     blurb:
-      'A hand-built split, wireless, ortholinear mechanical keyboard running custom ZMK firmware — bespoke keymaps, rotary encoders, the works. Because the best tools are the ones you tune yourself.',
+      'A hand-built split, wireless, low-profile Corne — 42 ortholinear keys on custom ZMK firmware. Bluetooth profiles, per-half OLED screens, a removable hotswap controller, and magnetic USB-C ports. Tuned Choc switches, blank 3D-printed caps, built entirely by hand.',
     tags: ['ZMK', 'Firmware', 'Hardware'],
     tone: 'coral',
     year: '2024',
     emoji: '⌨️',
+    caseStudy: true,
+    study: 'corne',
   },
 ]
 

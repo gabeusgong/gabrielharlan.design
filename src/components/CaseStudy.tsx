@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 
 const base = import.meta.env.BASE_URL
@@ -42,6 +42,87 @@ function ITITDiagram() {
       <p className="cs__flow-cap label">
         the data model mirrors how a shop already organizes its gear · CSV export → Excel
       </p>
+    </div>
+  )
+}
+
+/* ---- Corne keymap: an interactive, tabbed layer diagram ---- */
+const KB_LAYERS = [
+  {
+    name: 'Base',
+    note: 'QWERTY with Shift / Ctrl on the outer columns. The thumbs carry the layer holds, Space and Enter — there’s no dedicated Esc, it lives on the layers.',
+    rows: [
+      ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '⌫'],
+      ['Shift', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'"],
+      ['Ctrl', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'GUI'],
+    ],
+    thumbs: ['Raise', '', 'Space', 'Enter', 'Lower', 'GUI'],
+  },
+  {
+    name: 'Lower',
+    note: 'The utility layer — five Bluetooth profiles, an arrow cluster, media transport (play/prev/next), and undo / redo.',
+    rows: [
+      ['Esc', '', '', '', '', 'BTclr', 'BT1', 'BT2', 'BT3', 'BT4', 'BT5', '⌫'],
+      ['Shift', '', '', '', '', '', '←', '↑', '→', 'Undo', 'Redo', 'Caps'],
+      ['Ctrl', 'GUI', '', '', '', '', '', '↓', '', 'Play', 'Prev', 'Next'],
+    ],
+    thumbs: ['', '', 'Space', 'Enter', '', ''],
+  },
+  {
+    name: 'Raise',
+    note: 'Numbers and the full symbol set — brackets, braces, operators, pipe and tilde.',
+    rows: [
+      ['Esc', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '⌫'],
+      ['Shift', '1', '2', '3', '4', '5', '-', '=', '[', ']', '\\', "'"],
+      ['Ctrl', '6', '7', '8', '9', '0', '_', '+', '{', '}', '|', '~'],
+    ],
+    thumbs: ['', '', 'Space', 'Enter', '', ''],
+  },
+]
+
+function KeyboardLayers() {
+  const [i, setI] = useState(0)
+  const L = KB_LAYERS[i]
+  const half = (keys: string[], thumb = false) => (
+    <div className={`kb__half ${thumb ? 'kb__half--thumbs' : ''}`}>
+      {keys.map((k, ci) => (
+        <span key={ci} className={`kb__key ${thumb ? 'kb__key--thumb' : ''} ${k === '' ? 'is-blank' : ''}`}>
+          {k}
+        </span>
+      ))}
+    </div>
+  )
+  return (
+    <div className="kb">
+      <div className="kb__tabs" role="tablist" aria-label="Keymap layers">
+        {KB_LAYERS.map((l, idx) => (
+          <button
+            key={l.name}
+            type="button"
+            role="tab"
+            aria-selected={idx === i}
+            data-cursor
+            className={`kb__tab ${idx === i ? 'is-active' : ''}`}
+            onClick={() => setI(idx)}
+          >
+            {l.name}
+          </button>
+        ))}
+      </div>
+      <div className="kb__grid" role="img" aria-label={`${L.name} layer keymap`}>
+        {L.rows.map((row, r) => (
+          <div className="kb__row" key={r}>
+            {half(row.slice(0, 6))}
+            {half(row.slice(6))}
+          </div>
+        ))}
+        <div className="kb__row kb__row--thumbs">
+          {half(L.thumbs.slice(0, 3), true)}
+          {half(L.thumbs.slice(3), true)}
+        </div>
+      </div>
+      <p className="kb__note label">{L.note}</p>
+      <p className="kb__encoder label">🎛 rotary encoder → volume up / down</p>
     </div>
   )
 }
@@ -213,6 +294,81 @@ const STUDIES: Record<string, Study> = {
           deployment for testing (teammates: Eric Walker, Tanner Wathen, and Nick Delgado). My
           biggest takeaways were designing inside a team&apos;s constraints and shipping a real
           product against a hard deadline.
+        </>
+      ),
+    },
+  },
+
+  corne: {
+    slug: 'corne',
+    title: (
+      <>
+        Corne 42 <span className="cs__cube">⌨️</span>
+      </>
+    ),
+    year: '2024',
+    lede: (
+      <>
+        A hand-built <strong>split, wireless, low-profile Corne</strong> — 42 ortholinear keys on
+        custom ZMK firmware. My answer to a simple itch: what if I made the keyboard I code on?
+      </>
+    ),
+    meta: [
+      { label: 'Role', value: 'Design, build & firmware' },
+      { label: 'Keys', value: '42 · ortholinear · split' },
+      { label: 'Runs', value: 'ZMK · nice!nano v2 · BLE' },
+    ],
+    live: {
+      href: 'https://github.com/gabeusgong/goozmk-config1',
+      label: 'See the ZMK config →',
+    },
+    problem: (
+      <>
+        After years of building custom mechanical keyboards, a normal board stopped being a
+        challenge. I wanted to keep <strong>working with my hands</strong> and to end up with
+        something genuinely useful: an <strong>ergonomic keyboard tuned for faster coding</strong>,
+        built from the switches up. A 42-key wireless Corne was the deep end — so I jumped in.
+      </>
+    ),
+    spotlight: {
+      tag: '★ Signature build',
+      h: 'Hand-wired — and built to come apart',
+      body: (
+        <>
+          The nice!nano v2 sits on <strong>hotswap sockets</strong>, so the controller pops out
+          without desoldering, and each half has a <strong>magnetic USB-C port</strong> — the cable
+          detaches with a tug while the port stays put. The hardest parts were entirely by hand:
+          wiring the battery to a physical power switch, and wiring in the rotary encoders.
+        </>
+      ),
+    },
+    decisions: [
+      {
+        h: '42 keys, on purpose',
+        p: 'Dropping to an ortholinear 3×6 + 3-thumb layout means everything lives on layers instead of a finger stretch. Going from staggered QWERTY to ortho low-profile was a real re-learning curve — but it keeps my hands on the home row.',
+      },
+      {
+        h: 'Wireless, via ZMK',
+        p: 'A nice!nano v2 runs ZMK ("Gabe\'s Corne") over Bluetooth, with five pairing profiles to jump between machines, and firmware built and flashed straight from GitHub Actions — no toolchain to babysit. A small OLED on each half reports the active layer, output/Bluetooth status, battery %, and live WPM.',
+      },
+      {
+        h: 'Tuned by feel, not just looks',
+        p: 'Kailh Choc low-profile Silver linears, lubed and finished with an o-ring gummy mod and a tape mod for sound and feel. Blank 3D-printed low-profile keycaps and a 3D-printed case round it out.',
+      },
+      {
+        h: 'A volume knob, wired by hand',
+        p: 'Hand-wired rotary encoders, driven through ZMK’s EC11 support — a sensor-binding maps the knob to volume up/down, so the finest bit of soldering on the board turns into the most tactile control on it.',
+      },
+    ],
+    diagram: { heading: 'The keymap', node: <KeyboardLayers /> },
+    closing: {
+      h: 'Where it stands',
+      body: (
+        <>
+          It&apos;s the board I type this on — three clean layers (base, lower, raise) that turn 42
+          keys into a full layout without reaching. The build taught me as much about patience and
+          hand-wiring as about ZMK; next up is bringing the encoders online and continuing to
+          tune the feel.
         </>
       ),
     },

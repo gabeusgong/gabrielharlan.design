@@ -1207,6 +1207,106 @@
   font-style: normal;
 }
 
+/* Corne interactive keymap diagram */
+.kb {
+  border: var(--border-ink);
+  border-radius: 16px;
+  background: var(--paper-2);
+  padding: 1.4rem;
+  box-shadow: var(--shadow-hard);
+}
+.kb__tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+.kb__tab {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45em 1em;
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  background: var(--paper);
+  color: var(--ink);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.kb__tab.is-active {
+  background: var(--cobalt);
+  color: var(--paper);
+}
+.kb__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  overflow-x: auto;
+  padding-bottom: 0.3rem;
+}
+.kb__row {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  min-width: max-content;
+  margin: 0 auto;
+}
+.kb__half {
+  display: flex;
+  gap: 0.3rem;
+}
+.kb__key {
+  flex: 0 0 auto;
+  width: 2.15rem;
+  height: 2.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.kb__key.is-blank {
+  opacity: 0.2;
+}
+.kb__row--thumbs {
+  margin-top: 0.4rem;
+}
+.kb__half--thumbs {
+  margin: 0 0.5rem;
+}
+.kb__key--thumb {
+  width: 2.7rem;
+  background: var(--sun);
+}
+.kb__key--thumb.is-blank {
+  background: var(--paper);
+}
+.kb__note {
+  margin: 1.1rem 0 0;
+  text-align: center;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+.kb__encoder {
+  margin: 0.5rem 0 0;
+  text-align: center;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  opacity: 0.85;
+}
+
 .cs__gallery {
   display: flex;
   align-items: flex-start;
@@ -1317,19 +1417,19 @@
 }
 @keyframes bat-fly {
   0% {
-    transform: translate(0, 0) rotate(-8deg);
+    transform: translate(0, 0) rotate(-8deg) scaleX(-1);
   }
   25% {
-    transform: translate(28vw, -9vh) rotate(8deg);
+    transform: translate(28vw, -9vh) rotate(8deg) scaleX(-1);
   }
   50% {
-    transform: translate(55vw, 5vh) rotate(-8deg);
+    transform: translate(55vw, 5vh) rotate(-8deg) scaleX(-1);
   }
   75% {
-    transform: translate(82vw, -7vh) rotate(8deg);
+    transform: translate(82vw, -7vh) rotate(8deg) scaleX(-1);
   }
   100% {
-    transform: translate(114vw, 3vh) rotate(-8deg);
+    transform: translate(114vw, 3vh) rotate(-8deg) scaleX(-1);
   }
 }
 
