@@ -1,0 +1,41 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- visitor sticker wall ----
+    // anyone may read; anyone may add one sticker; nobody may edit or delete.
+    // creates are validated: only the 3 expected fields, a short text, a short
+    // color key, and a server-set timestamp (can't be spoofed by the client).
+    match /guestbook/{id} {
+      allow read: if true;
+      allow create: if
+        request.resource.data.keys().hasOnly(['text', 'color', 'createdAt'])
+        && request.resource.data.text is string
+        && request.resource.data.text.size() >= 1
+        && request.resource.data.text.size() <= 50
+        && request.resource.data.color is string
+        && request.resource.data.color.size() <= 12
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+
+    // ---- visitor counter ----
+    // read by everyone; may be created at 1, or bumped by exactly +1. No deletes.
+    match /meta/stats {
+      allow read: if true;
+      allow create: if
+        request.resource.data.keys().hasOnly(['visits'])
+        && request.resource.data.visits == 1;
+      allow update: if
+        request.resource.data.keys().hasOnly(['visits'])
+        && request.resource.data.visits == resource.data.visits + 1;
+      allow delete: if false;
+    }
+
+    // ---- everything else is locked ----
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

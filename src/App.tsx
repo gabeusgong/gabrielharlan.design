@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import './App.css'
 import Cursor from './components/Cursor'
 import Nav from './components/Nav'
@@ -7,6 +7,9 @@ import About from './components/About'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Contact from './components/Contact'
+
+// lazy so Firebase ships in its own chunk, not the initial bundle
+const Wall = lazy(() => import('./components/Wall'))
 import CaveMode from './components/CaveMode'
 import DepthGauge from './components/DepthGauge'
 import IdleSurprise from './components/IdleSurprise'
@@ -53,6 +56,9 @@ function App() {
         <About />
         <Skills />
         <Projects />
+        <Suspense fallback={null}>
+          <Wall />
+        </Suspense>
         <Contact />
       </main>
       <CaveMode active={cave} />
