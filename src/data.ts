@@ -15,9 +15,9 @@ export const profile = {
   status: 'open to new roles',
   // a little "/now" line — edit anytime to keep the site feeling alive
   now: [
-    'building Karst, my caving field guide',
-    'leading the IU support desk (SCIPS)',
-    'deepest trip yet: Buckner Cave, IN',
+    'building an SMS gateway for the TRACI tire agent at Tire Rack',
+    'reading Kafka on the Shore by Haruki Murakami',
+    'playing Fallout 4',
   ],
 }
 

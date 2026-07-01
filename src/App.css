@@ -1477,35 +1477,37 @@
   z-index: 60;
   pointer-events: none;
 }
-.depthgauge__cave {
+.depthgauge__track {
   position: relative;
-  width: 26px;
-  height: 46vh;
+  width: 3px;
+  height: 42vh;
+  background: rgba(33, 27, 20, 0.16);
+  border-radius: 2px;
 }
-.depthgauge__svg {
+.depthgauge__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
-  display: block;
-  overflow: visible;
+  height: 0%;
+  background: var(--coral);
+  border-radius: 2px;
 }
-.depthgauge__wall {
-  fill: var(--paper-2);
-  stroke: rgba(33, 27, 20, 0.22);
-  stroke-width: 0.5;
-}
-.depthgauge__water {
-  fill: var(--coral);
-  opacity: 0.85;
-}
-.depthgauge__dot {
-  fill: var(--coral);
-  stroke: var(--ink);
-  stroke-width: 1.5;
+.depthgauge__marker {
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--coral);
+  border: 2px solid var(--ink);
+  transform: translate(-50%, -50%);
 }
 .depthgauge__label {
   position: absolute;
-  left: 34px;
-  top: 0%;
+  left: 16px;
+  top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
   font-family: var(--mono);
@@ -1515,16 +1517,12 @@
   color: var(--ink-soft);
 }
 /* recolor the descent in cave mode (amber on black) */
-:root.cave-active .depthgauge__wall {
-  fill: #1a140c;
-  stroke: rgba(255, 215, 156, 0.28);
+:root.cave-active .depthgauge__fill {
+  background: var(--sun);
 }
-:root.cave-active .depthgauge__water {
-  fill: var(--sun);
-}
-:root.cave-active .depthgauge__dot {
-  fill: var(--sun);
-  stroke: #1a140c;
+:root.cave-active .depthgauge__marker {
+  background: var(--sun);
+  border-color: #1a140c;
 }
 @media (max-width: 1000px) {
   .depthgauge {
