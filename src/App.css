@@ -504,7 +504,7 @@
   position: absolute;
   left: 0;
   /* centered on the box's left border, just above the top border with margin */
-  bottom: calc(var(--box-h, 540px) + 0.7rem + 60px);
+  bottom: calc(var(--box-h, 540px) + 0.7rem + 90px);
   z-index: 6;
   padding: 0.42rem 0.8rem;
   background: var(--ink);
