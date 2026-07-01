@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { setTheme, setMuted, resolvedDark } from '../lib/prefs'
 import { unlock } from '../lib/achievements'
+import { useFocusTrap } from '../lib/useFocusTrap'
 
 type Line = { kind: 'in' | 'out'; text: string }
 
@@ -39,6 +40,8 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
   const [lines, setLines] = useState<Line[]>([{ kind: 'out', text: BANNER }])
   const inputRef = useRef<HTMLInputElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
+  const winRef = useRef<HTMLDivElement>(null)
+  useFocusTrap(open, winRef)
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -157,7 +160,18 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
         print(['gabriel harlan — web & ux designer, informatics @ iu.', 'above ground and below it. 🦇'])
         break
       case 'sudo':
-        print(["nice try. you already have root here 🧗"])
+        if (args[0] === 'make' && args[1] === 'coffee') {
+          unlock('coffee')
+          print(['☕ brewing… ERROR 418: I’m a teapot. (secret unlocked)'])
+        } else {
+          print(['nice try. you already have root here 🧗'])
+        }
+        break
+      case 'make':
+        if (arg === 'coffee') {
+          unlock('coffee')
+          print(['☕ brewing… ERROR 418: I’m a teapot. (secret unlocked)'])
+        } else print([`don’t know how to make "${arg ?? ''}"`])
         break
       case 'clear':
         setLines([])
@@ -189,6 +203,8 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
           transition={{ duration: 0.15 }}
         >
           <motion.div
+            ref={winRef}
+            tabIndex={-1}
             className="term__win"
             onClick={(e) => e.stopPropagation()}
             role="dialog"

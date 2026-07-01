@@ -2899,3 +2899,71 @@
   z-index: 2;
   color: rgba(255, 215, 156, 0.5);
 }
+
+/* ---------- Corne typing test ---------- */
+.typetest {
+  border: var(--border-ink);
+  border-radius: 16px;
+  background: var(--paper-2);
+  padding: 1.4rem 1.5rem;
+  box-shadow: var(--shadow-hard);
+  cursor: text;
+}
+.typetest__sample {
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+.typetest__ch {
+  color: var(--ink-soft);
+  opacity: 0.55;
+}
+.typetest__ch--ok {
+  color: var(--ink);
+  opacity: 1;
+}
+.typetest__ch--bad {
+  color: var(--paper);
+  background: var(--coral);
+  border-radius: 2px;
+  opacity: 1;
+}
+.typetest__ch--cur {
+  opacity: 1;
+  box-shadow: inset 0 -2px 0 var(--cobalt);
+}
+.typetest__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.typetest__stats {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 1rem;
+  color: var(--ink-soft);
+}
+.typetest__wpm {
+  color: var(--coral);
+  font-weight: 700;
+}
+.typetest__again {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.35em 0.8em;
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  background: var(--sun);
+  color: #26201a;
+  cursor: pointer;
+}
+:root[data-theme='dark'] .typetest__ch--bad {
+  color: #1a140c;
+}

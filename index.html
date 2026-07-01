@@ -10,8 +10,12 @@
       (function () {
         try {
           var t = localStorage.getItem('gh-theme')
-          document.documentElement.dataset.theme =
-            (t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'
+          var h = new Date().getHours()
+          var night = h >= 19 || h < 7
+          var dark = t
+            ? t === 'dark'
+            : matchMedia('(prefers-color-scheme: dark)').matches || night
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light'
         } catch (e) {}
       })()
     </script>

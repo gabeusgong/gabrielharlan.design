@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import Reveal from './Reveal'
+import { useFocusTrap } from '../lib/useFocusTrap'
 
 const base = import.meta.env.BASE_URL
 
@@ -39,6 +40,8 @@ const PHOTOS = [
 export default function CaveGallery() {
   const [idx, setIdx] = useState<number | null>(null)
   const open = idx !== null
+  const lightboxRef = useRef<HTMLDivElement>(null)
+  useFocusTrap(open, lightboxRef)
 
   const close = useCallback(() => setIdx(null), [])
   const prev = useCallback(
@@ -131,6 +134,8 @@ export default function CaveGallery() {
       <AnimatePresence>
         {open && idx !== null && (
           <motion.div
+            ref={lightboxRef}
+            tabIndex={-1}
             className="lightbox"
             onClick={close}
             initial={{ opacity: 0 }}

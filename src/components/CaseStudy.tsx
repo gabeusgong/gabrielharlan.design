@@ -1,6 +1,8 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { isMuted } from '../lib/prefs'
+import { useFocusTrap } from '../lib/useFocusTrap'
+import TypingTest from './TypingTest'
 
 const base = import.meta.env.BASE_URL
 
@@ -529,6 +531,8 @@ export default function CaseStudy({
 }) {
   const open = study !== null
   const data = study ? STUDIES[study] : null
+  const panelRef = useRef<HTMLElement>(null)
+  useFocusTrap(open, panelRef)
 
   useEffect(() => {
     if (!open) return
@@ -556,6 +560,8 @@ export default function CaseStudy({
           transition={{ duration: 0.25 }}
         >
           <motion.article
+            ref={panelRef}
+            tabIndex={-1}
             className="cs__panel"
             role="dialog"
             aria-modal="true"
@@ -625,6 +631,13 @@ export default function CaseStudy({
               <section className="cs__block">
                 <h3 className="cs__h3">{data.diagram.heading}</h3>
                 {data.diagram.node}
+              </section>
+            )}
+
+            {data.slug === 'corne' && (
+              <section className="cs__block">
+                <h3 className="cs__h3">Take it for a spin</h3>
+                <TypingTest />
               </section>
             )}
 

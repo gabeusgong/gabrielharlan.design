@@ -26,6 +26,11 @@ const mq = (q: string) =>
   typeof window !== 'undefined' && window.matchMedia ? window.matchMedia(q).matches : false
 
 export const prefersDark = () => mq('(prefers-color-scheme: dark)')
+// after sunset-ish, default to dark (until the visitor picks a theme)
+export const isNight = () => {
+  const h = new Date().getHours()
+  return h >= 19 || h < 7
+}
 
 export type Theme = 'dark' | 'light' | null
 export const getTheme = (): Theme => {
@@ -34,7 +39,7 @@ export const getTheme = (): Theme => {
 }
 export const resolvedDark = () => {
   const t = getTheme()
-  return t ? t === 'dark' : prefersDark()
+  return t ? t === 'dark' : prefersDark() || isNight()
 }
 export const setTheme = (v: Theme) => {
   set(THEME_KEY, v)
