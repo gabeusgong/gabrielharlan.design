@@ -17,6 +17,10 @@ export default function TypingTest() {
 
   const onChange = (v: string) => {
     if (startedAt === null && v.length) setStartedAt(performance.now())
+    // light up the pressed key on the keymap above
+    if (v.length > typed.length) {
+      window.dispatchEvent(new CustomEvent('corne-key', { detail: v[v.length - 1] }))
+    }
     setTyped(v.slice(0, SAMPLE.length))
   }
   const reset = () => {

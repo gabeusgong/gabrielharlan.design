@@ -2967,3 +2967,11 @@
 :root[data-theme='dark'] .typetest__ch--bad {
   color: #1a140c;
 }
+
+/* a keymap key lit up by the typing test */
+.kb__key--hit {
+  background: var(--cobalt);
+  color: var(--paper);
+  transform: translateY(2.5px);
+  box-shadow: 0 0 0 var(--ink);
+}

@@ -134,7 +134,26 @@ function thock() {
 
 function KeyboardLayers() {
   const [i, setI] = useState(0)
+  const gridRef = useRef<HTMLDivElement>(null)
   const L = KB_LAYERS[i]
+
+  // light up a key when the typing test (or a real press) reports it
+  useEffect(() => {
+    const onKey = (e: Event) => {
+      const raw = (e as CustomEvent<string>).detail
+      const target = raw === ' ' ? 'space' : raw.toLowerCase()
+      if (/^[a-z]$/.test(target) || target === 'space') setI(0) // letters live on Base
+      requestAnimationFrame(() => {
+        const el = gridRef.current?.querySelector<HTMLElement>(`[data-key="${CSS.escape(target)}"]`)
+        if (!el) return
+        el.classList.add('kb__key--hit')
+        window.setTimeout(() => el.classList.remove('kb__key--hit'), 170)
+      })
+    }
+    window.addEventListener('corne-key', onKey)
+    return () => window.removeEventListener('corne-key', onKey)
+  }, [])
+
   const half = (keys: string[], thumb = false) => (
     <div className={`kb__half ${thumb ? 'kb__half--thumbs' : ''}`}>
       {keys.map((k, ci) => (
@@ -142,6 +161,7 @@ function KeyboardLayers() {
           type="button"
           key={ci}
           data-cursor
+          data-key={k === '' ? undefined : k.toLowerCase()}
           onPointerDown={thock}
           aria-label={k || 'blank key'}
           className={`kb__key ${thumb ? 'kb__key--thumb' : ''} ${k === '' ? 'is-blank' : ''}`}
@@ -168,7 +188,7 @@ function KeyboardLayers() {
           </button>
         ))}
       </div>
-      <div className="kb__grid" role="img" aria-label={`${L.name} layer keymap`}>
+      <div className="kb__grid" ref={gridRef} role="img" aria-label={`${L.name} layer keymap`}>
         {L.rows.map((row, r) => (
           <div className="kb__row" key={r}>
             {half(row.slice(0, 6))}
