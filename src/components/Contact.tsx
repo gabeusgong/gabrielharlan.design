@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import { profile, links } from '../data'
 import Reveal from './Reveal'
 import ContactForm from './ContactForm'
+import { track } from '../lib/track'
 
 const REPO = 'https://github.com/gabeusgong/gabrielharlan.design'
 
@@ -19,6 +20,7 @@ export default function Contact() {
   const [copied, setCopied] = useState(false)
 
   const copyEmail = () => {
+    track('email-copy')
     navigator.clipboard?.writeText(links.email).then(() => {
       setCopied(true)
       window.setTimeout(() => setCopied(false), 1800)
@@ -98,6 +100,7 @@ export default function Contact() {
           target="_blank"
           rel="noreferrer"
           data-cursor
+          onClick={() => track('resume')}
         >
           Download résumé ↓
         </a>

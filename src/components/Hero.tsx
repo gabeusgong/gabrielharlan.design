@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'motion/react'
 import { profile } from '../data'
+import { track } from '../lib/track'
 
 const container = {
   hidden: {},
@@ -208,6 +209,7 @@ export default function Hero() {
             target="_blank"
             rel="noreferrer"
             data-cursor
+            onClick={() => track('resume')}
           >
             Résumé ↓
           </a>

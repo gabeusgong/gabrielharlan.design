@@ -4,6 +4,7 @@ import { projects, tones, type Project } from '../data'
 import Reveal from './Reveal'
 import CaseStudy from './CaseStudy'
 import { unlock } from '../lib/achievements'
+import { track } from '../lib/track'
 
 // throwable cards. On touch, constrain to the x-axis so vertical scrolling
 // still works while cards can still be flung sideways; full 2D on desktop.
@@ -93,7 +94,13 @@ function TiltCard({
           {inner}
         </motion.button>
       ) : p.href ? (
-        <motion.a href={p.href} target="_blank" rel="noreferrer" {...common}>
+        <motion.a
+          href={p.href}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => track(`visit-${p.title.split(' ')[0].toLowerCase()}`)}
+          {...common}
+        >
           {inner}
         </motion.a>
       ) : (
@@ -128,7 +135,14 @@ export default function Projects() {
             p={p}
             index={i}
             total={projects.length}
-            onOpen={p.caseStudy && p.study ? () => setStudy(p.study!) : undefined}
+            onOpen={
+              p.caseStudy && p.study
+                ? () => {
+                    track(`case-${p.study}`)
+                    setStudy(p.study!)
+                  }
+                : undefined
+            }
           />
         ))}
       </div>

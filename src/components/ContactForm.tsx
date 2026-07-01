@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import Reveal from './Reveal'
+import { track } from '../lib/track'
 
 // Create a free form at formspree.io and paste its ID here (the part after /f/).
 // While this is empty the form is hidden and the direct links below still work.
@@ -20,6 +21,7 @@ export default function ContactForm() {
         headers: { Accept: 'application/json' },
       })
       if (res.ok) {
+        track('contact-submit')
         setStatus('ok')
         form.reset()
       } else setStatus('error')
