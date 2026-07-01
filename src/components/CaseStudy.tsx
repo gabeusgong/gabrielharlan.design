@@ -80,15 +80,70 @@ const KB_LAYERS = [
   },
 ]
 
+// A synthesized mechanical-keyboard "thock" — a low sine body plus a short
+// filtered-noise click. No audio files; the AudioContext is created lazily on
+// the first click (a user gesture, so autoplay policies are satisfied).
+let audioCtx: AudioContext | null = null
+function thock() {
+  try {
+    const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+    if (!AC) return
+    audioCtx = audioCtx || new AC()
+    const ctx = audioCtx
+    if (ctx.state === 'suspended') ctx.resume()
+    const now = ctx.currentTime
+    const detune = 0.9 + Math.random() * 0.2 // slight per-press variation
+
+    // low "body" — a quick downward sine thump
+    const osc = ctx.createOscillator()
+    osc.type = 'sine'
+    osc.frequency.setValueAtTime(175 * detune, now)
+    osc.frequency.exponentialRampToValueAtTime(85 * detune, now + 0.06)
+    const g = ctx.createGain()
+    g.gain.setValueAtTime(0.0001, now)
+    g.gain.exponentialRampToValueAtTime(0.45, now + 0.004)
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.13)
+    osc.connect(g).connect(ctx.destination)
+    osc.start(now)
+    osc.stop(now + 0.14)
+
+    // "tok" transient — a short burst of low-passed noise
+    const dur = 0.028
+    const buf = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * dur), ctx.sampleRate)
+    const data = buf.getChannelData(0)
+    for (let s = 0; s < data.length; s++) data[s] = (Math.random() * 2 - 1) * (1 - s / data.length)
+    const noise = ctx.createBufferSource()
+    noise.buffer = buf
+    const lp = ctx.createBiquadFilter()
+    lp.type = 'lowpass'
+    lp.frequency.value = 2000 * detune
+    const ng = ctx.createGain()
+    ng.gain.setValueAtTime(0.22, now)
+    ng.gain.exponentialRampToValueAtTime(0.0001, now + dur)
+    noise.connect(lp).connect(ng).connect(ctx.destination)
+    noise.start(now)
+    noise.stop(now + dur)
+  } catch {
+    /* audio unavailable — keys still animate */
+  }
+}
+
 function KeyboardLayers() {
   const [i, setI] = useState(0)
   const L = KB_LAYERS[i]
   const half = (keys: string[], thumb = false) => (
     <div className={`kb__half ${thumb ? 'kb__half--thumbs' : ''}`}>
       {keys.map((k, ci) => (
-        <span key={ci} className={`kb__key ${thumb ? 'kb__key--thumb' : ''} ${k === '' ? 'is-blank' : ''}`}>
+        <button
+          type="button"
+          key={ci}
+          data-cursor
+          onPointerDown={thock}
+          aria-label={k || 'blank key'}
+          className={`kb__key ${thumb ? 'kb__key--thumb' : ''} ${k === '' ? 'is-blank' : ''}`}
+        >
           {k}
-        </span>
+        </button>
       ))}
     </div>
   )
@@ -122,7 +177,7 @@ function KeyboardLayers() {
         </div>
       </div>
       <p className="kb__note label">{L.note}</p>
-      <p className="kb__encoder label">🎛 rotary encoder → volume up / down</p>
+      <p className="kb__encoder label">🎛 rotary encoder → volume up / down · 🔊 tap a key</p>
     </div>
   )
 }

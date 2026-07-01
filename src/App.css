@@ -1268,13 +1268,35 @@
   font-size: 0.6rem;
   font-weight: 700;
   line-height: 1;
+  padding: 0;
+  margin: 0;
   border: 1.5px solid var(--ink);
   border-radius: 6px;
   background: var(--paper);
   color: var(--ink);
+  /* pressable keycap */
+  appearance: none;
+  box-shadow: 0 2.5px 0 var(--ink);
+  transition: transform 0.05s ease, box-shadow 0.05s ease, background 0.05s ease;
+}
+.kb__key:hover {
+  background: var(--lime);
+}
+.kb__key:active {
+  transform: translateY(2.5px);
+  box-shadow: 0 0 0 var(--ink);
+  background: var(--sun);
+}
+.kb__key--thumb:hover {
+  background: var(--lime);
 }
 .kb__key.is-blank {
-  opacity: 0.2;
+  opacity: 0.28;
+}
+:root.cave-active .kb__key:hover,
+:root.cave-active .kb__key:active {
+  background: var(--coral);
+  color: var(--paper);
 }
 .kb__row--thumbs {
   margin-top: 0.4rem;
