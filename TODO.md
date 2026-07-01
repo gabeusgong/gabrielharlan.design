@@ -49,8 +49,8 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
       edits/deletes, counter only +1.
 - [x] ⭐ **"Explorer" achievements** — 🗝 X/5 secrets chip + unlock toasts (cave / ring / bat /
       fling / Konami). See `src/lib/achievements.ts`.
-- [ ] **Interactive Corne keyboard** — on the keyboard project, clickable keycaps that depress
-      with a "thock" (pairs with the sound-toggle item). Most on-brand micro-interaction.
+- [x] **Interactive Corne keyboard** — the case-study keymap has 42 clickable keycaps that depress
+      and play a synthesized Web Audio "thock" (no audio files). Sound-toggle still a future item.
 - [ ] **Cave cross-section scroll** — an SVG cave profile you visually descend through as you
       scroll, tied to the depth gauge.
 
