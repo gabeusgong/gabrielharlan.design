@@ -22,6 +22,7 @@ import Achievements from './components/Achievements'
 import Terminal from './components/Terminal'
 import NowPlaying from './components/NowPlaying'
 import ScrollTop from './components/ScrollTop'
+import Intro from './components/Intro'
 import { unlock } from './lib/achievements'
 import { apply as applyPrefs } from './lib/prefs'
 
@@ -136,6 +137,7 @@ function App() {
       <Terminal onToggleCave={toggleCave} />
       <NowPlaying />
       <ScrollTop />
+      <Intro />
     </MotionConfig>
   )
 }

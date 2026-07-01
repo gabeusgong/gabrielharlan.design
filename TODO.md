@@ -69,7 +69,7 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
 - [—] **Chaos / motion dial** — removed along with reduced-motion mode (per request).
 - [x] **Animated nav mark** — the ✸ flaps into a bat on hover.
 - [x] **Visitor count** — "you're explorer #N" (shipped with the Firebase wall).
-- [ ] **First-visit intro** — a brief headlamp-on "descent" before the hero (optional; mind load friction).
+- [x] **First-visit intro** — a brief headlamp-on "descent" before the hero (optional; mind load friction).
 
 ## Practical
 - [x] **Privacy-friendly analytics** (e.g. Plausible) to see traffic when sharing for jobs.
