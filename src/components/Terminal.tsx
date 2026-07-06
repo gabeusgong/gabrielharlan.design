@@ -30,7 +30,7 @@ const HELP = [
   '  cave              toggle cave mode',
   '  resume            open my résumé',
   '  whoami            who is this',
-  '  secret            your discovered secrets',
+  '  /secret           your discovered secrets',
   '  clear             clear the screen',
 ]
 
@@ -216,6 +216,8 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
       case 'whoami':
         print(['gabriel harlan — web & ux designer, informatics @ iu.', 'above ground and below it. 🦇'])
         break
+      case '/secret':
+      case '/secrets':
       case 'secret':
       case 'secrets': {
         const list = isCoarse ? SECRETS.filter((s) => s.id !== 'konami') : SECRETS
