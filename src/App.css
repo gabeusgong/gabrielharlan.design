@@ -1691,7 +1691,7 @@
   position: fixed;
   left: 50%;
   bottom: 5rem;
-  z-index: 9600;
+  z-index: 9900; /* above the terminal (9800) and modals so unlocks always show */
   background: var(--ink);
   color: var(--paper);
   font-family: var(--mono);
@@ -2817,7 +2817,7 @@
   position: fixed;
   left: 50%;
   bottom: 2rem;
-  z-index: 9600;
+  z-index: 9900; /* above the terminal (9800) and modals */
   background: var(--ink);
   color: var(--paper);
   padding: 0.8em 1.3em;
@@ -2833,7 +2833,7 @@
   top: -16px;
   width: 9px;
   height: 14px;
-  z-index: 9700;
+  z-index: 9900; /* above the terminal so the all-secrets rain isn't hidden */
   pointer-events: none;
   border-radius: 2px;
   animation: confetti-fall var(--d) linear var(--delay) forwards;

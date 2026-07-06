@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { SECRETS, getUnlocked, unlock, type Secret } from '../lib/achievements'
 
@@ -84,11 +85,12 @@ export default function Achievements() {
     window.setTimeout(() => setParty(false), 5000)
   }, [count, total])
 
-  return (
+  // the secrets chip is hidden on purpose — list them via `secret` in the
+  // terminal. Toasts still confirm each unlock, and the confetti fires on the
+  // full set. Portal them to <body> so they float above the terminal, modals,
+  // and everything else regardless of stacking context.
+  return createPortal(
     <>
-      {/* the secrets chip is hidden on purpose — list them via `secret` in the
-          terminal. Toasts still confirm each unlock, and the confetti fires on
-          the full set. */}
       <AnimatePresence>
         {toast && (
           <motion.div
@@ -118,6 +120,7 @@ export default function Achievements() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </>,
+    document.body,
   )
 }
