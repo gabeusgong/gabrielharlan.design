@@ -363,7 +363,9 @@
 .blob {
   position: absolute;
   border-radius: 46% 54% 60% 40% / 50% 45% 55% 50%;
-  filter: blur(2px);
+  /* no filter: blur() — a blurred layer gets re-rasterized every frame while it
+     animates, and that cost scales with screen pixels (the full-screen-only
+     lag). The organic border-radius already softens the shape. */
   opacity: 0.62;
   z-index: 1;
   /* no mix-blend-mode: it forced a per-frame re-blend against the backdrop
