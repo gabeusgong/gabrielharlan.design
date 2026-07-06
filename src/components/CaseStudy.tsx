@@ -229,10 +229,12 @@ const STUDIES: Record<string, Study> = {
     live: { href: 'https://spelunk-a-dunk.web.app', label: 'Visit the live app →' },
     problem: (
       <>
-        Cave info is scattered, inconsistent, and often risky to publish: spreadsheets and forum
-        posts either expose fragile wild caves to anyone, or lock everything down so newcomers
-        can&apos;t find the beginner-friendly show caves. I wanted one field guide that respects
-        both the caves and the people exploring them.
+        Cavers juggle a pile of disconnected tools — separate apps, spreadsheets, and forum posts
+        for maps, trip logs, cave data, conservation notices, and club coordination — and the cave
+        info itself is scattered, inconsistent, and often risky to publish. Karst pulls all of it
+        into <strong>one seamless field guide</strong> for fellow cavers and newcomers alike, then
+        adds features they didn&apos;t have before — like GPS-free navigation that can genuinely
+        help someone find their way back out of a cave.
       </>
     ),
     spotlight: {
@@ -242,15 +244,16 @@ const STUDIES: Record<string, Study> = {
         <>
           Caves swallow GPS, so Karst leans on <strong>dead reckoning</strong> — estimating your
           position from the phone&apos;s motion sensors and your last known fix instead of
-          satellites. Drop a marker at the entrance and it keeps tracking your path underground,
-          so the breadcrumb trail can always lead you back out.
+          satellites. Drop a marker at the entrance and it keeps tracking your path underground, so
+          if you get turned around or your light fails, the recorded trail always leads you back
+          out. It&apos;s the kind of feature that, in the wrong moment, could genuinely save a life.
         </>
       ),
     },
     decisions: [
       {
         h: 'Protect the caves, not just the user',
-        p: 'Wild-cave locations are sensitive — over-sharing them invites damage and danger. So the map fuzzes entrances to a general area and gates exact coordinates behind grotto membership, rather than refusing to show anything at all.',
+        p: 'This was the hardest call in the whole project. Publishing exact entrances invites vandalism and injury and can wreck fragile cave ecosystems — and many caves sit on private land whose owners never agreed to be on a map. So I drew a line: Karst gives exact coordinates for show caves and publicly accessible ones, but fuzzes sensitive and private-property caves to an approximate area, with precise locations unlocked only through trusted grotto access. Newcomers can still find a way in, without exposing the caves that most need protecting.',
       },
       {
         h: 'Make conservation part of the loop',
@@ -294,10 +297,12 @@ const STUDIES: Record<string, Study> = {
       h: 'Where it stands',
       body: (
         <>
-          Karst is a live, evolving build — currently a server-rendered Next.js app on Firebase
-          Hosting with Firestore-backed cave data, comments, grottos, and gamification, plus a
-          downloadable Android version. It started as a way to learn modern full-stack patterns
-          and turned into the tool I actually wanted as a caver.
+          Designed and built solo over a few weeks, Karst is a live, evolving build — a
+          server-rendered Next.js app on Firebase with Firestore-backed cave data, comments,
+          grottos, and gamification, plus a downloadable Android version. Next up: getting it in
+          front of the Bloomington Grotto and the wider caving community to gather real-world
+          feedback and grow the cave database. It started as a way to learn modern full-stack
+          patterns and became the tool I actually wanted as a caver.
         </>
       ),
     },
