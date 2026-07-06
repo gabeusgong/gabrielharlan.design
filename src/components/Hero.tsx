@@ -128,6 +128,8 @@ export default function Hero() {
   const limeY = useTransform(sy, [-1, 1], [18, -18])
 
   useEffect(() => {
+    // no pointer/tilt parallax for visitors who prefer reduced motion
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
     if (window.matchMedia?.('(pointer: coarse)').matches) {
       const onTilt = (e: DeviceOrientationEvent) => {
         if (e.gamma == null || e.beta == null) return
@@ -189,6 +191,15 @@ export default function Hero() {
           transition={{ delay: 0.9, duration: 0.6 }}
         >
           I&apos;m <RotatingWord words={profile.iAm} />. {profile.tagline}
+        </motion.p>
+
+        <motion.p
+          className="hero__avail label"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, duration: 0.6 }}
+        >
+          {profile.availability}
         </motion.p>
 
         <motion.div

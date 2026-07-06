@@ -25,6 +25,8 @@ export default function Skills() {
   useEffect(() => {
     const tracks = [t1.current, t2.current].filter(Boolean) as HTMLDivElement[]
     if (tracks.length < 2) return
+    // hold the marquees still for visitors who prefer reduced motion
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
 
     const dirs = [-1, 1] // base drift directions
     const base = 0.5 // px/frame idle drift

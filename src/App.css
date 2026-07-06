@@ -25,6 +25,34 @@
   *::after {
     cursor: none !important;
   }
+  /* …but keep the native text caret on typeable fields so people can see where
+     they're typing */
+  input,
+  textarea,
+  [contenteditable] {
+    cursor: auto !important;
+  }
+}
+
+/* Respect reduced-motion: neutralize the site's many looping/spring animations,
+   drop the trailing custom cursor back to the native pointer, and stop smooth
+   scroll. Motion components are already handled via <MotionConfig reducedMotion>. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+    cursor: auto !important;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+  .cursor-blob {
+    display: none !important;
+  }
 }
 
 /* ---------- shared buttons & bits ---------- */
@@ -301,6 +329,11 @@
   font-size: clamp(1.05rem, 2.4vw, 1.4rem);
   color: var(--ink-soft);
   font-weight: 500;
+}
+.hero__avail {
+  margin: 1rem auto 0;
+  color: var(--ink-soft);
+  opacity: 0.9;
 }
 .hero__rotator {
   display: inline-flex;

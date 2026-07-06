@@ -106,7 +106,7 @@ function App() {
   const onCaves = route === 'caves'
 
   return (
-    <MotionConfig reducedMotion="never">
+    <MotionConfig reducedMotion="user">
       <a href="#main" className="skip-link">
         Skip to content
       </a>
@@ -114,9 +114,11 @@ function App() {
       <DepthGauge />
       <Nav cave={cave} onToggleCave={toggleCave} route={route} />
       {onCaves ? (
-        <Suspense fallback={null}>
-          <CaveGallery />
-        </Suspense>
+        <main id="main" tabIndex={-1}>
+          <Suspense fallback={null}>
+            <CaveGallery />
+          </Suspense>
+        </main>
       ) : (
         <main id="main" tabIndex={-1}>
           <Hero />
