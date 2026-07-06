@@ -70,6 +70,7 @@ function loadHist(): string[] {
 /* A little fake terminal / command palette. Open with "/" or ⌘K / Ctrl-K. */
 export default function Terminal({ onToggleCave }: { onToggleCave: () => void }) {
   const [open, setOpen] = useState(false)
+  const [full, setFull] = useState(false)
   const [value, setValue] = useState('')
   const [lines, setLines] = useState<Line[]>(loadLines)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -111,6 +112,8 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
     if (open) {
       unlock('terminal')
       setTimeout(() => inputRef.current?.focus(), 30)
+    } else {
+      setFull(false) // always reopen at the default size
     }
   }, [open])
 
@@ -293,7 +296,7 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
           <motion.div
             ref={winRef}
             tabIndex={-1}
-            className="term__win"
+            className={`term__win ${full ? 'term__win--full' : ''}`}
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-label="Command terminal"
@@ -303,9 +306,23 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
             transition={{ type: 'spring', stiffness: 300, damping: 26 }}
           >
             <div className="term__bar">
-              <span className="term__dot" />
-              <span className="term__dot" />
-              <span className="term__dot" />
+              <button
+                type="button"
+                className="term__dot"
+                onClick={() => setOpen(false)}
+                aria-label="Close terminal"
+                title="Close"
+                data-cursor
+              />
+              <span className="term__dot" aria-hidden />
+              <button
+                type="button"
+                className="term__dot"
+                onClick={() => setFull((f) => !f)}
+                aria-label={full ? 'Exit full screen' : 'Full screen'}
+                title={full ? 'Restore' : 'Full screen'}
+                data-cursor
+              />
               <span className="term__title">gabe@gabrielharlan ~ %</span>
             </div>
             <div className="term__body" ref={bodyRef}>
