@@ -253,7 +253,7 @@ const STUDIES: Record<string, Study> = {
     decisions: [
       {
         h: 'Protect the caves, not just the user',
-        p: 'This was the hardest call in the whole project. Publishing exact entrances invites vandalism and injury and can wreck fragile cave ecosystems — and many caves sit on private land whose owners never agreed to be on a map. So I drew a line: Karst gives exact coordinates for show caves and publicly accessible ones, but fuzzes sensitive and private-property caves to an approximate area, with precise locations unlocked only through trusted grotto access. Newcomers can still find a way in, without exposing the caves that most need protecting.',
+        p: 'The hardest call in the project. Publishing exact entrances invites vandalism and injury and can wreck fragile ecosystems — and many caves sit on private land. So Karst fuzzes sensitive and private-property caves to an approximate area, while giving exact coordinates for show caves and publicly accessible ones.',
       },
       {
         h: 'Make conservation part of the loop',
