@@ -236,9 +236,6 @@
   text-align: center;
   padding: 6rem 1.5rem 4rem;
   overflow: hidden;
-  /* confine the blobs' mix-blend to the hero so blending isn't recomputed
-     against the whole page backdrop while scrolling */
-  isolation: isolate;
 }
 /* desktop: extra bottom padding lifts the content, giving more room between
    the CTA buttons and the scroll cue */
@@ -363,16 +360,10 @@
 .blob {
   position: absolute;
   border-radius: 46% 54% 60% 40% / 50% 45% 55% 50%;
-  /* no filter: blur() — a blurred layer gets re-rasterized every frame while it
-     animates, and that cost scales with screen pixels (the full-screen-only
-     lag). The organic border-radius already softens the shape. */
-  opacity: 0.62;
+  filter: blur(2px);
+  opacity: 0.85;
   z-index: 1;
-  /* no mix-blend-mode: it forced a per-frame re-blend against the backdrop
-     every time the blobs animated or moved with the parallax — the dominant
-     desktop lag. Plain opacity keeps the soft translucent wash and lets the
-     layer stay cheaply GPU-composited. */
-  will-change: transform;
+  mix-blend-mode: multiply;
 }
 .blob--coral {
   width: 260px;
@@ -2128,9 +2119,10 @@
   background: rgba(26, 21, 14, 0.96);
 }
 
-/* on dark, just soften the opacity so the blobs glow rather than blend */
+/* blobs use multiply on cream; switch to screen so they read on dark */
 :root[data-theme='dark'] .blob {
-  opacity: 0.42;
+  mix-blend-mode: screen;
+  opacity: 0.5;
 }
 
 /* ---------- parallax wrapper for hero blobs ---------- */
