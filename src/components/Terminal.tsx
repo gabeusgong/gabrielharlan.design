@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { setTheme, setMuted, resolvedDark } from '../lib/prefs'
-import { unlock } from '../lib/achievements'
+import { unlock, SECRETS, getUnlocked } from '../lib/achievements'
 import { useFocusTrap } from '../lib/useFocusTrap'
 
 type Line = { kind: 'in' | 'out'; text: string }
@@ -30,18 +30,56 @@ const HELP = [
   '  cave              toggle cave mode',
   '  resume            open my résumé',
   '  whoami            who is this',
+  '  secret            your discovered secrets',
   '  clear             clear the screen',
 ]
+
+const isCoarse =
+  typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches
+
+const LINES_KEY = 'gh-term-lines'
+const HIST_KEY = 'gh-term-hist'
+const MAX_SAVED = 200
+
+function loadLines(): Line[] {
+  try {
+    const raw = localStorage.getItem(LINES_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw) as Line[]
+      if (Array.isArray(parsed) && parsed.length) return parsed
+    }
+  } catch {
+    /* ignore */
+  }
+  return [{ kind: 'out', text: BANNER }]
+}
+
+function loadHist(): string[] {
+  try {
+    const raw = localStorage.getItem(HIST_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw) as string[]
+      if (Array.isArray(parsed)) return parsed
+    }
+  } catch {
+    /* ignore */
+  }
+  return []
+}
 
 /* A little fake terminal / command palette. Open with "/" or ⌘K / Ctrl-K. */
 export default function Terminal({ onToggleCave }: { onToggleCave: () => void }) {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
-  const [lines, setLines] = useState<Line[]>([{ kind: 'out', text: BANNER }])
+  const [lines, setLines] = useState<Line[]>(loadLines)
   const inputRef = useRef<HTMLInputElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
   const winRef = useRef<HTMLDivElement>(null)
   useFocusTrap(open, winRef)
+
+  // command history for ↑/↓ recall (persisted across sessions)
+  const hist = useRef<string[]>(loadHist())
+  const histAt = useRef<number>(hist.current.length) // index into hist; length = "new line"
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -80,6 +118,15 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight
   }, [lines, open])
 
+  // remember the transcript so reopening picks up where you left off
+  useEffect(() => {
+    try {
+      localStorage.setItem(LINES_KEY, JSON.stringify(lines.slice(-MAX_SAVED)))
+    } catch {
+      /* ignore */
+    }
+  }, [lines])
+
   const print = (out: string[]) =>
     setLines((l) => [...l, ...out.map((text) => ({ kind: 'out' as const, text }))])
 
@@ -92,6 +139,16 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
     const cmd = raw.trim()
     setLines((l) => [...l, { kind: 'in', text: cmd }])
     if (!cmd) return
+    // record in history (skip consecutive dupes), then persist
+    if (hist.current[hist.current.length - 1] !== cmd) {
+      hist.current = [...hist.current, cmd].slice(-MAX_SAVED)
+      try {
+        localStorage.setItem(HIST_KEY, JSON.stringify(hist.current))
+      } catch {
+        /* ignore */
+      }
+    }
+    histAt.current = hist.current.length
     const [name, ...args] = cmd.toLowerCase().split(/\s+/)
     const arg = args[0]
 
@@ -159,6 +216,22 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
       case 'whoami':
         print(['gabriel harlan — web & ux designer, informatics @ iu.', 'above ground and below it. 🦇'])
         break
+      case 'secret':
+      case 'secrets': {
+        const list = isCoarse ? SECRETS.filter((s) => s.id !== 'konami') : SECRETS
+        const got = getUnlocked()
+        const found = list.filter((s) => got.includes(s.id)).length
+        print([
+          `secrets · ${found}/${list.length} found`,
+          ...list.map((s) =>
+            got.includes(s.id)
+              ? `  ${s.emoji} ${s.label} — ${s.hint}`
+              : `  🔒 ??? — ${s.hint}`,
+          ),
+          found === list.length ? '🎉 you found them all. respect.' : 'keep poking around…',
+        ])
+        break
+      }
       case 'sudo':
         if (args[0] === 'make' && args[1] === 'coffee') {
           unlock('coffee')
@@ -189,6 +262,21 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
     e.preventDefault()
     run(value)
     setValue('')
+  }
+
+  // ↑/↓ walks back through previous commands
+  const onInputKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowUp') {
+      if (!hist.current.length) return
+      e.preventDefault()
+      histAt.current = Math.max(0, histAt.current - 1)
+      setValue(hist.current[histAt.current] ?? '')
+    } else if (e.key === 'ArrowDown') {
+      if (histAt.current >= hist.current.length) return
+      e.preventDefault()
+      histAt.current = Math.min(hist.current.length, histAt.current + 1)
+      setValue(histAt.current === hist.current.length ? '' : hist.current[histAt.current])
+    }
   }
 
   return (
@@ -234,6 +322,7 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
                   className="term__input"
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
+                  onKeyDown={onInputKey}
                   spellCheck={false}
                   autoComplete="off"
                   aria-label="Terminal input"

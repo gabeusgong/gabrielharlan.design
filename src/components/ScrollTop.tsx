@@ -10,18 +10,35 @@ export default function ScrollTop() {
   const ringRef = useRef<SVGCircleElement>(null)
 
   useEffect(() => {
-    const onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight
+    let max = document.documentElement.scrollHeight - window.innerHeight
+    let ticking = false
+    let shown = false
+    const update = () => {
+      ticking = false
       const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0
-      setShow(window.scrollY > 500)
+      const next = window.scrollY > 500
+      if (next !== shown) {
+        shown = next
+        setShow(next)
+      }
       if (ringRef.current) ringRef.current.style.strokeDashoffset = String(C * (1 - p))
     }
-    onScroll()
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(update)
+      }
+    }
+    const onResize = () => {
+      max = document.documentElement.scrollHeight - window.innerHeight
+      update()
+    }
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
+    window.addEventListener('resize', onResize)
     return () => {
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
+      window.removeEventListener('resize', onResize)
     }
   }, [])
 

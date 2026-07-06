@@ -32,7 +32,6 @@ function rainConfetti() {
    flinging a card, the Konami code) and shows a count + unlock toasts. */
 export default function Achievements() {
   const [unlocked, setUnlocked] = useState<string[]>([])
-  const [open, setOpen] = useState(false)
   const [toast, setToast] = useState<Secret | null>(null)
   const [party, setParty] = useState(false)
 
@@ -87,32 +86,9 @@ export default function Achievements() {
 
   return (
     <>
-      <div className={`achv ${open ? 'achv--open' : ''}`}>
-        {open && (
-          <div className="achv__list">
-            <p className="achv__title label">secrets · {count}/{total}</p>
-            {VISIBLE_SECRETS.map((s) => {
-              const got = unlocked.includes(s.id)
-              return (
-                <div key={s.id} className={`achv__item ${got ? 'is-got' : ''}`}>
-                  <span className="achv__emoji">{got ? s.emoji : '❔'}</span>
-                  <span className="achv__label">{got ? s.label : '???'}</span>
-                  <span className="achv__hint">{got ? s.hint : 'locked'}</span>
-                </div>
-              )
-            })}
-          </div>
-        )}
-        <button
-          className="achv__toggle"
-          data-cursor
-          onClick={() => setOpen((o) => !o)}
-          aria-label={`${count}/${total} secrets found`}
-        >
-          🗝 {count}/{total}
-        </button>
-      </div>
-
+      {/* the secrets chip is hidden on purpose — list them via `secret` in the
+          terminal. Toasts still confirm each unlock, and the confetti fires on
+          the full set. */}
       <AnimatePresence>
         {toast && (
           <motion.div

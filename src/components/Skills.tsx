@@ -33,6 +33,7 @@ export default function Skills() {
     let vel = 0
     let paused = false
     let raf = 0
+    let onScreen = true
 
     let widths = tracks.map((t) => t.scrollWidth / 2)
     const onResize = () => {
@@ -60,12 +61,26 @@ export default function Skills() {
         if (tx > 0) tx -= w
         t.style.transform = `translateX(${tx}px)`
       })
+      if (onScreen) raf = requestAnimationFrame(loop)
+    }
+    const start = () => {
+      cancelAnimationFrame(raf)
       raf = requestAnimationFrame(loop)
     }
-    raf = requestAnimationFrame(loop)
+    // only animate while the marquee is on-screen
+    const io = new IntersectionObserver(
+      ([e]) => {
+        onScreen = e.isIntersecting
+        last = window.scrollY
+        if (onScreen) start()
+      },
+      { rootMargin: '120px' },
+    )
+    io.observe(tracks[0])
 
     return () => {
       cancelAnimationFrame(raf)
+      io.disconnect()
       window.removeEventListener('resize', onResize)
       tracks.forEach((t) => {
         t.removeEventListener('mouseenter', enter)

@@ -16,8 +16,11 @@ export default function DepthGauge() {
   const labelRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
-    const onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight
+    // cache the reflow-triggering scrollHeight; recompute only on resize
+    let max = document.documentElement.scrollHeight - window.innerHeight
+    let ticking = false
+    const update = () => {
+      ticking = false
       const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0
       const pct = `${(p * 100).toFixed(1)}%`
       if (fillRef.current) fillRef.current.style.height = pct
@@ -26,12 +29,22 @@ export default function DepthGauge() {
       const zone = [...ZONES].reverse().find((z) => p >= z.at)?.name ?? 'entrance'
       if (labelRef.current) labelRef.current.textContent = `${depth} m · ${zone}`
     }
-    onScroll()
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(update)
+      }
+    }
+    const onResize = () => {
+      max = document.documentElement.scrollHeight - window.innerHeight
+      update()
+    }
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
+    window.addEventListener('resize', onResize)
     return () => {
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
+      window.removeEventListener('resize', onResize)
     }
   }, [])
 

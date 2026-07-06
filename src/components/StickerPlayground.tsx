@@ -206,7 +206,18 @@ export default function StickerPlayground() {
     scene.addEventListener('touchend', onTouchEnd, { passive: true })
 
     const runner = Runner.create()
-    Runner.run(runner, engine)
+    let running = false
+    const setRunning = (on: boolean) => {
+      if (on === running) return
+      running = on
+      if (on) Runner.run(runner, engine)
+      else Runner.stop(runner)
+    }
+    // pause the physics loop while the game is off-screen — big CPU/scroll win
+    const vis = new IntersectionObserver((entries) => setRunning(entries[0].isIntersecting), {
+      rootMargin: '140px',
+    })
+    vis.observe(scene)
 
     let ticks = 0
     const sync = () => {
@@ -283,6 +294,7 @@ export default function StickerPlayground() {
 
     return () => {
       ro.disconnect()
+      vis.disconnect()
       keyHandlers.forEach(({ el, fn }) => el.removeEventListener('keydown', fn))
       scene.removeEventListener('touchstart', onTouchStart)
       scene.removeEventListener('touchmove', onTouchMove)
