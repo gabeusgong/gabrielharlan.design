@@ -1449,7 +1449,7 @@
   flex-direction: column;
   gap: 0.35rem;
   overflow-x: auto;
-  padding-bottom: 2rem; /* room for the staggered + rotated thumb clusters */
+  padding-bottom: 3rem; /* room for the staggered + fanned thumb clusters */
 }
 .kb__row {
   display: flex;
@@ -1499,15 +1499,18 @@
   appearance: none;
   box-shadow: 0 2.5px 0 var(--ink);
   transition: transform 0.05s ease, box-shadow 0.05s ease, background 0.05s ease;
-  /* --st = per-column vertical stagger (set below), folded into the transform so
-     it survives the press/hit animations */
-  transform: translateY(var(--st, 0px));
+  /* --st = per-column vertical stagger, --tx/--ty/--rot = per-thumb-key fan
+     placement (all set below), folded into the transform so they survive the
+     press/hit animations */
+  transform: translate(var(--tx, 0px), calc(var(--st, 0px) + var(--ty, 0px)))
+    rotate(var(--rot, 0deg));
 }
 .kb__key:hover {
   background: var(--lime);
 }
 .kb__key:active {
-  transform: translateY(calc(var(--st, 0px) + 2.5px));
+  transform: translate(var(--tx, 0px), calc(var(--st, 0px) + var(--ty, 0px) + 2.5px))
+    rotate(var(--rot, 0deg));
   box-shadow: 0 0 0 var(--ink);
   background: var(--sun);
 }
@@ -1523,23 +1526,27 @@
   color: var(--paper);
 }
 .kb__row--thumbs {
-  margin-top: 1.1rem; /* clear the inner columns' downward stagger */
+  margin-top: 1.6rem; /* clear the inner columns' downward stagger */
   justify-content: center;
+  align-items: flex-start;
 }
-/* splay the thumb clusters like the physical board — angled toward the centre */
+/* Fan each thumb key individually, like the physical board: rotation increases
+   toward the centre, and the keys step down as they splay. --tx/--ty/--rot feed
+   the shared key transform. Negative gaps let the keycaps tuck together. */
 .kb__half--thumbs {
   margin: 0;
+  gap: 0;
 }
-.kb__row--thumbs .kb__half--thumbs:first-child {
-  transform: rotate(15deg);
-  transform-origin: right center;
-  margin-right: 2rem;
-}
-.kb__row--thumbs .kb__half--thumbs:last-child {
-  transform: rotate(-15deg);
-  transform-origin: left center;
-  margin-left: 2rem;
-}
+/* left cluster: outer (Ctrl) upright & high → inner (Tab) most-rotated & low */
+.kb__half--thumbs:first-child .kb__key:nth-child(1) { --rot: 10deg; --ty: -0.55rem; --tx: 0.2rem; }
+.kb__half--thumbs:first-child .kb__key:nth-child(2) { --rot: 26deg; --ty: 0.15rem; --tx: -0.35rem; }
+.kb__half--thumbs:first-child .kb__key:nth-child(3) { --rot: 44deg; --ty: 1.15rem; --tx: -0.7rem; }
+.kb__row--thumbs .kb__half--thumbs:first-child { margin-right: 2.6rem; }
+/* right cluster: mirror */
+.kb__half--thumbs:last-child .kb__key:nth-child(1) { --rot: -44deg; --ty: 1.15rem; --tx: 0.7rem; }
+.kb__half--thumbs:last-child .kb__key:nth-child(2) { --rot: -26deg; --ty: 0.15rem; --tx: 0.35rem; }
+.kb__half--thumbs:last-child .kb__key:nth-child(3) { --rot: -10deg; --ty: -0.55rem; --tx: -0.2rem; }
+.kb__row--thumbs .kb__half--thumbs:last-child { margin-left: 2.6rem; }
 .kb__key--thumb {
   width: 2.7rem;
   background: var(--sun);
@@ -3212,7 +3219,8 @@ button.term__dot:hover {
 .kb__key--hit {
   background: var(--cobalt);
   color: var(--paper);
-  transform: translateY(calc(var(--st, 0px) + 2.5px));
+  transform: translate(var(--tx, 0px), calc(var(--st, 0px) + var(--ty, 0px) + 2.5px))
+    rotate(var(--rot, 0deg));
   box-shadow: 0 0 0 var(--ink);
 }
 
