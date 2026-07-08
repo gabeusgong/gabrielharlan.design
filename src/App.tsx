@@ -57,13 +57,13 @@ function App() {
   const emergeToLight = () => {
     const html = document.documentElement
     html.classList.add('theme-fading')
-    // let the transition register with the cave values in place, then flip
+    // let the transition register with the cave values in place, then flip on
+    // the very next frame — so the scheme starts fading the instant the veil
+    // begins to lift, with no dark hold
     requestAnimationFrame(() =>
-      requestAnimationFrame(() => {
-        window.setTimeout(() => html.classList.remove('cave-active'), 350)
-      }),
+      requestAnimationFrame(() => html.classList.remove('cave-active')),
     )
-    window.setTimeout(() => html.classList.remove('theme-fading'), 350 + 2700)
+    window.setTimeout(() => html.classList.remove('theme-fading'), 2700)
   }
 
   // keep the theme attribute in sync with the pref and the OS
