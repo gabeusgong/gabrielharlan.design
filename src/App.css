@@ -693,7 +693,6 @@
    edge, so drop the translateX(-50%) that would push the pill half off-screen */
 @media (min-width: 721px) and (max-width: 860px) {
   .game-hud {
-    bottom: calc(var(--box-h, 400px) + 90px);
     transform: rotate(-4deg);
     transform-origin: left center;
   }
@@ -703,7 +702,7 @@
   .game-hud {
     left: 0;
     right: auto;
-    bottom: calc(var(--box-h, 400px) + 90px);
+    bottom: calc(var(--box-h, 400px) + 185px);
     padding: 0.32rem 0.62rem;
     font-size: 0.56rem;
     transform: rotate(-4deg);
@@ -3239,10 +3238,11 @@ button.term__dot:hover {
   box-shadow: 0 0 0 var(--ink);
 }
 
-/* phones: no extra gap between the "/now" line (…Fallout 4) and the stacked
-   sticker game, so the game HUD sits right below it */
-@media (max-width: 720px) {
+/* phones (mobile): breathing room between the "/now" line (…Fallout 4) and the
+   stacked sticker game's "grab & fling" note. The 1/3-width range (501–720px)
+   keeps the tighter default. */
+@media (max-width: 500px) {
   .about__stickers-col {
-    margin-top: 0;
+    margin-top: 2rem;
   }
 }
