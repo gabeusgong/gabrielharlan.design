@@ -1730,7 +1730,7 @@
   background: var(--sun);
   border-color: #1a140c;
 }
-@media (max-width: 1000px) {
+@media (max-width: 1400px) {
   .depthgauge {
     display: none;
   }
