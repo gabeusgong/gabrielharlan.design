@@ -53,33 +53,33 @@ function ITITDiagram() {
 const KB_LAYERS = [
   {
     name: 'Base',
-    note: 'QWERTY with Shift / Ctrl on the outer columns. The thumbs carry the layer holds, Space and Enter — there’s no dedicated Esc, it lives on the layers.',
+    note: 'The markstos 3x5+1 layout (v2.2). QWERTY with one-shot mods — Alt & Shift on the outer columns, and dual-role thumbs: Ctrl/Esc, Super/Enter, Lower/Tab, Raise/Bksp, Space, Shift. A J+K chord fires Esc.',
     rows: [
-      ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '⌫'],
-      ['Shift', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'"],
-      ['Ctrl', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'GUI'],
+      ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'Del'],
+      ['Alt', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', 'AltGr'],
+      ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'Func'],
     ],
-    thumbs: ['Raise', '', 'Space', 'Enter', 'Lower', 'GUI'],
+    thumbs: ['Esc', 'Enter', 'Tab', 'Bksp', 'Space', 'Shift'],
   },
   {
     name: 'Lower',
-    note: 'The utility layer — five Bluetooth profiles, an arrow cluster, media transport (play/prev/next), and undo / redo.',
+    note: 'Numbers and symbols — digits on the home row and the full symbol set up top, so coding never needs the base layer.',
     rows: [
-      ['Esc', '', '', '', '', 'BTclr', 'BT1', 'BT2', 'BT3', 'BT4', 'BT5', '⌫'],
-      ['Shift', '', '', '', '', '', '←', '↑', '→', 'Undo', 'Redo', 'Caps'],
-      ['Ctrl', 'GUI', '', '', '', '', '', '↓', '', 'Play', 'Prev', 'Next'],
+      ['~', '@', '#', '$', '%', '`', '^', '&', '*', '(', ')', 'Del'],
+      ['Alt', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '\\'],
+      ['Shift', '-', '=', '_', '+', '|', '[', ']', '{', '}', '<', '>'],
     ],
-    thumbs: ['', '', 'Space', 'Enter', '', ''],
+    thumbs: ['', '', '', '', 'Space', ''],
   },
   {
     name: 'Raise',
-    note: 'Numbers and the full symbol set — brackets, braces, operators, pipe and tilde.',
+    note: 'Navigation, media & function — an arrow cluster on the home row, Home/End/PgUp/PgDn, media transport, copy/paste, and F1–F12.',
     rows: [
-      ['Esc', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '⌫'],
-      ['Shift', '1', '2', '3', '4', '5', '-', '=', '[', ']', '\\', "'"],
-      ['Ctrl', '6', '7', '8', '9', '0', '_', '+', '{', '}', '|', '~'],
+      ['', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'Del'],
+      ['Alt', 'Home', 'End', 'PgUp', 'PgDn', 'F11', '←', '↓', '↑', '→', 'F12', 'Caps'],
+      ['Shift', 'Copy', 'Paste', '', '', '', '⏯', '⏮', '⏭', '', 'Reset', 'Func'],
     ],
-    thumbs: ['', '', 'Space', 'Enter', '', ''],
+    thumbs: ['', '', '', '', 'Space', ''],
   },
 ]
 
@@ -264,8 +264,8 @@ const STUDIES: Record<string, Study> = {
         p: 'Caving is social and local, so Karst is organized around grottos — regional caving clubs. Members form groups, share trip photos and events, and unlock trusted access like exact coordinates and member-only caves.',
       },
       {
-        h: 'Earn engagement with gamification',
-        p: 'AR breadcrumb trails, XP, badges, and a leaderboard turn logging a trip into something worth coming back for — without cluttering the core “find a cave” task.',
+        h: 'Built to work with zero bars',
+        p: 'Caves swallow signal, so Karst is offline-first by design: the trail recorder saves in place and tracks its own sync state, the cave page falls back to the local cache when the network is gone, and trip logs and entrance anchors queue up and sync the moment you resurface.',
       },
     ],
     gallery: {
@@ -281,7 +281,7 @@ const STUDIES: Record<string, Study> = {
         },
         {
           src: `${base}karst/bc-trail.webp`,
-          cap: 'AR “breadcrumb” trails — gamified routes that earn XP and badges.',
+          cap: 'AR “breadcrumb” trails — drop a path on the way in, follow it back out.',
         },
         {
           src: `${base}karst/cave.webp`,
