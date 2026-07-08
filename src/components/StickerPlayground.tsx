@@ -293,7 +293,7 @@ export default function StickerPlayground() {
   return (
     <div className="playground" ref={sceneRef}>
       <div className="playbox" aria-hidden />
-      <div className="about__sticker-note label">grab &amp; fling →</div>
+      <div className="about__sticker-note label">grab &amp; fling ↑</div>
 
       <div ref={ringRef} className={`ring ${active ? 'ring--on' : ''}`} aria-hidden>
         <span className="ring__cap" />
