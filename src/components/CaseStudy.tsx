@@ -454,10 +454,9 @@ const STUDIES: Record<string, Study> = {
       h: 'Where it stands',
       body: (
         <>
-          It&apos;s the board I type this on — three clean layers (base, lower, raise) that turn 42
-          keys into a full layout without reaching. The build taught me as much about patience and
-          hand-wiring as about ZMK; next up is bringing the encoders online and continuing to
-          tune the feel.
+          A from-scratch build — three clean layers (base, lower, raise) turn 42 keys into a full
+          layout without ever reaching. It taught me as much about patience and hand-wiring as
+          about ZMK, and it&apos;s still a canvas I keep tuning — layout, sound, and feel.
         </>
       ),
     },
