@@ -508,7 +508,7 @@ const STUDIES: Record<string, Study> = {
     decisions: [
       {
         h: 'Responsive, trailhead to desktop',
-        p: 'Hand-coded layout with a collapsing hamburger nav that reveals its items in a quick stagger — so it reads just as well on a phone at the cave gate as on a laptop.',
+        p: 'Hand-coded and fully responsive across four breakpoints, with the nav collapsing to a hamburger menu on small screens — so it reads just as well on a phone at the cave gate as on a laptop.',
       },
       {
         h: 'Progressive disclosure for dense science',
