@@ -3103,24 +3103,22 @@ button.term__dot:hover {
   cursor: pointer;
 }
 
-/* first-visit: as the intro curtain lifts, the site emerges from cave darkness
-   (dark + warm headlamp glow) and slowly fades to light */
-.cavefade {
-  position: fixed;
-  inset: 0;
-  z-index: 9500;
-  pointer-events: none;
-  background:
-    radial-gradient(60% 48% at 50% 38%, rgba(255, 176, 74, 0.22), transparent 72%),
-    #0b0805;
-  animation: cavefade-out 2.6s ease 0.15s forwards;
+/* first-visit: as the intro curtain lifts, the site is wearing the cave
+   (black/amber) colour scheme and transitions live into the light scheme.
+   This temporary class (added in JS while cave-active is dropped) lets every
+   themed property interpolate from the cave value to the light value. Only in
+   effect for the ~3s of the fade, then removed. */
+.theme-fading,
+.theme-fading * {
+  transition-property: background-color, color, border-color, box-shadow, fill,
+    stroke, outline-color !important;
+  transition-duration: 2.7s !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
-@keyframes cavefade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
+@media (prefers-reduced-motion: reduce) {
+  .theme-fading,
+  .theme-fading * {
+    transition-duration: 0.01ms !important;
   }
 }
 .intro__beam {

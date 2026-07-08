@@ -32,9 +32,39 @@ const getRoute = () =>
 function App() {
   const [cave, setCave] = useState(false)
   const [route, setRoute] = useState(getRoute)
-  // first-visit flourish: after the intro lifts, the site emerges from cave
-  // darkness into light via a slow-fading overlay
-  const [caveFade, setCaveFade] = useState(false)
+  // first-visit flourish: the site loads already wearing the cave (black/amber)
+  // colour scheme underneath the intro curtain, then — as the curtain lifts —
+  // the actual scheme transitions live into the light scheme. Same check the
+  // Intro uses; computed during render (before any effect sets the flag) so the
+  // two agree.
+  const [firstVisit] = useState(() => {
+    try {
+      return !localStorage.getItem('gh-intro-seen') && !navigator.webdriver
+    } catch {
+      return false
+    }
+  })
+
+  // put the site in cave colours immediately on a first visit, before the
+  // curtain lifts, so there's a real scheme to fade *from*
+  useEffect(() => {
+    if (firstVisit) document.documentElement.classList.add('cave-active')
+  }, [firstVisit])
+
+  // called when the intro curtain lifts: enable colour transitions on the whole
+  // tree, then drop cave-active so every themed property interpolates from the
+  // cave scheme to the light scheme
+  const emergeToLight = () => {
+    const html = document.documentElement
+    html.classList.add('theme-fading')
+    // let the transition register with the cave values in place, then flip
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        window.setTimeout(() => html.classList.remove('cave-active'), 350)
+      }),
+    )
+    window.setTimeout(() => html.classList.remove('theme-fading'), 350 + 2700)
+  }
 
   // keep the theme attribute in sync with the pref and the OS
   useEffect(() => {
@@ -149,14 +179,7 @@ function App() {
       <Terminal onToggleCave={toggleCave} />
       <NowPlaying />
       <ScrollTop />
-      <Intro onDone={() => setCaveFade(true)} />
-      {caveFade && (
-        <div
-          className="cavefade"
-          aria-hidden
-          onAnimationEnd={() => setCaveFade(false)}
-        />
-      )}
+      <Intro onDone={emergeToLight} />
     </MotionConfig>
   )
 }
