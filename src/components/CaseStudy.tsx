@@ -53,33 +53,33 @@ function ITITDiagram() {
 const KB_LAYERS = [
   {
     name: 'Base',
-    note: 'The markstos 3x5+1 layout (v2.2). QWERTY with one-shot mods — Alt & Shift on the outer columns, and dual-role thumbs: Ctrl/Esc, Super/Enter, Lower/Tab, Raise/Bksp, Space, Shift. A J+K chord fires Esc.',
+    note: 'QWERTY with Shift / Ctrl on the outer columns. The thumbs carry the layer holds, Space and Enter — there’s no dedicated Esc, it lives on the layers.',
     rows: [
-      ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'Del'],
-      ['Alt', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', 'AltGr'],
-      ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'Func'],
+      ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '⌫'],
+      ['Shift', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'"],
+      ['Ctrl', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'GUI'],
     ],
-    thumbs: ['Esc', 'Enter', 'Tab', 'Bksp', 'Space', 'Shift'],
+    thumbs: ['Raise', '', 'Space', 'Enter', 'Lower', 'GUI'],
   },
   {
     name: 'Lower',
-    note: 'Numbers and symbols — digits on the home row and the full symbol set up top, so coding never needs the base layer.',
+    note: 'The utility layer — five Bluetooth profiles, an arrow cluster, media transport (play/prev/next), and undo / redo.',
     rows: [
-      ['~', '@', '#', '$', '%', '`', '^', '&', '*', '(', ')', 'Del'],
-      ['Alt', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '\\'],
-      ['Shift', '-', '=', '_', '+', '|', '[', ']', '{', '}', '<', '>'],
+      ['Esc', '', '', '', '', 'BTclr', 'BT1', 'BT2', 'BT3', 'BT4', 'BT5', '⌫'],
+      ['Shift', '', '', '', '', '', '←', '↑', '→', 'Undo', 'Redo', 'Caps'],
+      ['Ctrl', 'GUI', '', '', '', '', '', '↓', '', 'Play', 'Prev', 'Next'],
     ],
-    thumbs: ['', '', '', '', 'Space', ''],
+    thumbs: ['', '', 'Space', 'Enter', '', ''],
   },
   {
     name: 'Raise',
-    note: 'Navigation, media & function — an arrow cluster on the home row, Home/End/PgUp/PgDn, media transport, copy/paste, and F1–F12.',
+    note: 'Numbers and the full symbol set — brackets, braces, operators, pipe and tilde.',
     rows: [
-      ['', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'Del'],
-      ['Alt', 'Home', 'End', 'PgUp', 'PgDn', 'F11', '←', '↓', '↑', '→', 'F12', 'Caps'],
-      ['Shift', 'Copy', 'Paste', '', '', '', '⏯', '⏮', '⏭', '', 'Reset', 'Func'],
+      ['Esc', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '⌫'],
+      ['Shift', '1', '2', '3', '4', '5', '-', '=', '[', ']', '\\', "'"],
+      ['Ctrl', '6', '7', '8', '9', '0', '_', '+', '{', '}', '|', '~'],
     ],
-    thumbs: ['', '', '', '', 'Space', ''],
+    thumbs: ['', '', 'Space', 'Enter', '', ''],
   },
 ]
 
