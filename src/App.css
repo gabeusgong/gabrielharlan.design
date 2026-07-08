@@ -287,13 +287,13 @@
 /* dropdown sheet of section links on mobile — opens below the hamburger,
    aligned to its left edge */
 .nav__sheet {
-  /* centered on the "Gabriel" wordmark (its center sits ~4.81rem from the left
-     after the cluster is pulled in); width trimmed so it still fits a narrow phone */
+  /* centered under the "Gabriel" word (center ~5.44rem from the left); width
+     trimmed so the centered sheet still fits a narrow phone with a small margin */
   position: absolute;
   top: calc(100% + 0.4rem);
-  left: 4.81rem;
+  left: 5.44rem;
   transform: translateX(-50%);
-  min-width: 9rem;
+  min-width: 9.5rem;
   list-style: none;
   margin: 0;
   padding: 0.5rem;
@@ -693,6 +693,7 @@
    edge, so drop the translateX(-50%) that would push the pill half off-screen */
 @media (min-width: 721px) and (max-width: 860px) {
   .game-hud {
+    bottom: calc(var(--box-h, 400px) + 90px);
     transform: rotate(-4deg);
     transform-origin: left center;
   }
@@ -702,7 +703,7 @@
   .game-hud {
     left: 0;
     right: auto;
-    bottom: calc(var(--box-h, 400px) + 185px);
+    bottom: calc(var(--box-h, 400px) + 90px);
     padding: 0.32rem 0.62rem;
     font-size: 0.56rem;
     transform: rotate(-4deg);
