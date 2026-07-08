@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react'
 
-const MAX_DEPTH = 120 // metres at the very bottom of the page
+// the intro curtain descends 0 → 120 m; the gauge picks up exactly there and
+// keeps descending as you scroll, so the depth reads continuously
+const START_DEPTH = 120 // metres at the top of the page (where the intro left off)
+const MAX_DEPTH = 240 // metres at the very bottom of the page
 const ZONES = [
-  { at: 0, name: 'entrance' },
-  { at: 0.28, name: 'twilight' },
-  { at: 0.55, name: 'dark zone' },
-  { at: 0.82, name: 'the deep' },
+  { at: 0, name: 'twilight' },
+  { at: 0.3, name: 'dark zone' },
+  { at: 0.62, name: 'the deep' },
+  { at: 0.85, name: 'the sump' },
 ]
 
 /* A slim left-rail "depth gauge" that fills as you scroll, like descending a
@@ -25,7 +28,7 @@ export default function DepthGauge() {
       const pct = `${(p * 100).toFixed(1)}%`
       if (fillRef.current) fillRef.current.style.height = pct
       if (markerRef.current) markerRef.current.style.top = pct
-      const depth = Math.round(p * MAX_DEPTH)
+      const depth = Math.round(START_DEPTH + p * (MAX_DEPTH - START_DEPTH))
       const zone = [...ZONES].reverse().find((z) => p >= z.at)?.name ?? 'entrance'
       if (labelRef.current) labelRef.current.textContent = `${depth} m · ${zone}`
     }
@@ -53,7 +56,7 @@ export default function DepthGauge() {
       <div className="depthgauge__track">
         <div className="depthgauge__fill" ref={fillRef} />
         <div className="depthgauge__marker" ref={markerRef}>
-          <span className="depthgauge__label" ref={labelRef}>0 m · entrance</span>
+          <span className="depthgauge__label" ref={labelRef}>120 m · twilight</span>
         </div>
       </div>
     </div>

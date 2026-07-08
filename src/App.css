@@ -1911,6 +1911,17 @@
 .achv-toast strong {
   color: var(--sun);
 }
+/* cave mode flips --ink to amber (which becomes the pill background), so the
+   default gold name would be gold-on-gold. Keep the pill dark with amber text,
+   matching the rest of the cave UI, so the secret name stays legible. */
+:root.cave-active .achv-toast {
+  background: var(--paper-2);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+}
+:root.cave-active .achv-toast strong {
+  color: var(--sun);
+}
 @media (max-width: 720px) {
   .achv__list {
     width: 210px;

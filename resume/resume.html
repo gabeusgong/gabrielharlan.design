@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gabriel Harlan — Résumé</title>
+
+    <!-- Analog Playground type: Fraunces (display) · Schibsted Grotesk (body) · Space Mono (labels) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..700&family=Schibsted+Grotesk:ital,wght@0,400..800;1,400..600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ============================================================
+         ANALOG PLAYGROUND — résumé
+         Edit the content in the <body>; the styling lives up here.
+         Print / export: US Letter, colours preserved.
+         ============================================================ */
+      :root {
+        --paper: #f4ecd8;
+        --paper-2: #efe4ca;
+        --panel: #f8f1e0;
+        --ink: #211b14;
+        --ink-soft: #5a4f41;
+        --line: #d9ccaa;
+
+        --coral: #f4502a;
+        --cobalt: #2d4df5;
+        --lime: #a9c70f; /* darkened chartreuse so it reads on cream */
+        --pink: #e86fb0;
+        --sun: #e9a400; /* darkened amber for legibility */
+
+        --display: 'Fraunces', Georgia, serif;
+        --body: 'Schibsted Grotesk', system-ui, sans-serif;
+        --mono: 'Space Mono', ui-monospace, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      body {
+        font-family: var(--body);
+        color: var(--ink-soft);
+        background: #cdbf9d; /* desk tone behind the "page" on screen */
+        line-height: 1.34;
+        font-size: 9.6pt;
+        padding: 24px;
+        display: flex;
+        justify-content: center;
+      }
+
+      /* the page itself */
+      .sheet {
+        width: 8.5in;
+        min-height: 11in;
+        background: var(--paper);
+        padding: 0.28in 0.55in 0.24in;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 12px 12px 0 rgba(33, 27, 20, 0.22);
+      }
+
+      /* faint topographic contour motif, top-right */
+      svg.topo {
+        position: absolute;
+        z-index: 0;
+        top: -120px;
+        right: -90px;
+        width: 460px;
+        height: 460px;
+        opacity: 0.09;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .sheet > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ---------- header ---------- */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1rem;
+        padding-bottom: 0.28rem;
+        border-bottom: 3px solid var(--ink);
+        margin-bottom: 3px;
+      }
+      header::after {
+        /* the offset "hard shadow" second rule, playground style */
+        content: '';
+        display: block;
+      }
+      .name {
+        font-family: var(--display);
+        font-optical-sizing: auto;
+        font-weight: 600;
+        font-size: 31pt;
+        line-height: 0.9;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+      }
+      .name .dot {
+        color: var(--coral);
+      }
+      .role {
+        font-family: var(--mono);
+        font-size: 8.6pt;
+        letter-spacing: 0.02em;
+        color: var(--ink-soft);
+        margin-top: 0.5rem;
+      }
+      .contact {
+        text-align: right;
+        font-family: var(--mono);
+        font-size: 8pt;
+        line-height: 1.5;
+        color: var(--ink-soft);
+        white-space: nowrap;
+      }
+      .contact a {
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .contact .ico {
+        color: var(--coral);
+        margin-right: 5px;
+      }
+      /* thin coral rule under the ink one — layered "sticker" edge */
+      .rule2 {
+        height: 3px;
+        background: var(--coral);
+        width: 210px;
+        margin-bottom: 0.6rem;
+      }
+
+      /* ---------- two-column body ---------- */
+      .cols {
+        display: grid;
+        grid-template-columns: 1fr 2.35in;
+        gap: 0.62in;
+        align-items: start;
+      }
+
+      /* ---------- section headers ---------- */
+      .sec {
+        margin-bottom: 0.5rem;
+      }
+      .sec + .sec {
+        margin-top: 0.38rem;
+      }
+      .sec__head {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 8.6pt;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink);
+        margin-bottom: 0.5rem;
+      }
+      .chip {
+        width: 11px;
+        height: 11px;
+        border-radius: 3px;
+        border: 1.5px solid var(--ink);
+        flex: none;
+      }
+      .chip--coral { background: var(--coral); }
+      .chip--cobalt { background: var(--cobalt); }
+      .chip--lime { background: var(--lime); }
+      .chip--sun { background: var(--sun); }
+      .chip--pink { background: var(--pink); }
+
+      /* ---------- entries ---------- */
+      .entry {
+        margin-bottom: 0.24rem;
+        break-inside: avoid;
+      }
+      .entry__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 0.6rem;
+      }
+      .entry__title {
+        font-family: var(--display);
+        font-weight: 600;
+        font-size: 10.5pt;
+        color: var(--ink);
+        line-height: 1.06;
+      }
+      .entry__when {
+        font-family: var(--mono);
+        font-size: 7.7pt;
+        color: var(--ink-soft);
+        white-space: nowrap;
+        flex: none;
+      }
+      .entry__sub {
+        font-size: 9.2pt;
+        font-style: italic;
+        color: var(--ink-soft);
+        margin-top: 1px;
+      }
+      .entry__meta {
+        font-family: var(--mono);
+        font-size: 7.6pt;
+        color: var(--ink-soft);
+        margin-top: 1px;
+      }
+      ul.bullets {
+        list-style: none;
+        margin: 4px 0 0;
+      }
+      ul.bullets li {
+        position: relative;
+        padding-left: 13px;
+        margin-bottom: 1px;
+        font-size: 8.5pt;
+        line-height: 1.28;
+        color: var(--ink-soft);
+      }
+      ul.bullets li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.46em;
+        width: 5px;
+        height: 5px;
+        background: var(--accent, var(--coral));
+        border-radius: 1px;
+        transform: rotate(45deg);
+      }
+      .g-coral { --accent: var(--coral); }
+      .g-cobalt { --accent: var(--cobalt); }
+      .g-lime { --accent: var(--lime); }
+      .g-sun { --accent: var(--sun); }
+      .g-pink { --accent: var(--pink); }
+
+      /* coursework as one compact, keyword-rich line */
+      .course {
+        margin-top: 2px;
+        font-size: 8.7pt;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- projects (2x2 grid) ---------- */
+      .projgrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.22rem 0.5rem;
+      }
+      .proj {
+        break-inside: avoid;
+        padding: 0.14rem 0.32rem 0.18rem;
+        border: 1.6px solid var(--ink);
+        border-radius: 10px;
+        background: var(--panel);
+      }
+      .proj .entry__title {
+        font-size: 10.7pt;
+      }
+      .proj__tags {
+        font-family: var(--mono);
+        font-size: 7.2pt;
+        color: var(--ink);
+        margin-top: 1px;
+      }
+      .proj__tags span {
+        display: inline-block;
+        border: 1.2px solid var(--ink);
+        border-radius: 20px;
+        padding: 0 6px;
+        margin: 2px 3px 0 0;
+        background: var(--panel);
+      }
+      .proj__desc {
+        font-size: 8.4pt;
+        margin-top: 2px;
+        line-height: 1.3;
+      }
+
+      /* ---------- sidebar ---------- */
+      aside {
+        background: var(--paper-2);
+        border: 2.5px solid var(--ink);
+        border-radius: 14px;
+        padding: 0.32in 0.3in;
+        box-shadow: 5px 5px 0 var(--ink);
+      }
+      aside .sec + .sec { margin-top: 0.9rem; }
+      .skillgroup { margin-bottom: 0.5rem; }
+      .skillgroup__label {
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 7.8pt;
+        color: var(--ink);
+        margin-bottom: 2px;
+      }
+      .skillgroup__items {
+        font-size: 9pt;
+        color: var(--ink-soft);
+      }
+      ul.side-list {
+        list-style: none;
+        font-size: 9pt;
+        color: var(--ink-soft);
+      }
+      ul.side-list li {
+        position: relative;
+        padding-left: 12px;
+        margin-bottom: 3px;
+        break-inside: avoid;
+      }
+      ul.side-list li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.45em;
+        width: 5px;
+        height: 5px;
+        background: var(--accent, var(--cobalt));
+        border-radius: 1px;
+        transform: rotate(45deg);
+      }
+      .tag-cloud {
+        font-size: 8.7pt;
+        color: var(--ink-soft);
+        line-height: 1.7;
+      }
+
+      @page {
+        size: letter;
+        margin: 0;
+      }
+      @media print {
+        body { padding: 0; background: #fff; display: block; }
+        .sheet { box-shadow: none; width: 8.5in; min-height: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sheet">
+      <!-- faint topo contour lines -->
+      <svg class="topo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g stroke="#211b14" stroke-width="1.4" fill="none">
+          <path d="M100 20 C60 30 40 70 55 100 C70 130 130 130 145 100 C160 70 140 30 100 20Z" />
+          <path d="M100 38 C70 46 55 76 68 100 C81 124 119 124 132 100 C145 76 130 46 100 38Z" />
+          <path d="M100 56 C80 62 68 82 78 100 C88 118 112 118 122 100 C132 82 120 62 100 56Z" />
+          <path d="M100 74 C89 78 82 90 88 100 C94 110 106 110 112 100 C118 90 111 78 100 74Z" />
+        </g>
+      </svg>
+
+      <!-- ============ HEADER ============ -->
+      <header>
+        <div>
+          <div class="name">Gabriel Harlan<span class="dot">.</span></div>
+          <div class="role">Web &amp; UX Designer · Informatics @ Indiana University</div>
+        </div>
+        <div class="contact">
+          <div><span class="ico">✉</span><a href="mailto:gbharlan@iu.edu">gbharlan@iu.edu</a></div>
+          <div><span class="ico">◈</span><a href="https://gabrielharlan.is-a.dev">gabrielharlan.is-a.dev</a></div>
+          <div><span class="ico">↗</span><a href="https://linkedin.com/in/gbharlan">linkedin.com/in/gbharlan</a></div>
+          <div><span class="ico">❯</span><a href="https://github.com/gabeusgong">github.com/gabeusgong</a></div>
+          <div><span class="ico">◉</span>Bloomington, Indiana</div>
+        </div>
+      </header>
+      <div class="rule2"></div>
+
+      <div class="cols">
+        <!-- ============ MAIN COLUMN ============ -->
+        <main>
+          <!-- EDUCATION -->
+          <section class="sec">
+            <div class="sec__head"><span class="chip chip--coral"></span>Education</div>
+
+            <div class="entry g-coral">
+              <div class="entry__top">
+                <div class="entry__title">Indiana University</div>
+                <div class="entry__when">Aug 2022 – Dec 2026</div>
+              </div>
+              <div class="entry__sub">B.S. in Informatics — Minors in Human-Centered Computing &amp; Web Design</div>
+              <div class="entry__meta">Bloomington, Indiana</div>
+              <div class="course" style="margin-top:3px">
+                <span class="skillgroup__label" style="display:inline">Coursework&nbsp;</span>
+                Human-Computer Interaction &amp; Design · Methods for Human-Centered Computing · Design &amp; Development of an Information System · Web Design · JavaScript · Intro to Cybersecurity · Computer &amp; Information Ethics
+              </div>
+            </div>
+
+            <div class="entry g-coral">
+              <div class="entry__top">
+                <div class="entry__title">Allegan County Area Technical &amp; Education Center</div>
+                <div class="entry__when">Sep 2021 – May 2022</div>
+              </div>
+              <div class="entry__sub">Computer Information Systems</div>
+              <div class="entry__meta">Allegan, Michigan</div>
+              <ul class="bullets">
+                <li>Installed, configured, and administered network infrastructure end-to-end.</li>
+                <li>Built and modified computer hardware, software, and operating systems to spec.</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- EXPERIENCE -->
+          <section class="sec g-cobalt">
+            <div class="sec__head"><span class="chip chip--cobalt"></span>Experience</div>
+            <div class="entry__meta" style="margin:-2px 0 6px">University Information Technology Services · Indiana University</div>
+
+            <div class="entry g-cobalt">
+              <div class="entry__top">
+                <div class="entry__title">SCIPS Consultant Supervisor</div>
+                <div class="entry__when">Aug 2024 – Feb 2026</div>
+              </div>
+              <ul class="bullets">
+                <li>Led the Tech Team and walk-in Support Center, coaching consultants through complex technical and customer issues.</li>
+                <li>Drove campus-wide support for labs, printers, and classroom tech — from preemptive checks to urgent in-person requests.</li>
+              </ul>
+            </div>
+
+            <div class="entry g-cobalt">
+              <div class="entry__top">
+                <div class="entry__title">TCC Tech Team</div>
+                <div class="entry__when">Nov 2023 – May 2024</div>
+              </div>
+              <ul class="bullets">
+                <li>Resolved open client tickets across virtual, in-office, and in-room appointments.</li>
+                <li>Set up wired and wireless connectivity for campus residents.</li>
+              </ul>
+            </div>
+
+            <div class="entry g-cobalt">
+              <div class="entry__top">
+                <div class="entry__title">Technology Center Consultant</div>
+                <div class="entry__when">Sep 2023 – Nov 2023</div>
+              </div>
+              <ul class="bullets">
+                <li>Troubleshot software and printer issues for a steady stream of walk-in clients.</li>
+                <li>Kept lab equipment stocked, organized, and ready to use.</li>
+                <li>Logged and tracked issues in ticketing systems, producing customer and lab reports.</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- SELECTED WORK -->
+          <section class="sec g-sun">
+            <div class="sec__head"><span class="chip chip--sun"></span>Selected Work</div>
+
+            <div class="projgrid">
+            <div class="proj g-sun">
+              <div class="entry__top">
+                <div class="entry__title">Karst — Cave Field Guide</div>
+                <div class="entry__when">2026</div>
+              </div>
+              <div class="proj__desc">A caver's field guide to southern Indiana's karst country — a privacy-first map that fuzzes sensitive cave locations, a community field guide, and a bat / White-Nose Syndrome conservation guide. Web + Android.</div>
+              <div class="proj__tags"><span>Next.js</span><span>Firebase</span><span>Leaflet</span><span>Privacy-first</span></div>
+            </div>
+
+            <div class="proj g-sun">
+              <div class="entry__top">
+                <div class="entry__title">ITIT — IT Inventory Tracker</div>
+                <div class="entry__when">2025</div>
+              </div>
+              <div class="proj__desc">Senior capstone with a four-person Scrum team: a physical IoT tracker paired with a web app for deployments, locations, and items — cheaper than enterprise systems, less error-prone than spreadsheets.</div>
+              <div class="proj__tags"><span>JavaScript</span><span>PHP</span><span>MySQL</span><span>IoT</span></div>
+            </div>
+
+            <div class="proj g-sun">
+              <div class="entry__top">
+                <div class="entry__title">Corne 42 Split Wireless Keyboard</div>
+                <div class="entry__when">2024</div>
+              </div>
+              <div class="proj__desc">A hand-built low-profile 42-key split keyboard on custom ZMK firmware — Bluetooth profiles, per-half OLED screens, a hotswap controller, and magnetic USB-C ports.</div>
+              <div class="proj__tags"><span>ZMK</span><span>Firmware</span><span>Hardware</span></div>
+            </div>
+
+            <div class="proj g-sun">
+              <div class="entry__top">
+                <div class="entry__title">Richard Blenz Nature Preserve</div>
+                <div class="entry__when">2025</div>
+              </div>
+              <div class="proj__desc">Responsive redesign of the NSS Buckner Cave preserve site (I360 Web Design final) — hand-coded HTML/CSS/JS with an animated nav, photo slideshow, and accordion geology &amp; biology sections around on-site cave photography.</div>
+              <div class="proj__tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Responsive</span></div>
+            </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- ============ SIDEBAR ============ -->
+        <aside>
+          <section class="sec g-cobalt">
+            <div class="sec__head"><span class="chip chip--cobalt"></span>Skills</div>
+            <div class="skillgroup">
+              <div class="skillgroup__label">Languages</div>
+              <div class="skillgroup__items">JavaScript, Python, PHP, MySQL</div>
+            </div>
+            <div class="skillgroup">
+              <div class="skillgroup__label">Web &amp; Frameworks</div>
+              <div class="skillgroup__items">React / Next.js, HTML, CSS, Firebase, Git</div>
+            </div>
+            <div class="skillgroup">
+              <div class="skillgroup__label">Design</div>
+              <div class="skillgroup__items">Figma, UX &amp; HCI Design, Web Design, Tableau</div>
+            </div>
+            <div class="skillgroup">
+              <div class="skillgroup__label">Operating Systems</div>
+              <div class="skillgroup__items">Linux, macOS, Windows 10/11, Windows Server</div>
+            </div>
+            <div class="skillgroup">
+              <div class="skillgroup__label">Tools</div>
+              <div class="skillgroup__items">Active Directory, Office365, VirtualBox, VMware, VS Code, WSL</div>
+            </div>
+          </section>
+
+          <section class="sec g-lime">
+            <div class="sec__head"><span class="chip chip--lime"></span>Certifications</div>
+            <ul class="side-list">
+              <li>Certiport ITS — Computational Thinking, Cybersecurity, Device Configuration &amp; Management, Network Security &amp; Networking</li>
+              <li>Cisco Certified Support Technician — Cybersecurity</li>
+              <li>Cisco IT Essentials</li>
+              <li>TestOut PC Pro</li>
+            </ul>
+          </section>
+
+          <section class="sec g-pink">
+            <div class="sec__head"><span class="chip chip--pink"></span>Clubs</div>
+            <ul class="side-list">
+              <li>Bloomington Indiana Grotto</li>
+              <li>Mechanical Keyboard Club</li>
+              <li>Views at IU</li>
+            </ul>
+          </section>
+
+          <section class="sec g-sun">
+            <div class="sec__head"><span class="chip chip--sun"></span>Off the Clock</div>
+            <div class="tag-cloud">Caving · Coffee · Guitar · Hiking · PC building · Custom keyboards · Plants · Reading · Swimming</div>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </body>
+</html>
