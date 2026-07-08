@@ -14,9 +14,15 @@ export default function Intro({ onDone }: { onDone?: () => void }) {
   })
   const depthRef = useRef<HTMLSpanElement>(null)
 
+  const done = useRef(false)
   const dismiss = () => {
-    setShow(false)
-    onDone?.() // hand off to the cave→light fade
+    if (done.current) return
+    done.current = true
+    // kick off the cave→light scheme fade FIRST, then lift the veil a beat
+    // later — so the fade is already underway (behind the opaque curtain) by
+    // the time the curtain clears, revealing a scheme mid-transition
+    onDone?.()
+    window.setTimeout(() => setShow(false), 220)
   }
 
   useEffect(() => {

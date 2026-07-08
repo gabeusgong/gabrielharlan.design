@@ -2314,20 +2314,6 @@
   color: var(--ink-soft);
 }
 
-/* dark-theme nav/gallery bars (cream translucent -> dark translucent) */
-:root[data-theme='dark'] .nav--scrolled {
-  background: rgba(26, 21, 14, 0.85);
-}
-:root[data-theme='dark'] .cavespage__bar {
-  background: rgba(26, 21, 14, 0.85);
-}
-
-/* blobs use multiply on cream; switch to screen so they read on dark */
-:root[data-theme='dark'] .blob {
-  mix-blend-mode: screen;
-  opacity: 0.5;
-}
-
 /* ---------- parallax wrapper for hero blobs ---------- */
 .blob-parallax {
   position: absolute;
@@ -2669,29 +2655,6 @@ button.term__dot:hover {
   .np-card {
     width: min(240px, 66vw);
   }
-}
-
-/* ---------- dark mode: force dark text on bright accent backgrounds ---------- */
-:root[data-theme='dark'] .btn--ghost:hover,
-:root[data-theme='dark'] .btn--resume:hover,
-:root[data-theme='dark'] .cs__close:hover,
-:root[data-theme='dark'] .contact__copy:hover,
-:root[data-theme='dark'] .achv__toggle:hover,
-:root[data-theme='dark'] .hero__rotator,
-:root[data-theme='dark'] .cs__sync-node--hw,
-:root[data-theme='dark'] .kb__key:hover,
-:root[data-theme='dark'] .kb__key:active,
-:root[data-theme='dark'] .kb__key--thumb,
-:root[data-theme='dark'] .kb__key--thumb:hover,
-:root[data-theme='dark'] .sticker,
-:root[data-theme='dark'] .sticker span,
-:root[data-theme='dark'] .wall__sticker,
-:root[data-theme='dark'] .cs__spotlight,
-:root[data-theme='dark'] .cs__spotlight h3,
-:root[data-theme='dark'] .cs__spotlight p,
-:root[data-theme='dark'] .cs__spotlight span,
-:root[data-theme='dark'] .cs__spotlight strong {
-  color: #1a140c;
 }
 
 /* terminal launcher button in the nav controls */
@@ -3048,9 +3011,6 @@ button.term__dot:hover {
   color: var(--ink);
   line-height: 1;
 }
-:root[data-theme='dark'] .scrolltop__track {
-  stroke: rgba(244, 236, 216, 0.18);
-}
 
 /* ---------- all-secrets celebration ---------- */
 .achv-party {
@@ -3222,9 +3182,6 @@ button.term__dot:hover {
   background: var(--sun);
   color: #26201a;
   cursor: pointer;
-}
-:root[data-theme='dark'] .typetest__ch--bad {
-  color: #1a140c;
 }
 
 /* a keymap key lit up by the typing test */

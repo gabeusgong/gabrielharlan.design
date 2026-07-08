@@ -1,9 +1,8 @@
-/* Shared user preferences: theme (light/dark) and sound (mute).
-   Theme is null = "follow the OS"; an explicit value overrides. The resolved
-   theme is written to <html data-theme> so CSS can react, and a 'pref-change'
-   event lets components re-read. */
+/* Shared user preferences. The site is light-only — the former dark theme is
+   replaced by the flashlight (cave mode), toggled from the UI. This module just
+   persists the sound (mute) pref and broadcasts a 'pref-change' event so
+   components can re-read. */
 
-const THEME_KEY = 'gh-theme'
 const MUTED_KEY = 'gh-muted'
 
 const get = (k: string) => {
@@ -22,40 +21,10 @@ const set = (k: string, v: string | null) => {
   }
 }
 
-const mq = (q: string) =>
-  typeof window !== 'undefined' && window.matchMedia ? window.matchMedia(q).matches : false
-
-export const prefersDark = () => mq('(prefers-color-scheme: dark)')
-// after sunset-ish, default to dark (until the visitor picks a theme)
-export const isNight = () => {
-  const h = new Date().getHours()
-  return h >= 19 || h < 7
-}
-
-export type Theme = 'dark' | 'light' | null
-export const getTheme = (): Theme => {
-  const v = get(THEME_KEY)
-  return v === 'dark' || v === 'light' ? v : null
-}
-export const resolvedDark = () => {
-  const t = getTheme()
-  return t ? t === 'dark' : prefersDark() || isNight()
-}
-export const setTheme = (v: Theme) => {
-  set(THEME_KEY, v)
-  apply()
-  emit()
-}
-
 export const isMuted = () => get(MUTED_KEY) === '1'
 export const setMuted = (b: boolean) => {
   set(MUTED_KEY, b ? '1' : '0')
   emit()
-}
-
-export const apply = () => {
-  if (typeof document === 'undefined') return
-  document.documentElement.dataset.theme = resolvedDark() ? 'dark' : 'light'
 }
 
 const emit = () => window.dispatchEvent(new CustomEvent('pref-change'))

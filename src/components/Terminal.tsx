@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { setTheme, setMuted, resolvedDark } from '../lib/prefs'
+import { setMuted } from '../lib/prefs'
 import { unlock, SECRETS, getUnlocked } from '../lib/achievements'
 import { useFocusTrap } from '../lib/useFocusTrap'
 
@@ -25,9 +25,8 @@ const HELP = [
   '  ls                list sections',
   '  open <section>    jump to a section (about, work, wall, contact…)',
   '  caves             open the cave photo gallery',
-  '  theme <dark|light>   switch theme',
   '  mute / unmute     toggle sound',
-  '  cave              toggle cave mode',
+  '  flashlight        toggle the cave headlamp',
   '  resume            open my résumé',
   '  whoami            who is this',
   '  secret            your discovered secrets',
@@ -185,15 +184,6 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
         window.location.hash = '#/caves'
         setOpen(false)
         break
-      case 'theme':
-        if (arg === 'dark' || arg === 'light') {
-          setTheme(arg)
-          print([`theme → ${arg}`])
-        } else {
-          setTheme(resolvedDark() ? 'light' : 'dark')
-          print([`theme → ${resolvedDark() ? 'light' : 'dark'}`])
-        }
-        break
       case 'mute':
         setMuted(true)
         print(['🔇 muted'])
@@ -204,6 +194,8 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
         break
       case 'cave':
       case 'karst':
+      case 'flashlight':
+      case 'torch':
         onToggleCave()
         print(['🔦 toggling cave mode…'])
         setOpen(false)

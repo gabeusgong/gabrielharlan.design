@@ -1,9 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import { resolvedDark, setTheme, isMuted, setMuted } from '../lib/prefs'
+import { isMuted, setMuted } from '../lib/prefs'
 
-/* Small preferences popover in the nav: light/dark theme, motion, and sound.
-   Each control flips to an explicit value (default follows the OS until touched). */
-export default function Settings() {
+/* Small preferences popover in the nav: flashlight (cave mode) and sound.
+   The flashlight toggle mirrors the nav lamp — it turns the underground
+   headlamp on/off. */
+export default function Settings({
+  flashlight,
+  onToggleFlashlight,
+}: {
+  flashlight: boolean
+  onToggleFlashlight: () => void
+}) {
   const [open, setOpen] = useState(false)
   const [, force] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
@@ -31,7 +38,6 @@ export default function Settings() {
     }
   }, [open])
 
-  const dark = resolvedDark()
   const muted = isMuted()
 
   return (
@@ -51,13 +57,13 @@ export default function Settings() {
         <div className="settings__pop" role="group" aria-label="Preferences">
           <button
             className="settings__row"
-            aria-pressed={dark}
-            onClick={() => setTheme(dark ? 'light' : 'dark')}
+            aria-pressed={flashlight}
+            onClick={onToggleFlashlight}
             data-cursor
           >
-            <span className="settings__ico">{dark ? '🌙' : '☀️'}</span>
-            Theme
-            <span className="settings__val">{dark ? 'Dark' : 'Light'}</span>
+            <span className="settings__ico">{flashlight ? '🔦' : '🌑'}</span>
+            Flashlight
+            <span className="settings__val">{flashlight ? 'On' : 'Off'}</span>
           </button>
           <button
             className="settings__row"

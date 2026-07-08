@@ -24,7 +24,6 @@ import NowPlaying from './components/NowPlaying'
 import ScrollTop from './components/ScrollTop'
 import Intro from './components/Intro'
 import { unlock } from './lib/achievements'
-import { apply as applyPrefs } from './lib/prefs'
 
 const getRoute = () =>
   typeof window !== 'undefined' && window.location.hash === '#/caves' ? 'caves' : 'home'
@@ -57,27 +56,13 @@ function App() {
   const emergeToLight = () => {
     const html = document.documentElement
     html.classList.add('theme-fading')
-    // let the transition register with the cave values in place, then flip on
-    // the very next frame — so the scheme starts fading the instant the veil
-    // begins to lift, with no dark hold
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => html.classList.remove('cave-active')),
-    )
+    // flush styles so the cave values are the transition's start point, then
+    // flip in the SAME tick — the scheme begins fading immediately, before the
+    // veil has even finished lifting, for the earliest possible handoff
+    void html.offsetWidth
+    html.classList.remove('cave-active')
     window.setTimeout(() => html.classList.remove('theme-fading'), 2700)
   }
-
-  // keep the theme attribute in sync with the pref and the OS
-  useEffect(() => {
-    applyPrefs()
-    const onPref = () => applyPrefs()
-    window.addEventListener('pref-change', onPref)
-    const dark = window.matchMedia('(prefers-color-scheme: dark)')
-    dark.addEventListener?.('change', applyPrefs)
-    return () => {
-      window.removeEventListener('pref-change', onPref)
-      dark.removeEventListener?.('change', applyPrefs)
-    }
-  }, [])
 
   // tiny hash router so the cave gallery lives on its own page (#/caves) and
   // never appears inline on the main site

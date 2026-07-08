@@ -5,20 +5,6 @@
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- apply theme before paint to avoid a flash -->
-    <script>
-      (function () {
-        try {
-          var t = localStorage.getItem('gh-theme')
-          var h = new Date().getHours()
-          var night = h >= 19 || h < 7
-          var dark = t
-            ? t === 'dark'
-            : matchMedia('(prefers-color-scheme: dark)').matches || night
-          document.documentElement.dataset.theme = dark ? 'dark' : 'light'
-        } catch (e) {}
-      })()
-    </script>
     <meta name="description" content="Gabriel Harlan — web & UX designer and Informatics student at Indiana University. Human-centered design, above ground and below it." />
 
     <!-- Open Graph / social cards -->
@@ -38,8 +24,7 @@
     <meta name="twitter:image" content="https://gabrielharlan.is-a.dev/og.png" />
 
     <meta name="author" content="Gabriel Harlan" />
-    <meta name="theme-color" content="#f4ecd8" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1a150e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4ecd8" />
 
     <!-- PWA: installable / add to home screen -->
     <link rel="manifest" href="./manifest.webmanifest" />
