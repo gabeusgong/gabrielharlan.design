@@ -658,7 +658,7 @@
 }
 /* cramped 2-column (half-screen) About layout: left-anchor the pill so it stays
    in the sticker column, nudged up + left to sit well clear of the heading */
-@media (min-width: 861px) and (max-width: 1200px) {
+@media (min-width: 861px) and (max-width: 1000px) {
   .game-hud {
     left: -3rem;
     bottom: calc(var(--box-h, 540px) + 0.7rem + 175px);
@@ -667,7 +667,7 @@
   }
 }
 /* full desktop: nudge the pill up and to the right of its centered spot */
-@media (min-width: 1201px) {
+@media (min-width: 1001px) {
   .game-hud {
     left: 2rem;
     bottom: calc(var(--box-h, 540px) + 0.7rem + 130px);
