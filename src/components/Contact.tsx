@@ -47,7 +47,9 @@ export default function Contact() {
 
       <Reveal delay={0.08}>
         <p className="contact__avail">
-          <span className="contact__avail-dot" /> {profile.availability}
+          <span className="contact__avail-dot" />
+          <span>{profile.availability}</span>
+          <span className="contact__avail-dot contact__avail-dot--end" aria-hidden />
         </p>
       </Reveal>
 

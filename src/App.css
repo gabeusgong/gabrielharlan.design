@@ -418,10 +418,11 @@
   opacity: 0.9;
 }
 @media (max-width: 720px) {
-  /* keep the availability line clearly smaller than the tagline above it */
+  /* match the availability line's size to the same line in the contact section
+     (still smaller than the tagline above it) */
   .hero__avail {
-    font-size: 0.58rem;
-    letter-spacing: 0.12em;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
   }
 }
 .hero__rotator {
@@ -2881,6 +2882,15 @@ button.term__dot:hover {
   background: var(--lime);
   border: 1.5px solid var(--ink);
   animation: pulse 1.6s ease-in-out infinite;
+}
+/* second dot only on mobile, so the line reads symmetrically (dot · text · dot) */
+.contact__avail-dot--end {
+  display: none;
+}
+@media (max-width: 720px) {
+  .contact__avail-dot--end {
+    display: block;
+  }
 }
 
 /* ---------- active nav link (scrollspy) ---------- */
