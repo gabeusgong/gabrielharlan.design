@@ -302,32 +302,33 @@
         padding: 0.32in 0.3in;
         box-shadow: 5px 5px 0 var(--ink);
       }
-      aside .sec + .sec { margin-top: 0.85rem; }
-      .skillgroup { margin-bottom: 0.5rem; }
+      aside .sec + .sec { margin-top: 0.5rem; }
+      .skillgroup { margin-bottom: 0.32rem; }
       .skillgroup__label {
         font-family: var(--mono);
         font-weight: 700;
-        font-size: 8.2pt;
+        font-size: 8pt;
         color: var(--ink);
-        margin-bottom: 3px;
+        margin-bottom: 1px;
       }
       .skillgroup__items {
-        font-size: 9.7pt;
-        line-height: 1.4;
+        font-size: 9.1pt;
+        line-height: 1.28;
         color: var(--ink-soft);
       }
       ul.side-list {
         list-style: none;
-        font-size: 9.7pt;
+        font-size: 9.1pt;
         color: var(--ink-soft);
       }
       ul.side-list li {
         position: relative;
         padding-left: 13px;
-        margin-bottom: 5px;
-        line-height: 1.4;
+        margin-bottom: 2.5px;
+        line-height: 1.28;
         break-inside: avoid;
       }
+      .side-list strong { color: var(--ink); font-weight: 700; }
       ul.side-list li::before {
         content: '';
         position: absolute;
@@ -340,9 +341,9 @@
         transform: rotate(45deg);
       }
       .tag-cloud {
-        font-size: 9.4pt;
+        font-size: 8.9pt;
         color: var(--ink-soft);
-        line-height: 1.95;
+        line-height: 1.55;
       }
 
       @page {
@@ -595,10 +596,20 @@
           <section class="sec g-lime">
             <div class="sec__head"><span class="chip chip--lime"></span>Certifications</div>
             <ul class="side-list">
-              <li>Certiport ITS — Computational Thinking, Cybersecurity, Device Configuration &amp; Management, Network Security &amp; Networking</li>
+              <li>Certiport ITS — Computational Thinking, Cybersecurity, Networking, Device Config</li>
               <li>Cisco Certified Support Technician — Cybersecurity</li>
               <li>Cisco IT Essentials</li>
               <li>TestOut PC Pro</li>
+            </ul>
+          </section>
+
+          <section class="sec g-sun">
+            <div class="sec__head"><span class="chip chip--sun"></span>Projects</div>
+            <ul class="side-list side-list--proj">
+              <li><strong>Karst</strong> — caving field guide (Next.js + Firebase)</li>
+              <li><strong>ITIT</strong> — IoT inventory tracker (capstone)</li>
+              <li><strong>Corne 42</strong> — split wireless keyboard (ZMK)</li>
+              <li><strong>Blenz</strong> — NSS cave-preserve site</li>
             </ul>
           </section>
 
