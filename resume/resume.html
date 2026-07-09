@@ -65,7 +65,7 @@
         width: 8.5in;
         min-height: 11in;
         background: var(--paper);
-        padding: 0.5in 0.6in 0.45in;
+        padding: 0.42in 0.6in 0.36in;
         position: relative;
         overflow: hidden;
         box-shadow: 12px 12px 0 rgba(33, 27, 20, 0.22);
@@ -107,7 +107,7 @@
         font-family: var(--display);
         font-optical-sizing: auto;
         font-weight: 600;
-        font-size: 39pt;
+        font-size: 33pt;
         line-height: 0.9;
         letter-spacing: -0.02em;
         color: var(--ink);
@@ -126,7 +126,7 @@
         text-align: right;
         font-family: var(--mono);
         font-size: 8.3pt;
-        line-height: 1.85;
+        line-height: 1.55;
         color: var(--ink-soft);
         white-space: nowrap;
       }
@@ -143,7 +143,7 @@
         height: 3px;
         background: var(--coral);
         width: 210px;
-        margin-bottom: 1.1rem;
+        margin-bottom: 0.7rem;
       }
 
       /* ---------- two-column body ---------- */
@@ -159,7 +159,7 @@
         margin-bottom: 0.75rem;
       }
       .sec + .sec {
-        margin-top: 1rem;
+        margin-top: 0.72rem;
       }
       .sec__head {
         display: flex;
@@ -188,7 +188,7 @@
 
       /* ---------- entries ---------- */
       .entry {
-        margin-bottom: 0.62rem;
+        margin-bottom: 0.33rem;
         break-inside: avoid;
       }
       .entry__top {
@@ -200,9 +200,9 @@
       .entry__title {
         font-family: var(--display);
         font-weight: 600;
-        font-size: 12.5pt;
+        font-size: 11.5pt;
         color: var(--ink);
-        line-height: 1.1;
+        line-height: 1.08;
       }
       .entry__when {
         font-family: var(--mono);
@@ -229,10 +229,10 @@
       }
       ul.bullets li {
         position: relative;
-        padding-left: 15px;
-        margin-bottom: 3px;
-        font-size: 9.8pt;
-        line-height: 1.4;
+        padding-left: 14px;
+        margin-bottom: 2px;
+        font-size: 9.4pt;
+        line-height: 1.32;
         color: var(--ink-soft);
       }
       ul.bullets li::before {
@@ -255,8 +255,8 @@
       /* coursework as one compact, keyword-rich line */
       .course {
         margin-top: 3px;
-        font-size: 9.3pt;
-        line-height: 1.45;
+        font-size: 8.8pt;
+        line-height: 1.4;
         color: var(--ink-soft);
       }
 
@@ -413,8 +413,7 @@
               <div class="entry__sub">Computer Information Systems</div>
               <div class="entry__meta">Allegan, Michigan</div>
               <ul class="bullets">
-                <li>Installed, configured, and administered network infrastructure end-to-end.</li>
-                <li>Built and modified computer hardware, software, and operating systems to spec.</li>
+                <li>Installed, configured, and administered network infrastructure end-to-end, and built/modified computer hardware, software, and operating systems to spec.</li>
               </ul>
             </div>
           </section>
@@ -422,7 +421,21 @@
           <!-- EXPERIENCE -->
           <section class="sec g-cobalt">
             <div class="sec__head"><span class="chip chip--cobalt"></span>Experience</div>
-            <div class="entry__meta" style="margin:-2px 0 6px">University Information Technology Services · Indiana University</div>
+            <div class="entry__meta" style="margin:-2px 0 6px">Tire Rack · South Bend, Indiana (hybrid)</div>
+
+            <div class="entry g-cobalt">
+              <div class="entry__top">
+                <div class="entry__title">Innovation &amp; AI Intern</div>
+                <div class="entry__when">Jun 2026 – Present</div>
+              </div>
+              <ul class="bullets">
+                <li>Designed, built, and deployed a production SMS gateway (Python / FastAPI on Cloud Run) that lets customers text Tire Rack&apos;s TRACI AI agent — inbound webhook → async worker → agent call → replies rendered into SMS via Twilio; backed by Redis/SQS, 42 tests, and keyless CI/CD.</li>
+                <li>Cracked its core blocker — the web-only vehicle picker can&apos;t render over SMS — with a numbered year/make/model drill-down over the site&apos;s YMMV APIs that auto-supplies the factory tire size.</li>
+                <li>Built Karst, a Next.js + Firebase caving field-guide app (web + Android) with a privacy-first map — shipped fast with AI-assisted development.</li>
+              </ul>
+            </div>
+
+            <div class="entry__meta" style="margin:0.6rem 0 6px">University Information Technology Services · Indiana University</div>
 
             <div class="entry g-cobalt">
               <div class="entry__top">
@@ -441,8 +454,7 @@
                 <div class="entry__when">Nov 2023 – May 2024</div>
               </div>
               <ul class="bullets">
-                <li>Resolved open client tickets across virtual, in-office, and in-room appointments.</li>
-                <li>Set up wired and wireless connectivity for campus residents.</li>
+                <li>Resolved client tickets across virtual, in-office, and in-room appointments, and set up wired/wireless connectivity for campus residents.</li>
               </ul>
             </div>
 
@@ -452,8 +464,7 @@
                 <div class="entry__when">Sep 2023 – Nov 2023</div>
               </div>
               <ul class="bullets">
-                <li>Troubleshot software and printer issues for a steady stream of walk-in clients.</li>
-                <li>Kept lab equipment stocked, organized, and ready to use.</li>
+                <li>Troubleshot software and printer issues for walk-in clients and kept lab equipment stocked and organized.</li>
                 <li>Logged and tracked issues in ticketing systems, producing customer and lab reports.</li>
               </ul>
             </div>
