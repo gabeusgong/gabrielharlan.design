@@ -195,7 +195,7 @@ export default function Nav({ cave, onToggleCave, route }: Props) {
         >
           {cave ? '💡' : '🔦'}
         </button>
-        <Settings flashlight={cave} onToggleFlashlight={onToggleCave} />
+        <Settings />
       </div>
     </nav>
   )

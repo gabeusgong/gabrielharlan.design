@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
-import { isMuted } from '../lib/prefs'
+import { useEffect, useRef, useState } from 'react'
+import { isMuted, flashlightOn } from '../lib/prefs'
 
 /* Synthesized cave "water drip" ambience — faint, randomly-timed drops fed
    through a feedback delay for an underground echo. No audio files; the
@@ -88,9 +88,45 @@ function startCaveAmbience(): () => void {
    enabled. Exit via the nav lamp or the Escape key. */
 export default function CaveMode({ active }: { active: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
+  // the headlamp beam is a preference *within* cave mode — kept live so the
+  // Settings / terminal toggle shows or hides it without leaving cave mode
+  const [beamOn, setBeamOn] = useState(flashlightOn())
+  useEffect(() => {
+    const onPref = () => setBeamOn(flashlightOn())
+    window.addEventListener('pref-change', onPref)
+    return () => window.removeEventListener('pref-change', onPref)
+  }, [])
 
+  // cave-mode core: recolor the whole site into the underground (black/amber)
+  // theme + faint dripping-water ambience. Independent of the beam.
   useEffect(() => {
     if (!active) return
+    document.documentElement.classList.add('cave-active')
+
+    // ambience respects the mute pref and starts/stops live when sound toggles;
+    // ignore unrelated pref changes (e.g. the flashlight) so drips don't restart
+    let muted = isMuted()
+    let stopAmbience = muted ? () => {} : startCaveAmbience()
+    const onPref = () => {
+      const m = isMuted()
+      if (m === muted) return
+      muted = m
+      stopAmbience()
+      stopAmbience = m ? () => {} : startCaveAmbience()
+    }
+    window.addEventListener('pref-change', onPref)
+
+    return () => {
+      window.removeEventListener('pref-change', onPref)
+      document.documentElement.classList.remove('cave-active')
+      stopAmbience()
+    }
+  }, [active])
+
+  // the warm headlamp pool that follows the pointer — only when cave mode is on
+  // AND the flashlight effect is enabled
+  useEffect(() => {
+    if (!active || !beamOn) return
     const el = ref.current
     if (!el) return
 
@@ -111,27 +147,14 @@ export default function CaveMode({ active }: { active: boolean }) {
     window.addEventListener('touchstart', onTouch, { passive: true })
     window.addEventListener('touchmove', onTouch, { passive: true })
 
-    // recolor the whole site into the underground (black/amber) theme
-    document.documentElement.classList.add('cave-active')
-
-    // faint dripping-water ambience while underground (respects the mute pref,
-    // and starts/stops live when the user toggles sound)
-    let stopAmbience = isMuted() ? () => {} : startCaveAmbience()
-    const onPref = () => {
-      stopAmbience()
-      stopAmbience = isMuted() ? () => {} : startCaveAmbience()
-    }
-    window.addEventListener('pref-change', onPref)
-
     return () => {
       window.removeEventListener('mousemove', onMouse)
       window.removeEventListener('touchstart', onTouch)
       window.removeEventListener('touchmove', onTouch)
-      window.removeEventListener('pref-change', onPref)
-      document.documentElement.classList.remove('cave-active')
-      stopAmbience()
     }
-  }, [active])
+  }, [active, beamOn])
 
-  return <div ref={ref} className={`cavemode ${active ? 'cavemode--on' : ''}`} aria-hidden />
+  return (
+    <div ref={ref} className={`cavemode ${active && beamOn ? 'cavemode--on' : ''}`} aria-hidden />
+  )
 }

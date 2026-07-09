@@ -1,16 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { isMuted, setMuted } from '../lib/prefs'
+import { isMuted, setMuted, flashlightOn, setFlashlight } from '../lib/prefs'
 
-/* Small preferences popover in the nav: flashlight (cave mode) and sound.
-   The flashlight toggle mirrors the nav lamp — it turns the underground
-   headlamp on/off. */
-export default function Settings({
-  flashlight,
-  onToggleFlashlight,
-}: {
-  flashlight: boolean
-  onToggleFlashlight: () => void
-}) {
+/* Small preferences popover in the nav: flashlight and sound.
+   The flashlight toggle controls only the headlamp *beam* that follows the
+   cursor inside cave mode — it does not enter or exit cave mode itself. */
+export default function Settings() {
   const [open, setOpen] = useState(false)
   const [, force] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
@@ -39,6 +33,7 @@ export default function Settings({
   }, [open])
 
   const muted = isMuted()
+  const flashlight = flashlightOn()
 
   return (
     <div className="settings" ref={ref}>
@@ -58,7 +53,8 @@ export default function Settings({
           <button
             className="settings__row"
             aria-pressed={flashlight}
-            onClick={onToggleFlashlight}
+            onClick={() => setFlashlight(!flashlight)}
+            title="Headlamp beam in cave mode"
             data-cursor
           >
             <span className="settings__ico">{flashlight ? '🔦' : '🌑'}</span>

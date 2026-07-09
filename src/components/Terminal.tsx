@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { setMuted } from '../lib/prefs'
+import { setMuted, flashlightOn, setFlashlight } from '../lib/prefs'
 import { unlock, SECRETS, getUnlocked } from '../lib/achievements'
 import { useFocusTrap } from '../lib/useFocusTrap'
 
@@ -26,7 +26,8 @@ const HELP = [
   '  open <section>    jump to a section (about, work, wall, contact…)',
   '  caves             open the cave photo gallery',
   '  mute / unmute     toggle sound',
-  '  flashlight        toggle the cave headlamp',
+  '  cave              toggle cave mode',
+  '  flashlight        toggle the headlamp beam',
   '  resume            open my résumé',
   '  whoami            who is this',
   '  secret            your discovered secrets',
@@ -192,10 +193,15 @@ export default function Terminal({ onToggleCave }: { onToggleCave: () => void })
         setMuted(false)
         print(['🔊 sound on'])
         break
+      case 'flashlight':
+      case 'torch': {
+        const next = !flashlightOn()
+        setFlashlight(next)
+        print([`🔦 headlamp beam ${next ? 'on' : 'off'} (cave mode)`])
+        break
+      }
       case 'cave':
       case 'karst':
-      case 'flashlight':
-      case 'torch':
         onToggleCave()
         print(['🔦 toggling cave mode…'])
         setOpen(false)
