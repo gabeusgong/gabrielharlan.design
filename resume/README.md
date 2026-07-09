@@ -5,7 +5,7 @@ Three files, same content, "Analog Playground" theme:
 | File | Edit in | Notes |
 |------|---------|-------|
 | `Gabriel-Harlan-Resume.docx` | **Word / LibreOffice** | **Fonts are embedded** — opens fully themed on any machine, no install, no AI. Just type. |
-| `resume.html` | any text editor / browser | Themed via Google Fonts (needs internet); edit the text between the tags. |
+| `resume.html` | any text editor / browser | **Fonts embedded (base64 woff2)** — fully self-contained, renders themed offline. Edit the text between the tags; print to PDF (Letter, margins off) to refresh `preview.pdf`. |
 | `preview.pdf` | — | A rendered snapshot of `resume.html`. Regenerate by printing the HTML to PDF (Letter, margins off). |
 
 ## The Word doc is self-contained
