@@ -1,31 +1,37 @@
 # Résumé — edit it yourself, keep the theme
 
-Three files, same content, "Analog Playground" theme:
+The résumé is **integrated into the site**:
+
+- **View online:** `gabrielharlan.is-a.dev/resume/` (served from `public/resume/index.html`)
+- **Download PDF:** `gabrielharlan.is-a.dev/Gabriel-Harlan-Resume.pdf` (`public/Gabriel-Harlan-Resume.pdf`)
+- Both are linked from the site's **Contact** section (*View résumé* / *Download PDF*).
 
 | File | Edit in | Notes |
 |------|---------|-------|
-| `Gabriel-Harlan-Resume.docx` | **Word / LibreOffice** | **Fonts are embedded** — opens fully themed on any machine, no install, no AI. Just type. |
-| `resume.html` | any text editor / browser | **Fonts embedded (base64 woff2)** — fully self-contained, renders themed offline. Edit the text between the tags; print to PDF (Letter, margins off) to refresh `preview.pdf`. |
-| `preview.pdf` | — | A rendered snapshot of `resume.html`. Regenerate by printing the HTML to PDF (Letter, margins off). |
+| `../public/resume/index.html` | any text editor / browser | **The master.** Fonts embedded (base64 woff2) — self-contained, themed offline. This IS the live `/resume/` page. |
+| `../public/Gabriel-Harlan-Resume.pdf` | — | The downloadable PDF, rendered from the HTML (Letter, margins off). |
+| `Gabriel-Harlan-Resume.docx` | **Word / LibreOffice** | Separate ATS/upload copy; fonts embedded. Not on the site. |
 
 ## How to edit it yourself (no AI)
 
-**Your master copy is `resume.html`.** It's plain text — you only change the
-words, never the styling.
+**Your master copy is `public/resume/index.html`.** It's plain text — you only
+change the words, never the styling.
 
-1. Open `resume.html` in any editor (VS Code, even TextEdit).
+1. Open `public/resume/index.html` in any editor (VS Code, even TextEdit).
 2. Everything you'd change lives **between `<body>` and `</body>`**, after the
    `<!-- ===== EDIT YOUR CONTENT BELOW ===== -->` marker. Edit the text inside
    the tags — e.g. change a bullet by editing the text in a `<li>…</li>`, add a
    bullet by copying a whole `<li>…</li>` line, remove one by deleting its line.
    **Don't touch the `<head>`/`<style>` section** (that's the theme).
-3. Save, then double-click `resume.html` to open it in your browser to preview.
-4. **Regenerate the PDF:** in the browser press ⌘P / Ctrl-P → *Destination:*
-   **Save as PDF** → *Paper size:* **Letter** → *Margins:* **Default/None** →
-   Save over `preview.pdf`. (The page already forces Letter + no margins.)
+3. Save, then double-click the file to preview it in your browser.
+4. **Regenerate the download PDF:** in the browser press ⌘P / Ctrl-P →
+   *Destination:* **Save as PDF** → *Paper size:* **Letter** → *Margins:*
+   **Default/None** → save over `public/Gabriel-Harlan-Resume.pdf`.
+5. **Publish:** commit and `git push` — GitHub Pages redeploys, updating both
+   the live `/resume/` page and the download.
 
-That's the whole loop — edit text, print to PDF. The theme always holds because
-the fonts are baked into the file.
+That's the whole loop — edit text, print to PDF, push. The theme always holds
+because the fonts are baked into the file.
 
 > The `Gabriel-Harlan-Resume.docx` is a **separate, simpler ATS/upload copy** —
 > edit it in Word if a job portal wants a `.docx`. It won't match the HTML's
@@ -46,5 +52,5 @@ fonts look wrong there, install the three families once — they're in
 - **Fraunces** (headings) · **Schibsted Grotesk** (body) · **Space Mono** (labels)
 
 All three are free Google Fonts under the SIL Open Font License, and they're the
-same fonts the website and `resume.html` use. Once installed, every version
-renders in the full theme.
+same fonts the website and the résumé use. Once installed, every version renders
+in the full theme.

@@ -1090,8 +1090,14 @@
 }
 
 /* ---------- résumé button spacing ---------- */
-.contact__resume {
+.contact__resume-actions {
   margin-top: 2.6rem;
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+.contact__resume {
+  margin-top: 0;
 }
 /* résumé buttons get a cobalt (not green) hover */
 .btn--resume:hover {
