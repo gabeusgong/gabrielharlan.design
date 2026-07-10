@@ -169,20 +169,28 @@ export type UseGroup = { group: string; tone: keyof typeof tones; items: UseItem
 
 export const uses: UseGroup[] = [
   {
-    group: 'The keyboard',
+    group: 'Keyboards',
     tone: 'coral',
     items: [
       {
         name: 'Corne 42 — hand-built',
-        note: 'Split, wireless, low-profile · 42 keys on custom ZMK firmware. My own build — full story in the Corne case study.',
+        note: 'Split, wireless, low-profile on custom ZMK · Kailh Choc Silver linears (lubed, o-ring + tape mod) · nice!nano v2, per-half OLEDs, page-up/down knob. My own build — full story in the Corne case study.',
       },
       {
-        name: 'Kailh Choc Silver linears',
-        note: 'Lubed, with an o-ring gummy + tape mod for sound and feel.',
+        name: 'QK100 (tri-mode)',
+        note: 'GMK Godspeed keycaps · Gazzew U4 Silent Boba tactiles',
       },
       {
-        name: 'nice!nano v2 · per-half OLEDs · rotary encoder',
-        note: 'Bluetooth with five profiles; blank 3D-printed caps and case; the knob scrolls page up/down.',
+        name: 'QK60',
+        note: 'Gateron Pro North Pole linears · Infinikey Delight keycaps',
+      },
+      {
+        name: 'Hibi June R2 (60%)',
+        note: 'Gateron Baby Kangaroo tactiles · NicePBT Peaches n Cream Lite keycaps',
+      },
+      {
+        name: 'Voice (mini macropad)',
+        note: 'Gateron Black Ink V2 linears · JTK Night Sakura keycaps',
       },
     ],
   },
@@ -216,8 +224,15 @@ export const uses: UseGroup[] = [
     group: 'Machines',
     tone: 'sun',
     items: [
-      { name: 'Hand-built Windows PC', note: 'built it myself — PC building is a hobby' },
-      { name: 'macOS', note: 'day-to-day laptop' },
+      {
+        name: 'Framework Laptop (DIY Edition)',
+        note: '12th-gen Intel Core · 32 GB RAM · Windows 11 dual-booted with Zorin OS',
+      },
+      {
+        name: 'Hand-built desktop',
+        note: 'Ryzen 5 5600X (6-core) · RTX 3060 · 64 GB Corsair Vengeance RGB Pro SL DDR4-3600 · Windows 10',
+      },
+      { name: 'Logitech MX Master 3S', note: 'mouse' },
     ],
   },
   {
@@ -225,7 +240,7 @@ export const uses: UseGroup[] = [
     tone: 'pink',
     items: [
       { name: 'Caving', note: 'Bloomington Indiana Grotto' },
-      { name: 'Pour-over coffee' },
+      { name: 'Pour-over & immersion coffee' },
       { name: 'Plants' },
       { name: 'Reading' },
       { name: 'Swimming' },
