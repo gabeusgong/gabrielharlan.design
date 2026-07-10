@@ -221,7 +221,6 @@ export const uses: UseGroup[] = [
       { name: 'Docker' },
       { name: 'Google Cloud · Firebase' },
       { name: 'Claude Code', note: 'AI pair for shipping fast' },
-      { name: 'Tableau' },
     ],
   },
   {
