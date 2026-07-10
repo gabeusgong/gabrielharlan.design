@@ -446,7 +446,7 @@ const STUDIES: Record<string, Study> = {
       },
       {
         h: 'A volume knob, wired by hand',
-        p: 'Hand-wired rotary encoders, driven through ZMK’s EC11 support — a sensor-binding maps the knob to volume up/down, so the finest bit of soldering on the board turns into the most tactile control on it.',
+        p: 'Hand-wired rotary encoders driven through ZMK’s EC11 support. Getting them to read reliably took real trial and error — in the soldering and the firmware — but after a lot of work the sensor-binding now maps the knob to volume up/down, turning the finest bit of soldering on the board into its most tactile control.',
       },
     ],
     diagram: { heading: 'The keymap', node: <KeyboardLayers /> },

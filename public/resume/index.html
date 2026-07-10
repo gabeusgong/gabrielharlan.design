@@ -428,13 +428,24 @@
          --fit is set by the script below; scoped to screen so the printed/
          downloaded PDF (print media) is never scaled. */
       @media screen and (max-width: 815px) {
+        html,
         body {
-          display: block;
-          padding: 62px 0 0; /* clear the fixed back arrow above the sheet */
           overflow-x: hidden;
         }
+        body {
+          display: block;
+          margin: 0;
+          padding: 62px 0 0; /* clear the fixed back arrow above the sheet */
+        }
+        /* transform:scale works in every browser (incl. iOS Safari, where
+           `zoom` is unreliable). --fit scales the sheet to the viewport width;
+           --fitmb is a negative margin that collapses the unscaled height the
+           transform would otherwise reserve. Both are set by the script and
+           scoped to screen, so the printed PDF is never affected. */
         .sheet {
-          zoom: var(--fit, 1);
+          transform: scale(var(--fit, 1));
+          transform-origin: top left;
+          margin-bottom: var(--fitmb, 0);
           box-shadow: none;
         }
       }
@@ -626,11 +637,19 @@
       // printed/downloaded PDF is never scaled).
       (function () {
         function fit() {
-          var vw = document.documentElement.clientWidth
-          document.documentElement.style.setProperty(
-            '--fit',
-            vw < 816 ? (vw / 816).toFixed(4) : '1',
-          )
+          var sheet = document.querySelector('.sheet')
+          var root = document.documentElement
+          var vw = root.clientWidth
+          if (vw < 816) {
+            var f = vw / 816
+            root.style.setProperty('--fit', f.toFixed(4))
+            // collapse the unscaled height the transform reserves (offsetHeight
+            // is the layout height, unaffected by transform)
+            root.style.setProperty('--fitmb', Math.round(sheet.offsetHeight * (f - 1)) + 'px')
+          } else {
+            root.style.setProperty('--fit', '1')
+            root.style.setProperty('--fitmb', '0px')
+          }
         }
         window.addEventListener('resize', fit)
         window.addEventListener('orientationchange', fit)
