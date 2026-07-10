@@ -177,6 +177,10 @@ export const uses: UseGroup[] = [
         note: 'Split, wireless, low-profile on custom ZMK · Kailh Choc Silver linears (lubed, o-ring + tape mod) · nice!nano v2, per-half OLEDs, page-up/down knob. My own build — full story in the Corne case study.',
       },
       {
+        name: 'GMMK Pro',
+        note: 'Gateron Black Ink V2 linears · tape mod · JTK Dreaming Girl keycaps',
+      },
+      {
         name: 'QK100 (tri-mode)',
         note: 'GMK Godspeed keycaps · Gazzew U4 Silent Boba tactiles',
       },
