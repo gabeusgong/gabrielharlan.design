@@ -3,7 +3,17 @@ import { uses } from '../data'
 
 /* A "/uses" page — the gear, stack, and habits behind the work. Its own route
    (#/uses), styled to match the site. Content lives in `uses` in data.ts. */
+
+// explicit column layout so each column packs tightly (no grid row gaps)
+const COLUMNS = [
+  ['Keyboards', 'Off the desk'],
+  ['Languages & frameworks', 'Coffee'],
+  ['Software & tools', 'Machines'],
+]
+
 export default function Uses() {
+  const byGroup = Object.fromEntries(uses.map((g) => [g.group, g]))
+
   return (
     <div className="usespage" id="uses">
       <div className="usespage__inner section">
@@ -24,24 +34,32 @@ export default function Uses() {
           </p>
         </Reveal>
 
-        <div className="uses__grid">
-          {uses.map((g, gi) => (
-            <Reveal key={g.group} delay={0.12 + gi * 0.04}>
-              <section className={`uses__group g-${g.tone}`}>
-                <h3 className="uses__group-head">
-                  <span className={`chip chip--${g.tone}`} aria-hidden />
-                  {g.group}
-                </h3>
-                <ul className="uses__list">
-                  {g.items.map((it) => (
-                    <li key={it.name} className="uses__item">
-                      <span className="uses__item-name">{it.name}</span>
-                      {it.note && <span className="uses__item-note">{it.note}</span>}
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            </Reveal>
+        <div className="uses__cols">
+          {COLUMNS.map((col, ci) => (
+            <div className="uses__col" key={ci}>
+              {col.map((name, ri) => {
+                const g = byGroup[name]
+                if (!g) return null
+                return (
+                  <Reveal key={name} delay={0.12 + (ci * 2 + ri) * 0.04}>
+                    <section className={`uses__group g-${g.tone}`}>
+                      <h3 className="uses__group-head">
+                        <span className={`chip chip--${g.tone}`} aria-hidden />
+                        {g.group}
+                      </h3>
+                      <ul className="uses__list">
+                        {g.items.map((it) => (
+                          <li key={it.name} className="uses__item">
+                            <span className="uses__item-name">{it.name}</span>
+                            {it.note && <span className="uses__item-note">{it.note}</span>}
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                  </Reveal>
+                )
+              })}
+            </div>
           ))}
         </div>
 

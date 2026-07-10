@@ -235,6 +235,8 @@ export const uses: UseGroup[] = [
         name: 'Hand-built desktop',
         note: 'Ryzen 5 5600X (6-core) · RTX 3060 · 64 GB Corsair Vengeance RGB Pro SL DDR4-3600 · Lian Li O11 Dynamic (white) · Windows 10',
       },
+      { name: 'ASUS TUF Gaming VG34VQL3A', note: '34" · 3440×1440 · 180 Hz' },
+      { name: 'Gigabyte M27Q', note: '27" · 2560×1440 · 170 Hz' },
       { name: 'Logitech MX Master 3S' },
     ],
   },
