@@ -174,27 +174,27 @@ export const uses: UseGroup[] = [
     items: [
       {
         name: 'Hibi June R2 (60%)',
-        note: 'Gateron Baby Kangaroo tactiles · NicePBT Peaches n Cream Lite keycaps',
+        note: 'lubed Gateron Baby Kangaroo tactiles · NicePBT Peaches n Cream Lite keycaps',
       },
       {
         name: 'QK100 (tri-mode)',
-        note: 'GMK Godspeed keycaps · Gazzew U4 Silent Boba tactiles',
+        note: 'GMK Godspeed keycaps · lubed Gazzew U4 Silent Boba tactiles',
       },
       {
-        name: 'QK60',
-        note: 'Gateron Pro North Pole linears · Infinikey Delight keycaps',
+        name: 'QK60 (tri-mode)',
+        note: 'lubed Gateron Pro North Pole linears · Infinikey Delight keycaps',
       },
       {
-        name: 'Voice (mini macropad)',
-        note: 'Gateron Black Ink V2 linears · JTK Night Sakura keycaps',
+        name: 'Voice Mini (macropad)',
+        note: 'lubed Gateron Black Ink V2 linears · JTK Night Sakura keycaps',
       },
       {
         name: 'Corne 42 — hand-built',
-        note: 'Split, wireless, low-profile on custom ZMK · Kailh Choc Silver linears (lubed, o-ring + tape mod) · nice!nano v2, per-half OLEDs, page-up/down knob. My own build — full story in the Corne case study.',
+        note: 'Split, wireless, low-profile on custom ZMK · Kailh Choc Silver linears (lubed, o-ring + tape mod) · nice!nano v2, per-half OLEDs, page-up/down knob.',
       },
       {
         name: 'GMMK Pro',
-        note: 'Gateron Black Ink V2 linears · tape mod · JTK Dreaming Girl keycaps',
+        note: 'lubed Gateron Black Ink V2 linears · tape + PE foam mods · JTK Dreaming Girl keycaps',
       },
     ],
   },
