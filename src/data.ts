@@ -93,7 +93,7 @@ export const projects: Project[] = [
   {
     title: 'Karst',
     blurb:
-      "A caver's field guide to the wild and show caves of southern Indiana's karst country. A Next.js + Firebase app with a privacy-first map that fuzzes sensitive cave locations, gamified AR “breadcrumb” trails, grotto groups, a community field guide, and a bat / White-Nose Syndrome conservation guide. Ships as a web app and an Android build.",
+      "A caver's field guide to the wild and show caves of southern Indiana's karst country. A Next.js + Firebase app with a privacy-first map that fuzzes sensitive cave locations, dead-reckoning trails you record once and follow in with AR or back out by compass, grotto groups, a community field guide, and a bat / White-Nose Syndrome conservation guide. Ships as a web app and an Android build.",
     tags: ['Next.js', 'Firebase', 'Leaflet', 'Privacy-first'],
     tone: 'sun',
     year: '2026',

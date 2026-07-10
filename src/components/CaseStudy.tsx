@@ -340,18 +340,21 @@ const STUDIES: Record<string, Study> = {
       h: "Dead reckoning, where GPS can't reach",
       body: (
         <>
-          Caves swallow GPS, so Karst leans on <strong>dead reckoning</strong> — estimating your
-          position from the phone&apos;s motion sensors and your last known fix instead of
-          satellites. Drop a marker at the entrance and it keeps tracking your path underground, so
-          if you get turned around or your light fails, the recorded trail always leads you back
-          out. It&apos;s the kind of feature that, in the wrong moment, could genuinely save a life.
+          Caves swallow GPS, so Karst navigates by <strong>dead reckoning</strong> — the recorder
+          counts your steps (the phone&apos;s accelerometer → distance) and tracks compass heading,
+          dropping a &ldquo;crumb&rdquo; at each turn to build a relative map of the path, no
+          satellites required. It&apos;s <strong>one trail you record on the way in</strong> and can
+          follow either direction: an <strong>AR camera overlay</strong> guides you in near the
+          entrance, and a coordinate-free <strong>compass turn-by-turn</strong> always walks you back
+          out — every trail is reversible, so if your light dies, the way out is already recorded.
+          The kind of feature that, in the wrong moment, could genuinely save a life.
         </>
       ),
     },
     decisions: [
       {
         h: 'Protect the caves, not just the user',
-        p: 'The hardest call in the project. Publishing exact entrances invites vandalism and injury and can wreck fragile ecosystems — and many caves sit on private land. So Karst fuzzes sensitive and private-property caves to an approximate area, while giving exact coordinates for show caves and publicly accessible ones.',
+        p: 'The hardest call in the project. Publishing exact entrances invites vandalism and injury and can wreck fragile ecosystems — and many caves sit on private land. So Karst fuzzes sensitive and private-property caves to an approximate area, while giving exact coordinates for show caves and publicly accessible ones. Trails hold the same line: a shared trail is only its relative shape — steps and turns, never coordinates — so it can guide anyone in or out while the entrance itself stays gated to grotto members.',
       },
       {
         h: 'Make conservation part of the loop',
@@ -364,6 +367,10 @@ const STUDIES: Record<string, Study> = {
       {
         h: 'Built to work with zero bars',
         p: 'Caves swallow signal, so Karst is offline-first by design: the trail recorder saves in place and tracks its own sync state, the cave page falls back to the local cache when the network is gone, and trip logs and entrance anchors queue up and sync the moment you resurface.',
+      },
+      {
+        h: 'Community credit, computed honestly',
+        p: 'Follow a trail to the exit and you can rate it and log the trip; record a cave’s first trail and you earn first-descent credit, with a leaderboard for the most-followed trails. To keep it fair, phones only ever report raw signals — “recorded a trail,” “made it out” — and every score is tallied server-side in Cloud Functions, so nothing can be forged.',
       },
     ],
     gallery: {
@@ -379,7 +386,7 @@ const STUDIES: Record<string, Study> = {
         },
         {
           src: `${base}karst/bc-trail.webp`,
-          cap: 'AR “breadcrumb” trails — drop a path on the way in, follow it back out.',
+          cap: 'AR trail overlay — the camera projects your recorded crumbs as arrows to follow in near the entrance.',
         },
         {
           src: `${base}karst/cave.webp`,
@@ -387,7 +394,7 @@ const STUDIES: Record<string, Study> = {
         },
         {
           src: `${base}karst/dead-reckoning.webp`,
-          cap: 'Dead reckoning — a GPS-free “way-out” trail you record to retrace your steps deep in the cave.',
+          cap: 'Compass follow — a coordinate-free turn-by-turn with a mini-map that always leads you back out, deep underground.',
         },
       ],
     },
