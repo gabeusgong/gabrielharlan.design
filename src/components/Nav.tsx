@@ -10,6 +10,7 @@ const sections = [
   { id: 'wall', label: 'Wall' },
   { id: 'contact', label: 'Say hi' },
   { id: 'caves', label: 'Gallery', href: '#/caves' },
+  { id: 'uses', label: 'Uses', href: '#/uses' },
 ]
 
 type Props = {
@@ -143,7 +144,11 @@ export default function Nav({ cave, onToggleCave, route }: Props) {
                 <a
                   href={s.href ?? `#${s.id}`}
                   onClick={() => setMenuOpen(false)}
-                  className={(route === 'caves' ? 'caves' : active) === s.id ? 'is-active' : ''}
+                  className={
+                    (route === 'caves' ? 'caves' : route === 'uses' ? 'uses' : active) === s.id
+                      ? 'is-active'
+                      : ''
+                  }
                 >
                   {s.label}
                 </a>
@@ -172,7 +177,7 @@ export default function Nav({ cave, onToggleCave, route }: Props) {
 
       <ul className="nav__links">
         {sections.map((s) => {
-          const activeId = route === 'caves' ? 'caves' : active
+          const activeId = route === 'caves' ? 'caves' : route === 'uses' ? 'uses' : active
           return (
             <li key={s.id}>
               <a href={s.href ?? `#${s.id}`} className={activeId === s.id ? 'is-active' : ''}>

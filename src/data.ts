@@ -230,9 +230,23 @@ export const uses: UseGroup[] = [
       },
       {
         name: 'Hand-built desktop',
-        note: 'Ryzen 5 5600X (6-core) · RTX 3060 · 64 GB Corsair Vengeance RGB Pro SL DDR4-3600 · Windows 10',
+        note: 'Ryzen 5 5600X (6-core) · RTX 3060 · 64 GB Corsair Vengeance RGB Pro SL DDR4-3600 · Lian Li O11 Dynamic (white) · Windows 10',
       },
-      { name: 'Logitech MX Master 3S', note: 'mouse' },
+      { name: 'Logitech MX Master 3S' },
+    ],
+  },
+  {
+    group: 'Coffee',
+    tone: 'coral',
+    items: [
+      { name: 'KX Ultra grinder', note: 'hand grinder' },
+      { name: 'Hario pour-over', note: 'V60 drip' },
+      { name: 'AeroPress', note: 'pressure + immersion' },
+      { name: 'Bodum French press', note: 'immersion' },
+      { name: 'Bambino espresso machine', note: 'espresso' },
+      { name: 'Vietnamese phin filter', note: 'slow drip' },
+      { name: 'Turkish cezve', note: 'ibrik' },
+      { name: 'Iced chai latte', note: '★ the favorite drink' },
     ],
   },
   {
@@ -240,7 +254,6 @@ export const uses: UseGroup[] = [
     tone: 'pink',
     items: [
       { name: 'Caving', note: 'Bloomington Indiana Grotto' },
-      { name: 'Pour-over & immersion coffee' },
       { name: 'Plants' },
       { name: 'Reading' },
       { name: 'Swimming' },
