@@ -20,30 +20,6 @@ const fmtDate = (iso: string) =>
     day: 'numeric',
   })
 
-// a thin bar that fills as you scroll the article
-function ReadingProgress() {
-  const [pct, setPct] = useState(0)
-  useEffect(() => {
-    const onScroll = () => {
-      const h = document.documentElement
-      const max = h.scrollHeight - h.clientHeight
-      setPct(max > 0 ? Math.min(1, h.scrollTop / max) : 0)
-    }
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-    }
-  }, [])
-  return (
-    <div className="readbar" aria-hidden>
-      <div className="readbar__fill" style={{ transform: `scaleX(${pct})` }} />
-    </div>
-  )
-}
-
 function Block({ block }: { block: NoteBlock }) {
   if (typeof block === 'string') return <p className="note__p">{block}</p>
   if ('h' in block) return <h3 className="note__h">{block.h}</h3>
@@ -144,7 +120,12 @@ function Article({ note }: { note: Note }) {
               <span className="note__pager-title">{newer.title}</span>
             </a>
           ) : (
-            <span />
+            // newest note: no "newer" — put the index link here so it shares the
+            // row with "Older →" instead of leaving an empty slot
+            <a href="#/notes" className="note__pager-link note__pager-link--prev" data-cursor>
+              <span className="note__pager-dir">← Field Notes</span>
+              <span className="note__pager-title">All notes</span>
+            </a>
           )}
           {older ? (
             <a href={`#/notes/${older.slug}`} className="note__pager-link note__pager-link--next" data-cursor>
@@ -157,11 +138,14 @@ function Article({ note }: { note: Note }) {
         </nav>
       </Reveal>
 
-      <Reveal delay={0.05}>
-        <a href="#/notes" className="btn btn--ghost note__back" data-cursor>
-          ← all field notes
-        </a>
-      </Reveal>
+      {/* only when the index link isn't already in the pager (i.e. there is a newer note) */}
+      {newer && (
+        <Reveal delay={0.05}>
+          <a href="#/notes" className="btn btn--ghost note__back" data-cursor>
+            ← all field notes
+          </a>
+        </Reveal>
+      )}
     </article>
   )
 }
@@ -235,7 +219,6 @@ export default function FieldNotes() {
 
   return (
     <div className="notespage" id="notes">
-      {note && <ReadingProgress />}
       <div className="notespage__inner section">
         {slug && !note ? (
           <>

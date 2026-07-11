@@ -146,10 +146,11 @@ function write(relPath: string, data: string | Buffer) {
 const tagList = (tags: string[]) =>
   `<ul class="note__tags">${tags.map((t) => `<li class="note__tag">${esc(t)}</li>`).join('')}</ul>`
 
-// a fixed reading-progress bar + the tiny vanilla script that drives it (the
-// static pages don't boot React, so this stands in for the in-app component)
-const READBAR = `<div class="readbar" aria-hidden><div class="readbar__fill" id="rb"></div></div>`
-const READBAR_SCRIPT = `<script>(function(){var f=document.getElementById('rb');if(!f)return;function u(){var h=document.documentElement,m=h.scrollHeight-h.clientHeight;f.style.transform='scaleX('+(m>0?Math.min(1,h.scrollTop/m):0)+')'}u();addEventListener('scroll',u,{passive:true});addEventListener('resize',u)})();</script>`
+// the same left-rail "depth gauge" the SPA shows (DepthGauge.tsx), replicated
+// for the standalone pages so the descent progress matches the main site. Reuses
+// the built .depthgauge CSS; a tiny vanilla script drives it since React isn't booted.
+const DEPTHGAUGE = `<div class="depthgauge" aria-hidden><div class="depthgauge__track"><div class="depthgauge__fill" id="dgf"></div><div class="depthgauge__marker" id="dgm"><span class="depthgauge__label" id="dgl">120 m · twilight</span></div></div></div>`
+const DEPTHGAUGE_SCRIPT = `<script>(function(){var f=document.getElementById('dgf'),m=document.getElementById('dgm'),l=document.getElementById('dgl');if(!f)return;var S=120,MX=240,Z=[[0,'twilight'],[0.3,'dark zone'],[0.62,'the deep'],[0.85,'the sump']];function u(){var mx=document.documentElement.scrollHeight-innerHeight,p=mx>0?Math.min(1,Math.max(0,scrollY/mx)):0,pct=(p*100).toFixed(1)+'%';f.style.height=pct;m.style.top=pct;var d=Math.round(S+p*(MX-S)),z='entrance';for(var i=Z.length-1;i>=0;i--){if(p>=Z[i][0]){z=Z[i][1];break}}l.textContent=d+' m · '+z}u();addEventListener('scroll',function(){requestAnimationFrame(u)},{passive:true});addEventListener('resize',u)})();</script>`
 
 function relatedMarkup(slug: string): string {
   const rel = relatedNotes(slug)
@@ -172,8 +173,13 @@ function pagerMarkup(slug: string): string {
     n
       ? `<a href="/notes/${n.slug}/" class="note__pager-link note__pager-link--${cls}"><span class="note__pager-dir">${dir}</span><span class="note__pager-title">${esc(n.title)}</span></a>`
       : '<span></span>'
+  // newest note: no "newer" — put the index link in the prev slot so it shares
+  // the row with "Older →"
+  const prev = newer
+    ? link(newer, '← Newer', 'prev')
+    : `<a href="/notes/" class="note__pager-link note__pager-link--prev"><span class="note__pager-dir">← Field Notes</span><span class="note__pager-title">All notes</span></a>`
   return `<nav class="note__pager" aria-label="More field notes">
-          ${link(newer, '← Newer', 'prev')}
+          ${prev}
           ${link(older, 'Older →', 'next')}
         </nav>`
 }
@@ -205,7 +211,7 @@ for (const n of notes) {
           <span class="note__crosslink-go">See the case study →</span>
         </a>`
     : ''
-  const body = `    ${READBAR}
+  const body = `    ${DEPTHGAUGE}
     <div class="notespage"><div class="notespage__inner section">
       <article class="note">
         <a href="/" class="note__crumb">← ${AUTHOR}</a>
@@ -222,7 +228,7 @@ for (const n of notes) {
         <a href="/#/notes" class="btn btn--ghost note__back">← all field notes</a>
       </article>
     </div></div>
-    ${READBAR_SCRIPT}`
+    ${DEPTHGAUGE_SCRIPT}`
   write(
     `notes/${n.slug}/index.html`,
     page({
