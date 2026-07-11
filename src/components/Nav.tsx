@@ -10,8 +10,8 @@ const sections = [
   { id: 'wall', label: 'Wall' },
   { id: 'contact', label: 'Say hi' },
   { id: 'notes', label: 'Notes', href: '#/notes' },
-  { id: 'caves', label: 'Gallery', href: '#/caves' },
   { id: 'uses', label: 'Uses', href: '#/uses' },
+  { id: 'caves', label: 'Gallery', href: '#/caves' },
 ]
 
 // on a standalone route (#/caves, #/uses, #/notes) that tab is active; otherwise
