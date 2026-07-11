@@ -262,7 +262,7 @@ export const uses: UseGroup[] = [
       { name: 'Moka pot' },
       { name: 'Vietnamese phin filter' },
       { name: 'Turkish cezve' },
-      { name: 'Iced chai latte', note: '★ the favorite drink' },
+      { name: 'Iced dirty chai latte', note: '★ the favorite drink' },
     ],
   },
 ]
