@@ -53,6 +53,12 @@ const fmtDate = (iso: string) =>
     day: 'numeric',
   })
 
+const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+
 // the font <head> block, copied verbatim from index.html so type matches
 const FONTS = `
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -126,7 +132,7 @@ function renderBlocks(body: NoteBlock[]): string {
   return body
     .map((b) => {
       if (typeof b === 'string') return `<p class="note__p">${esc(b)}</p>`
-      if ('h' in b) return `<h3 class="note__h">${esc(b.h)}</h3>`
+      if ('h' in b) return `<h3 class="note__h" id="${slugify(b.h)}">${esc(b.h)}</h3>`
       if ('quote' in b)
         return `<blockquote class="note__quote"><p>${esc(b.quote)}</p>${
           b.by ? `<cite>— ${esc(b.by)}</cite>` : ''
@@ -151,6 +157,23 @@ const tagList = (tags: string[]) =>
 // the built .depthgauge CSS; a tiny vanilla script drives it since React isn't booted.
 const DEPTHGAUGE = `<div class="depthgauge" aria-hidden><div class="depthgauge__track"><div class="depthgauge__fill" id="dgf"></div><div class="depthgauge__marker" id="dgm"><span class="depthgauge__label" id="dgl">120 m · twilight</span></div></div></div>`
 const DEPTHGAUGE_SCRIPT = `<script>(function(){var f=document.getElementById('dgf'),m=document.getElementById('dgm'),l=document.getElementById('dgl');if(!f)return;var S=120,MX=240,Z=[[0,'twilight'],[0.3,'dark zone'],[0.62,'the deep'],[0.85,'the sump']];function u(){var mx=document.documentElement.scrollHeight-innerHeight,p=mx>0?Math.min(1,Math.max(0,scrollY/mx)):0,pct=(p*100).toFixed(1)+'%';f.style.height=pct;m.style.top=pct;var d=Math.round(S+p*(MX-S)),z='entrance';for(var i=Z.length-1;i>=0;i--){if(p>=Z[i][0]){z=Z[i][1];break}}l.textContent=d+' m · '+z}u();addEventListener('scroll',function(){requestAnimationFrame(u)},{passive:true});addEventListener('resize',u)})();</script>`
+
+// a copy-link button (canonical page URL) + its tiny handler; on these static
+// pages location.href already is the canonical /notes/<slug>/ or /work/<slug>/
+const COPYLINK = `<button type="button" class="note__copy" id="cpy">🔗 Copy link</button>`
+const COPYLINK_SCRIPT = `<script>(function(){var b=document.getElementById('cpy');if(!b||!navigator.clipboard)return;b.addEventListener('click',function(){navigator.clipboard.writeText(location.href.split('#')[0]).then(function(){var o=b.textContent;b.textContent='✓ Link copied';setTimeout(function(){b.textContent=o},1600)})})})();</script>`
+
+// a static table of contents (real #fragment anchors work on these pages)
+function tocMarkup(body: NoteBlock[]): string {
+  const hs = body
+    .filter((b): b is { h: string } => typeof b !== 'string' && 'h' in b)
+    .map((b) => ({ id: slugify(b.h), text: b.h }))
+  if (hs.length < 2) return ''
+  return `<nav class="note__toc" aria-label="Contents">
+          <p class="note__toc-head label">Contents</p>
+          <ul>${hs.map((h) => `<li><a href="#${h.id}">${esc(h.text)}</a></li>`).join('')}</ul>
+        </nav>`
+}
 
 function relatedMarkup(slug: string): string {
   const rel = relatedNotes(slug)
@@ -211,6 +234,10 @@ for (const n of notes) {
           <span class="note__crosslink-go">See the case study →</span>
         </a>`
     : ''
+  // the pager already carries the index link when this is the newest note
+  const backBtn = noteNav(n.slug).newer
+    ? `<a href="/#/notes" class="btn btn--ghost note__back">← all field notes</a>`
+    : ''
   const body = `    ${DEPTHGAUGE}
     <div class="notespage"><div class="notespage__inner section">
       <article class="note">
@@ -219,16 +246,19 @@ for (const n of notes) {
         <h1 class="note__title">${esc(n.title)}</h1>
         <p class="note__dek">${esc(n.dek)}</p>
         ${tagList(n.tags)}
+        ${COPYLINK}
+        ${tocMarkup(n.body)}
         <div class="note__body">
         ${renderBlocks(n.body)}
         </div>
         ${crosslink}
         ${relatedMarkup(n.slug)}
         ${pagerMarkup(n.slug)}
-        <a href="/#/notes" class="btn btn--ghost note__back">← all field notes</a>
+        ${backBtn}
       </article>
     </div></div>
-    ${DEPTHGAUGE_SCRIPT}`
+    ${DEPTHGAUGE_SCRIPT}
+    ${COPYLINK_SCRIPT}`
   write(
     `notes/${n.slug}/index.html`,
     page({
@@ -324,8 +354,10 @@ for (const p of projects) {
         <a class="btn btn--solid" href="/#/work/${p.study}">View the interactive case study →</a>
         ${live}
       </div>
+      ${COPYLINK}
       ${noteLink}
-    </div></div>`
+    </div></div>
+    ${COPYLINK_SCRIPT}`
   write(
     `work/${p.study}/index.html`,
     page({

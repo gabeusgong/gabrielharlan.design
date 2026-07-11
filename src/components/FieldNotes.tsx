@@ -20,9 +20,85 @@ const fmtDate = (iso: string) =>
     day: 'numeric',
   })
 
+// stable id for a heading, so the TOC can link to it
+const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+
+// the {h} blocks, in order — used to build the table of contents
+const headingsOf = (note: Note) =>
+  note.body
+    .filter((b): b is { h: string } => typeof b !== 'string' && 'h' in b)
+    .map((b) => ({ id: slugify(b.h), text: b.h }))
+
+// an inline table of contents that highlights the section you're reading
+function Toc({ headings }: { headings: { id: string; text: string }[] }) {
+  const [active, setActive] = useState(headings[0]?.id ?? '')
+  useEffect(() => {
+    const els = headings
+      .map((h) => document.getElementById(h.id))
+      .filter((el): el is HTMLElement => !!el)
+    if (!els.length) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.filter((e) => e.isIntersecting)
+        if (hit.length) setActive((hit[0].target as HTMLElement).id)
+      },
+      { rootMargin: '0px 0px -70% 0px' },
+    )
+    els.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [headings])
+  return (
+    <nav className="note__toc" aria-label="Contents">
+      <p className="note__toc-head label">Contents</p>
+      <ul>
+        {headings.map((h) => (
+          <li key={h.id}>
+            <button
+              type="button"
+              className={h.id === active ? 'is-active' : ''}
+              onClick={() => document.getElementById(h.id)?.scrollIntoView({ behavior: 'smooth' })}
+              data-cursor
+            >
+              {h.text}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+// copies the note/case-study's canonical (pre-rendered) URL to the clipboard
+function CopyLink({ path }: { path: string }) {
+  const [copied, setCopied] = useState(false)
+  const onCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}${path}`)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1600)
+    } catch {
+      /* clipboard blocked — no-op */
+    }
+  }
+  return (
+    <button type="button" className="note__copy" onClick={onCopy} data-cursor>
+      {copied ? '✓ Link copied' : '🔗 Copy link'}
+    </button>
+  )
+}
+
 function Block({ block }: { block: NoteBlock }) {
   if (typeof block === 'string') return <p className="note__p">{block}</p>
-  if ('h' in block) return <h3 className="note__h">{block.h}</h3>
+  if ('h' in block)
+    return (
+      <h3 className="note__h" id={slugify(block.h)}>
+        {block.h}
+      </h3>
+    )
   if ('quote' in block)
     return (
       <blockquote className="note__quote">
@@ -44,6 +120,7 @@ function Article({ note }: { note: Note }) {
   const project = note.study ? projects.find((p) => p.study === note.study) : null
   const { newer, older } = noteNav(note.slug)
   const related = relatedNotes(note.slug)
+  const headings = headingsOf(note)
   return (
     <article className="note">
       <Reveal>
@@ -71,6 +148,14 @@ function Article({ note }: { note: Note }) {
           ))}
         </ul>
       </Reveal>
+      <Reveal delay={0.2}>
+        <CopyLink path={`/notes/${note.slug}/`} />
+      </Reveal>
+      {headings.length >= 2 && (
+        <Reveal delay={0.22}>
+          <Toc headings={headings} />
+        </Reveal>
+      )}
       <div className="note__body">
         {note.body.map((block, i) => (
           <Reveal key={i} delay={0.06}>
@@ -150,7 +235,20 @@ function Article({ note }: { note: Note }) {
   )
 }
 
+// every tag used across the notes, in first-seen order
+const ALL_TAGS = [...new Set(notes.flatMap((n) => n.tags))]
+
 function Index() {
+  const [query, setQuery] = useState('')
+  const [tag, setTag] = useState<string | null>(null)
+
+  const q = query.trim().toLowerCase()
+  const filtered = notes.filter(
+    (n) =>
+      (!tag || n.tags.includes(tag)) &&
+      (!q || `${n.title} ${n.dek} ${n.tags.join(' ')}`.toLowerCase().includes(q)),
+  )
+
   return (
     <>
       <Reveal>
@@ -170,27 +268,80 @@ function Index() {
         </p>
       </Reveal>
 
-      <div className="notes__list">
-        {notes.map((n, i) => (
-          <Reveal key={n.slug} delay={0.14 + i * 0.05}>
-            <a href={`#/notes/${n.slug}`} className="notecard" data-cursor>
-              <p className="notecard__meta label">
-                {fmtDate(n.date)} · {n.minutes} min
-              </p>
-              <h3 className="notecard__title">{n.title}</h3>
-              <p className="notecard__dek">{n.dek}</p>
-              <ul className="notecard__tags" aria-hidden>
-                {n.tags.map((t) => (
-                  <li key={t} className="note__tag">
-                    {t}
-                  </li>
-                ))}
-              </ul>
-              <span className="notecard__go">Read →</span>
-            </a>
-          </Reveal>
-        ))}
-      </div>
+      <Reveal delay={0.14}>
+        <div className="notes__controls">
+          <input
+            type="search"
+            className="notes__search"
+            placeholder="Search notes…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            aria-label="Search field notes"
+            data-cursor
+          />
+          <div className="notes__filters" role="group" aria-label="Filter by tag">
+            <button
+              type="button"
+              className={`notes__chip ${tag === null ? 'is-active' : ''}`}
+              onClick={() => setTag(null)}
+              data-cursor
+            >
+              All
+            </button>
+            {ALL_TAGS.map((t) => (
+              <button
+                type="button"
+                key={t}
+                className={`notes__chip ${tag === t ? 'is-active' : ''}`}
+                onClick={() => setTag((cur) => (cur === t ? null : t))}
+                data-cursor
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      {filtered.length > 0 ? (
+        <div className="notes__list">
+          {filtered.map((n, i) => (
+            <Reveal key={n.slug} delay={0.06 + i * 0.05}>
+              <a href={`#/notes/${n.slug}`} className="notecard" data-cursor>
+                <p className="notecard__meta label">
+                  {fmtDate(n.date)} · {n.minutes} min
+                </p>
+                <h3 className="notecard__title">{n.title}</h3>
+                <p className="notecard__dek">{n.dek}</p>
+                <ul className="notecard__tags" aria-hidden>
+                  {n.tags.map((t) => (
+                    <li key={t} className="note__tag">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                <span className="notecard__go">Read →</span>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+      ) : (
+        <p className="notes__empty">
+          No notes match{tag ? ` “${tag}”` : ''}
+          {q ? ` for “${query.trim()}”` : ''}.{' '}
+          <button
+            type="button"
+            className="notes__clear"
+            onClick={() => {
+              setQuery('')
+              setTag(null)
+            }}
+            data-cursor
+          >
+            Clear filters
+          </button>
+        </p>
+      )}
 
       <Reveal delay={0.3}>
         <a href="#top" className="btn btn--ghost notes__back" data-cursor>

@@ -711,6 +711,18 @@ export default function CaseStudy({
   const open = data !== null
   // the field note that tells the story behind this project, if any
   const note = data ? notes.find((n) => n.study === data.slug) : null
+
+  const [copied, setCopied] = useState(false)
+  const copyLink = async () => {
+    if (!data) return
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}/work/${data.slug}/`)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1600)
+    } catch {
+      /* clipboard blocked — no-op */
+    }
+  }
   const panelRef = useRef<HTMLElement>(null)
   useFocusTrap(open, panelRef)
 
@@ -780,6 +792,9 @@ export default function CaseStudy({
                   {data.live.label}
                 </a>
               )}
+              <button type="button" className="note__copy cs__copy" onClick={copyLink} data-cursor>
+                {copied ? '✓ Link copied' : '🔗 Copy link'}
+              </button>
             </header>
 
             <section className="cs__block">
