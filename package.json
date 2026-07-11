@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "check": "tsx scripts/check-data.ts",
     "build": "tsc -b && vite build && tsx scripts/prerender.ts",
     "prerender": "tsx scripts/prerender.ts",
     "lint": "oxlint",

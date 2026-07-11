@@ -9,7 +9,13 @@
  *   dist/notes/<slug>/index.html   a full, readable, styled article
  *   dist/notes/index.html          the writing index
  *   dist/work/<slug>/index.html    a case-study summary that hands off to the app
+ *   dist/og/*.png                  a branded social card per note/project/home
  *   dist/sitemap.xml               all of the above
+ *   dist/feed.xml                  an RSS feed of the field notes
+ *
+ * Note pages also carry JSON-LD (Article) structured data and a reading-progress
+ * bar; each page links the built CSS so it matches the in-app look. The SPA is
+ * not booted on these pages, so the pre-rendered content is what's served.
  *
  * Each page carries its own <title>, description, canonical, and OG/Twitter
  * tags, and links the already-built CSS so it matches the in-app look. The SPA
@@ -18,7 +24,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { notes, projects, type NoteBlock } from '../src/data'
+import { notes, projects, profile, noteNav, relatedNotes, type NoteBlock } from '../src/data'
 import { renderOgCard } from './og'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -59,14 +65,18 @@ type PageOpts = {
   path: string // e.g. "/notes/foo/" — canonical + og:url
   type?: 'article' | 'website'
   image?: string // absolute og:image url; falls back to the site card
+  jsonLd?: object // schema.org structured data
   body: string
 }
 
-function page({ title, description, path, type = 'website', image = OG_IMAGE, body }: PageOpts): string {
+function page({ title, description, path, type = 'website', image = OG_IMAGE, jsonLd, body }: PageOpts): string {
   const url = `${SITE}${path}`
   const t = esc(title)
   const d = esc(description)
   const img = esc(image)
+  const ld = jsonLd
+    ? `\n    <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`
+    : ''
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -90,6 +100,7 @@ function page({ title, description, path, type = 'website', image = OG_IMAGE, bo
     <meta name="twitter:title" content="${t}" />
     <meta name="twitter:description" content="${d}" />
     <meta name="twitter:image" content="${img}" />
+    <link rel="alternate" type="application/rss+xml" title="Gabriel Harlan — Field Notes" href="${SITE}/feed.xml" />${ld}
 ${FONTS}
     <link rel="stylesheet" href="${CSS_HREF}" />
     <!-- these are standalone read/share pages with no custom cursor, so undo the
@@ -135,6 +146,40 @@ function write(relPath: string, data: string | Buffer) {
 const tagList = (tags: string[]) =>
   `<ul class="note__tags">${tags.map((t) => `<li class="note__tag">${esc(t)}</li>`).join('')}</ul>`
 
+// a fixed reading-progress bar + the tiny vanilla script that drives it (the
+// static pages don't boot React, so this stands in for the in-app component)
+const READBAR = `<div class="readbar" aria-hidden><div class="readbar__fill" id="rb"></div></div>`
+const READBAR_SCRIPT = `<script>(function(){var f=document.getElementById('rb');if(!f)return;function u(){var h=document.documentElement,m=h.scrollHeight-h.clientHeight;f.style.transform='scaleX('+(m>0?Math.min(1,h.scrollTop/m):0)+')'}u();addEventListener('scroll',u,{passive:true});addEventListener('resize',u)})();</script>`
+
+function relatedMarkup(slug: string): string {
+  const rel = relatedNotes(slug)
+  if (!rel.length) return ''
+  return `<div class="note__related">
+          <p class="label note__related-head">Related notes</p>
+          <ul class="note__related-list">
+            ${rel
+              .map(
+                (r) => `<li><a href="/notes/${r.slug}/" class="note__related-link"><span class="note__related-title">${esc(r.title)}</span><span class="note__related-dek">${esc(r.dek)}</span></a></li>`,
+              )
+              .join('\n            ')}
+          </ul>
+        </div>`
+}
+
+function pagerMarkup(slug: string): string {
+  const { newer, older } = noteNav(slug)
+  const link = (n: (typeof notes)[number] | null, dir: string, cls: string) =>
+    n
+      ? `<a href="/notes/${n.slug}/" class="note__pager-link note__pager-link--${cls}"><span class="note__pager-dir">${dir}</span><span class="note__pager-title">${esc(n.title)}</span></a>`
+      : '<span></span>'
+  return `<nav class="note__pager" aria-label="More field notes">
+          ${link(newer, '← Newer', 'prev')}
+          ${link(older, 'Older →', 'next')}
+        </nav>`
+}
+
+const rfc822 = (iso: string) => new Date(`${iso}T12:00:00Z`).toUTCString()
+
 console.log('prerender: emitting static pages')
 
 // ---- individual note pages ----
@@ -160,7 +205,8 @@ for (const n of notes) {
           <span class="note__crosslink-go">See the case study →</span>
         </a>`
     : ''
-  const body = `    <div class="notespage"><div class="notespage__inner section">
+  const body = `    ${READBAR}
+    <div class="notespage"><div class="notespage__inner section">
       <article class="note">
         <a href="/" class="note__crumb">← ${AUTHOR}</a>
         <p class="label note__kicker"><span class="tick">FIELD NOTE</span> · ${fmtDate(n.date)} · ${n.minutes} min</p>
@@ -171,9 +217,12 @@ for (const n of notes) {
         ${renderBlocks(n.body)}
         </div>
         ${crosslink}
+        ${relatedMarkup(n.slug)}
+        ${pagerMarkup(n.slug)}
         <a href="/#/notes" class="btn btn--ghost note__back">← all field notes</a>
       </article>
-    </div></div>`
+    </div></div>
+    ${READBAR_SCRIPT}`
   write(
     `notes/${n.slug}/index.html`,
     page({
@@ -182,6 +231,20 @@ for (const n of notes) {
       path: `/notes/${n.slug}/`,
       type: 'article',
       image: ogImage,
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: n.title,
+        description: n.dek,
+        datePublished: n.date,
+        dateModified: n.date,
+        image: ogImage,
+        url: `${SITE}/notes/${n.slug}/`,
+        mainEntityOfPage: `${SITE}/notes/${n.slug}/`,
+        keywords: n.tags.join(', '),
+        author: { '@type': 'Person', name: AUTHOR, url: SITE },
+        publisher: { '@type': 'Person', name: AUTHOR, url: SITE },
+      },
       body,
     }),
   )
@@ -265,6 +328,17 @@ for (const p of projects) {
       path: `/work/${p.study}/`,
       type: 'article',
       image: ogImage,
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'CreativeWork',
+        name: p.title,
+        description: p.blurb,
+        image: ogImage,
+        url: `${SITE}/work/${p.study}/`,
+        keywords: p.tags.join(', '),
+        ...(p.href ? { sameAs: p.href } : {}),
+        author: { '@type': 'Person', name: AUTHOR, url: SITE },
+      },
       body,
     }),
   )
@@ -289,6 +363,65 @@ ${urls
 </urlset>
 `
   write('sitemap.xml', xml)
+}
+
+// ---- RSS feed (field notes) ----
+{
+  const items = notes
+    .map(
+      (n) => `  <item>
+    <title>${esc(n.title)}</title>
+    <link>${SITE}/notes/${n.slug}/</link>
+    <guid isPermaLink="true">${SITE}/notes/${n.slug}/</guid>
+    <pubDate>${rfc822(n.date)}</pubDate>
+    <description>${esc(n.dek)}</description>
+${n.tags.map((t) => `    <category>${esc(t)}</category>`).join('\n')}
+  </item>`,
+    )
+    .join('\n')
+  const feed = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Gabriel Harlan — Field Notes</title>
+  <link>${SITE}/notes/</link>
+  <description>Short writing on the thinking behind my projects — design calls, trade-offs, and lessons from shipping.</description>
+  <language>en-us</language>
+  <atom:link href="${SITE}/feed.xml" rel="self" type="application/rss+xml" />
+${items}
+</channel>
+</rss>
+`
+  write('feed.xml', feed)
+}
+
+// ---- homepage social card + head wiring ----
+{
+  const homeCard = await renderOgCard({
+    kicker: 'Web & UX Designer',
+    title: 'Gabriel Harlan',
+    dek: profile.tagline,
+    tone: 'coral',
+    tags: ['UX', 'Front-end', 'Caver'],
+    hideName: true,
+  })
+  write('og/home.png', homeCard)
+
+  // point the built SPA index.html's social image at the branded home card and
+  // advertise the feed. Source index.html stays clean — only the built copy is
+  // rewritten, and only if the build ran (which always includes this step).
+  const homeImg = `${SITE}/og/home.png`
+  let idx = readFileSync(resolve(DIST, 'index.html'), 'utf8')
+  idx = idx
+    .replace(/(<meta property="og:image" content=")[^"]*(")/, `$1${homeImg}$2`)
+    .replace(/(<meta name="twitter:image" content=")[^"]*(")/, `$1${homeImg}$2`)
+  if (!idx.includes('type="application/rss+xml"')) {
+    idx = idx.replace(
+      '</head>',
+      `    <link rel="alternate" type="application/rss+xml" title="Gabriel Harlan — Field Notes" href="${SITE}/feed.xml" />\n  </head>`,
+    )
+  }
+  writeFileSync(resolve(DIST, 'index.html'), idx)
+  console.log('  ✓ index.html (home og:image + feed link)')
 }
 
 console.log('prerender: done')
