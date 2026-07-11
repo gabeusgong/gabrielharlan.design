@@ -22,6 +22,16 @@ export const profile = {
   ],
 }
 
+// A skimmable "impact" strip — quantified, honest, recruiter-friendly. Each is
+// a figure + one-line label. Edit anytime; keep them true.
+export type Stat = { figure: string; label: string; tone: keyof typeof tones }
+export const impact: Stat[] = [
+  { figure: '2 yrs', label: 'leading a campus IT support team at IU', tone: 'coral' },
+  { figure: '6', label: 'projects shipped — cave nav to an AI SMS gateway', tone: 'cobalt' },
+  { figure: '4', label: 'person Scrum team · two-semester senior capstone', tone: 'lime' },
+  { figure: 'Dec ’26', label: 'graduating · open to UX & front-end roles', tone: 'sun' },
+]
+
 export type Skill = { name: string; tone: keyof typeof tones }
 export const tones = {
   coral: 'var(--coral)',
@@ -282,7 +292,7 @@ export const notes: Note[] = [
     slug: 'fuzzing-cave-locations',
     title: 'Fuzzing cave locations',
     dek: 'Designing privacy into a map when the honest answer is “I can’t show you that.”',
-    date: '2026-06-02',
+    date: '2026-07-07',
     tags: ['UX', 'Privacy', 'Maps'],
     minutes: 5,
     body: [
@@ -311,7 +321,7 @@ export const notes: Note[] = [
     slug: 'plumbing-is-the-product',
     title: 'The plumbing is the product',
     dek: 'What building an SMS gateway for an AI tire agent taught me about where the real work lives.',
-    date: '2026-05-12',
+    date: '2026-06-30',
     tags: ['Engineering', 'AI', 'SMS'],
     minutes: 6,
     body: [
@@ -334,7 +344,7 @@ export const notes: Note[] = [
     slug: 'leading-it-support-ux',
     title: 'What leading an IT team taught me about UX',
     dek: 'Two years of watching people hit walls in real time is the best usability lab I’ve had.',
-    date: '2026-04-20',
+    date: '2026-06-25',
     tags: ['UX', 'Leadership'],
     minutes: 4,
     body: [
