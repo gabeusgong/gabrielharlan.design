@@ -2509,6 +2509,88 @@
   margin-top: 1.5rem;
 }
 
+/* ---- "recently shipped" GitHub strip ---- */
+.shipped__heading {
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: clamp(1.9rem, 5vw, 3rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-top: 0.4rem;
+}
+.shipped__under {
+  color: var(--coral);
+}
+.shipped__sub {
+  max-width: 54ch;
+  margin-top: 0.9rem;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+.shipped__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.1rem;
+  margin-top: 2.4rem;
+}
+.shipcard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1.3rem 1.4rem;
+  background: var(--paper-2);
+  border: var(--border-ink);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-hard);
+  color: var(--ink);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+.shipcard:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-hard-lg);
+}
+.shipcard__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+.shipcard__name {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+  word-break: break-word;
+}
+.shipcard__lang {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  padding: 0.15em 0.6em;
+}
+.shipcard__desc {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+.shipcard__meta {
+  margin-top: auto;
+  color: var(--coral);
+}
+@media (max-width: 640px) {
+  .shipped__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---- interactive geoprivacy map (Karst case study) ---- */
 .mapdemo {
   display: flex;

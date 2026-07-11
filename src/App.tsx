@@ -9,6 +9,7 @@ import Skills from './components/Skills'
 import Process from './components/Process'
 import Projects from './components/Projects'
 import NotesTeaser from './components/NotesTeaser'
+import RecentlyShipped from './components/RecentlyShipped'
 import Contact from './components/Contact'
 import Testimonials from './components/Testimonials'
 
@@ -172,6 +173,7 @@ function App() {
           <Process />
           <Projects />
           <NotesTeaser />
+          <RecentlyShipped />
           <Suspense fallback={null}>
             <Wall />
           </Suspense>
