@@ -9,9 +9,14 @@ const sections = [
   { id: 'work', label: 'Work' },
   { id: 'wall', label: 'Wall' },
   { id: 'contact', label: 'Say hi' },
+  { id: 'notes', label: 'Notes', href: '#/notes' },
   { id: 'caves', label: 'Gallery', href: '#/caves' },
   { id: 'uses', label: 'Uses', href: '#/uses' },
 ]
+
+// on a standalone route (#/caves, #/uses, #/notes) that tab is active; otherwise
+// the in-view section drives the highlight
+const ROUTE_TABS = ['caves', 'uses', 'notes']
 
 type Props = {
   cave: boolean
@@ -145,7 +150,7 @@ export default function Nav({ cave, onToggleCave, route }: Props) {
                   href={s.href ?? `#${s.id}`}
                   onClick={() => setMenuOpen(false)}
                   className={
-                    (route === 'caves' ? 'caves' : route === 'uses' ? 'uses' : active) === s.id
+                    (route && ROUTE_TABS.includes(route) ? route : active) === s.id
                       ? 'is-active'
                       : ''
                   }
@@ -177,7 +182,7 @@ export default function Nav({ cave, onToggleCave, route }: Props) {
 
       <ul className="nav__links">
         {sections.map((s) => {
-          const activeId = route === 'caves' ? 'caves' : route === 'uses' ? 'uses' : active
+          const activeId = route && ROUTE_TABS.includes(route) ? route : active
           return (
             <li key={s.id}>
               <a href={s.href ?? `#${s.id}`} className={activeId === s.id ? 'is-active' : ''}>

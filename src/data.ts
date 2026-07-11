@@ -256,3 +256,99 @@ export const uses: UseGroup[] = [
     ],
   },
 ]
+
+// ---- Field Notes: short writing on the thinking behind the work ----
+// A body is an array of blocks. The simplest block is a plain string (a
+// paragraph). Use the object forms for a subheading, a pull-quote, or a list.
+export type NoteBlock =
+  | string // a paragraph
+  | { h: string } // a subheading
+  | { quote: string; by?: string } // a pull-quote
+  | { list: string[] } // a bulleted list
+
+export type Note = {
+  slug: string // the URL: #/notes/<slug>
+  title: string
+  dek: string // one-line standfirst under the title
+  date: string // ISO date, e.g. '2026-06-02'
+  tags: string[]
+  minutes: number // rough read time
+  body: NoteBlock[]
+}
+
+// Newest first — the list renders in this order.
+export const notes: Note[] = [
+  {
+    slug: 'fuzzing-cave-locations',
+    title: 'Fuzzing cave locations',
+    dek: 'Designing privacy into a map when the honest answer is “I can’t show you that.”',
+    date: '2026-06-02',
+    tags: ['UX', 'Privacy', 'Maps'],
+    minutes: 5,
+    body: [
+      'The hardest decision in Karst wasn’t a technical one. It was a map with a pin on it. Publishing the exact mouth of a wild cave invites vandalism and injury, wrecks fragile bat habitat, and — since a lot of Indiana’s caves sit on private land — can burn a landowner relationship the local grotto spent years building. But a caving field guide that won’t tell you where anything is isn’t a field guide.',
+      'So the design question became: how do you build trust into a map that deliberately withholds its most precise data?',
+      { h: 'Refuse, or design around it?' },
+      'The lazy answer is to hide sensitive caves entirely, or gate the whole map behind a login. Both punish the newcomer the app is supposed to welcome. Instead I treated location precision as a spectrum, not a switch.',
+      {
+        list: [
+          'Show caves and publicly accessible entrances get exact coordinates — that info is already public and the whole point is to send people there.',
+          'Sensitive and private-property caves are fuzzed to an approximate area — enough to orient you in the karst region, never enough to walk up to the entrance.',
+          'Exact coordinates for gated caves unlock only through a grotto — the same trust network that governs access in real life.',
+        ],
+      },
+      'The map mirrors how cavers already share information: freely about the tourist caves, carefully about everything else, and precisely only with people who’ve earned it.',
+      { h: 'Trails held the same line' },
+      'Recorded trails were the sharp edge of the same problem. A shared trail is only its relative shape — steps and turns, never coordinates. It can guide anyone in or back out while the entrance itself stays gated. The navigation is genuinely useful and it leaks nothing.',
+      {
+        quote:
+          'Protect the caves, not just the user. Privacy wasn’t a compliance checkbox bolted on at the end — it was the constraint the whole product was designed around.',
+      },
+      'The lesson I keep: “no” is rarely the best design. The interesting work is finding the version of “yes” that respects the constraint instead of ignoring it.',
+    ],
+  },
+  {
+    slug: 'plumbing-is-the-product',
+    title: 'The plumbing is the product',
+    dek: 'What building an SMS gateway for an AI tire agent taught me about where the real work lives.',
+    date: '2026-05-12',
+    tags: ['Engineering', 'AI', 'SMS'],
+    minutes: 6,
+    body: [
+      'Tire Rack’s TRACI is an AI agent that helps you find tires. It lived on the web. Plenty of customers, though, would rather just text a phone number. My internship project was to make that work — let anyone SMS the full agent — without touching the agent itself.',
+      'I expected the model to be the hard part. It wasn’t. The model was the easy part. Almost everything that mattered was the plumbing around it.',
+      { h: 'The vehicle picker, reinvented for text' },
+      'The website resolves your car with a year/make/model picker widget. You can’t render a dropdown in a text message, and the agent can’t reliably parse a vehicle out of free-form typing. So the gateway resolves the car itself — a numbered-reply drill-down (“1. Honda  2. Toyota …”) that walks Year → Make → Model → trim and then auto-supplies the factory tire size. A texter never has to know their own tire size. That one flow was more design work than the entire model integration.',
+      { h: 'Answer fast, even when the model is slow' },
+      'Agent replies can take many seconds; carriers expect a webhook response in far less. So the gateway acknowledges Twilio immediately and hands the real work to a background worker that calls the agent and sends the reply when it’s ready. Inbound texts never time out waiting on inference.',
+      { h: 'Render a stream of events into a plain text' },
+      'The agent answers with an ordered stream of “events” — text, cards, UI fragments. The gateway classifies each one: keep the text, drop the noise, reformat the cards for SMS. I used a denylist, not an allowlist, so a brand-new kind of agent card is never silently swallowed — worst case it’s reformatted, never lost.',
+      {
+        quote:
+          'A good AI product is mostly the plumbing around the model — the session state, the async workers, the format translation, the graceful failure. The model is a component, not the product.',
+      },
+      'It shipped live end-to-end on Google Cloud Run with Redis-backed sessions, a job queue, 42 tests, and keyless CI/CD. My first production service on cloud infrastructure — and the clearest lesson of the internship was that the interesting engineering was everywhere except the model call.',
+    ],
+  },
+  {
+    slug: 'leading-it-support-ux',
+    title: 'What leading an IT team taught me about UX',
+    dek: 'Two years of watching people hit walls in real time is the best usability lab I’ve had.',
+    date: '2026-04-20',
+    tags: ['UX', 'Leadership'],
+    minutes: 4,
+    body: [
+      'Before I called myself a designer I spent two years leading a campus IT support team at IU. On paper that’s a job about fixing computers. In practice it was a job about watching people fail at interfaces all day — and it shaped how I design more than any single class.',
+      { h: 'People don’t read' },
+      'The single most durable thing I learned: nobody reads the instructions. On my capstone team’s usability tests, 6 of 8 participants walked straight past our on-screen directions. That wasn’t a surprise to me — it was every support ticket I’d ever taken, in miniature. So I stopped designing for the person who reads and started designing for the person in a hurry: explicit success and error messages, confirmation after every destructive action, empty states that tell you what to do next.',
+      { h: 'The report is the design spec' },
+      'A support queue is a live, unfiltered usability study. Every ticket is someone telling you exactly where your system’s mental model and theirs diverged. You learn to hear “this is broken” and translate it into “the affordance was missing” or “the label lied.” That translation — from complaint to design problem — is most of the job in both roles.',
+      {
+        quote:
+          'A support ticket and a usability finding are the same artifact. One just arrives after you shipped, and the other arrives before.',
+      },
+      { h: 'Calm is a feature' },
+      'Leading the team also meant being the calm one when someone’s work was on the line. That’s an interface quality too — good software lowers the temperature instead of raising it. I try to design things that fail gently, explain themselves, and never make you feel stupid. That instinct came from the help desk, not the design studio.',
+    ],
+  },
+]

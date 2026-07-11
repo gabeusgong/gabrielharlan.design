@@ -10,6 +10,11 @@ Ideas for the next round of work on gabrielharlan.is-a.dev. ⭐ = highest impact
 - [x] **Process / "how I work" beat** — a couple of wireframe→final shots or a short
       blurb on the design loop. Show the UX thinking, not just the result.
 - [x] **A testimonial** — one short quote from a professor, teammate, or the IT-team lead.
+- [x] ⭐ **Field Notes** — a writing section on its own route (`#/notes`, list + article views),
+      authored inline in `data.ts` (`notes`). Seeded with three posts drawn from real work: Karst
+      geoprivacy design, the TRACI SMS build ("the plumbing is the product"), and UX lessons from
+      leading the IU IT team. Lazy-loaded (1.29 KB gzip chunk) so the initial bundle is untouched.
+      Shows how I think, not just what I shipped — best remaining ROI for the job hunt.
 
 ## Walk-the-talk accessibility (the hero literally says "accessible")
 - [x] ⭐ **Accessibility pass**

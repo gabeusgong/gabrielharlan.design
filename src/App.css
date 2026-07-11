@@ -2244,6 +2244,204 @@
   margin-top: 2.6rem;
 }
 
+/* ---------- Field Notes (#/notes) ---------- */
+.notespage {
+  min-height: 100vh;
+}
+.notespage__inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding-top: 7rem;
+}
+.notes__heading {
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.notes__word {
+  color: var(--coral);
+}
+.notes__sub {
+  max-width: 52ch;
+  margin-top: 1rem;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+.notes__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  margin-top: 2.6rem;
+}
+.notecard {
+  display: block;
+  position: relative;
+  background: var(--paper-2);
+  border: var(--border-ink);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-hard);
+  padding: 1.5rem 1.6rem;
+  color: var(--ink);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.notecard:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-hard-lg);
+}
+.notecard__meta {
+  color: var(--ink-soft);
+}
+.notecard__title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.55rem;
+  line-height: 1.1;
+  margin-top: 0.5rem;
+  color: var(--ink);
+}
+.notecard__dek {
+  margin-top: 0.5rem;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.notecard__tags,
+.note__tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0;
+}
+.note__tag {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  padding: 0.2em 0.7em;
+}
+.notecard__go {
+  display: inline-block;
+  margin-top: 1rem;
+  font-weight: 700;
+  color: var(--coral);
+}
+.notes__back {
+  margin-top: 2.6rem;
+}
+
+/* ---- a single note (#/notes/<slug>) ---- */
+.note__crumb {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+.note__crumb:hover {
+  color: var(--coral);
+}
+.note__kicker {
+  margin-top: 1.4rem;
+  color: var(--ink-soft);
+}
+.note__title {
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: clamp(2.1rem, 6vw, 3.2rem);
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-top: 0.5rem;
+}
+.note__dek {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  margin-top: 0.9rem;
+}
+.note__body {
+  margin-top: 2.4rem;
+  border-top: var(--border-ink);
+  padding-top: 2rem;
+}
+.note__p {
+  font-size: 1.1rem;
+  line-height: 1.72;
+  color: var(--ink);
+  margin-bottom: 1.3rem;
+}
+.note__h {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 2.2rem 0 1rem;
+}
+.note__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.note__list li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.note__list li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  color: var(--coral);
+  font-weight: 700;
+}
+.note__quote {
+  margin: 2rem 0;
+  padding: 1.3rem 1.5rem;
+  background: var(--paper-2);
+  border: var(--border-ink);
+  border-left: 8px solid var(--coral);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-hard);
+}
+.note__quote p {
+  font-family: var(--display);
+  font-size: 1.28rem;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.note__quote cite {
+  display: block;
+  margin-top: 0.8rem;
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+.note__back {
+  margin-top: 1.5rem;
+}
+
 .cavespage {
   min-height: 100vh;
 }

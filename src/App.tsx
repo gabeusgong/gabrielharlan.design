@@ -16,6 +16,7 @@ const Wall = lazy(() => import('./components/Wall'))
 // lazy so the cave photos load only when the gallery is reached
 const CaveGallery = lazy(() => import('./components/CaveGallery'))
 const Uses = lazy(() => import('./components/Uses'))
+const FieldNotes = lazy(() => import('./components/FieldNotes'))
 import CaveMode from './components/CaveMode'
 import DepthGauge from './components/DepthGauge'
 import IdleSurprise from './components/IdleSurprise'
@@ -30,6 +31,9 @@ const getRoute = () => {
   const h = typeof window !== 'undefined' ? window.location.hash : ''
   if (h === '#/caves') return 'caves'
   if (h === '#/uses') return 'uses'
+  // #/notes and #/notes/<slug> both live on the notes route; FieldNotes reads
+  // the slug off the hash itself
+  if (h === '#/notes' || h.startsWith('#/notes/')) return 'notes'
   return 'home'
 }
 
@@ -151,6 +155,12 @@ function App() {
         <main id="main" tabIndex={-1}>
           <Suspense fallback={null}>
             <Uses />
+          </Suspense>
+        </main>
+      ) : route === 'notes' ? (
+        <main id="main" tabIndex={-1}>
+          <Suspense fallback={null}>
+            <FieldNotes />
           </Suspense>
         </main>
       ) : (
