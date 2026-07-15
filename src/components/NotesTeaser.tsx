@@ -21,7 +21,7 @@ export default function NotesTeaser() {
       <div className="noteteaser__head">
         <Reveal>
           <p className="label">
-            <span className="tick">05</span> / field notes
+            <span className="tick">06</span> / field notes
           </p>
         </Reveal>
         <Reveal delay={0.05}>

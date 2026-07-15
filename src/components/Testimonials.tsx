@@ -10,7 +10,7 @@ export default function Testimonials() {
     <section className="section kudos" id="kudos">
       <Reveal>
         <p className="label">
-          <span className="tick">✦</span> kind words
+          <span className="tick">05</span> / kind words
         </p>
       </Reveal>
       <Reveal delay={0.05}>

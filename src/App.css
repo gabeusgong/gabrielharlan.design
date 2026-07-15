@@ -3935,11 +3935,22 @@ button.term__dot:hover {
   }
 }
 
-/* tighten the vertical gap between "How I work" and "Selected work" */
+/* compact the mid-page run so it reads as one flow: process → work → kind words
+   → field notes → recently shipped → wall sit closer than the default 7rem.
+   Only top/bottom are set (never the shorthand) so .section's responsive
+   horizontal padding is preserved. The wall keeps its default bottom padding so
+   the gap before Contact stays normal. */
 .process {
   padding-bottom: 3.5rem;
 }
-.work {
+.work,
+.kudos,
+.noteteaser,
+.shipped {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+.wall {
   padding-top: 3.5rem;
 }
 

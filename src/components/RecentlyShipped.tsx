@@ -91,7 +91,7 @@ export default function RecentlyShipped() {
     <section className="section shipped" id="shipped">
       <Reveal>
         <p className="label">
-          <span className="tick">06</span> / recently shipped
+          <span className="tick">07</span> / recently shipped
         </p>
       </Reveal>
       <Reveal delay={0.05}>
