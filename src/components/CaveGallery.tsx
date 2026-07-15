@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import Reveal from './Reveal'
 import { useFocusTrap } from '../lib/useFocusTrap'
@@ -6,13 +6,9 @@ import { useFocusTrap } from '../lib/useFocusTrap'
 const base = import.meta.env.BASE_URL
 const sm = (src: string) => src.replace('.webp', '-sm.webp')
 
-const FEATURED = {
-  src: `${base}caves/main.webp`,
-  alt: 'A clear turquoise cave stream winding between scalloped limestone walls',
-}
-
-// gallery order matches public/caves/cave-01..23.webp
+// the former "featured" shot now simply leads the gallery as the first tile
 const PHOTOS = [
+  { src: `${base}caves/main.webp`, alt: 'A clear turquoise cave stream winding between scalloped limestone walls' },
   { src: `${base}caves/cave-01.webp`, alt: 'Squeezing through a tight, muddy crawl in a red helmet and headlamp' },
   { src: `${base}caves/cave-02.webp`, alt: 'A stalagmite column and draped flowstone, with cavers exploring in the distance' },
   { src: `${base}caves/cave-03.webp`, alt: 'A narrow, deeply scalloped passage carved by flowing water' },
@@ -41,10 +37,42 @@ const PHOTOS = [
 export default function CaveGallery() {
   const [idx, setIdx] = useState<number | null>(null)
   const open = idx !== null
+  const gridRef = useRef<HTMLDivElement>(null)
   const lightboxRef = useRef<HTMLDivElement>(null)
   const stripRef = useRef<HTMLDivElement>(null)
   const touchX = useRef<number | null>(null)
   useFocusTrap(open, lightboxRef)
+
+  // True masonry on a CSS grid: each tile spans however many 1px auto-rows its
+  // photo needs at the current column width (computed from the image's natural
+  // aspect ratio). Reads left-to-right, top-to-bottom and stays row-aligned —
+  // unlike CSS multi-column, which balances columns and drifts out of line.
+  useLayoutEffect(() => {
+    const grid = gridRef.current
+    if (!grid) return
+    const GAP = 14 // px vertical gap between tiles
+    const BORDER = 5 // 2.5px ink border top + bottom
+    const layoutItem = (item: HTMLElement) => {
+      const img = item.querySelector('img')
+      if (!img || !img.naturalWidth) return
+      const h = item.clientWidth * (img.naturalHeight / img.naturalWidth) + BORDER
+      item.style.gridRowEnd = `span ${Math.ceil(h + GAP)}`
+    }
+    const layoutAll = () => grid.querySelectorAll<HTMLElement>('.caves__item').forEach(layoutItem)
+    layoutAll()
+    // re-measure each tile once its (lazy) image actually loads
+    const imgs = Array.from(grid.querySelectorAll('img'))
+    const onLoad = (e: Event) => {
+      const item = (e.target as HTMLElement).closest<HTMLElement>('.caves__item')
+      if (item) layoutItem(item)
+    }
+    for (const img of imgs) if (!(img as HTMLImageElement).complete) img.addEventListener('load', onLoad)
+    window.addEventListener('resize', layoutAll)
+    return () => {
+      for (const img of imgs) img.removeEventListener('load', onLoad)
+      window.removeEventListener('resize', layoutAll)
+    }
+  }, [])
 
   const close = useCallback(() => setIdx(null), [])
   const prev = useCallback(
@@ -125,22 +153,7 @@ export default function CaveGallery() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.14}>
-          <figure className="caves__feature">
-            <img
-              src={FEATURED.src}
-              srcSet={`${sm(FEATURED.src)} 640w, ${FEATURED.src} 1280w`}
-              sizes="(max-width: 680px) 92vw, 620px"
-              alt={FEATURED.alt}
-              width={1400}
-              height={1867}
-              loading="lazy"
-            />
-            <figcaption>{FEATURED.alt}.</figcaption>
-          </figure>
-        </Reveal>
-
-        <div className="caves__grid">
+        <div className="caves__grid" ref={gridRef}>
           {PHOTOS.map((p, i) => (
             <button
               key={p.src}
