@@ -174,12 +174,12 @@ function App() {
           <Skills />
           <Process />
           <Projects />
+          <Testimonials />
           <NotesTeaser />
           <RecentlyShipped />
           <Suspense fallback={null}>
             <Wall />
           </Suspense>
-          <Testimonials />
           <Contact />
         </main>
       )}

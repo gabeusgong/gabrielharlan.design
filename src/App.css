@@ -3935,6 +3935,14 @@ button.term__dot:hover {
   }
 }
 
+/* tighten the vertical gap between "How I work" and "Selected work" */
+.process {
+  padding-bottom: 3.5rem;
+}
+.work {
+  padding-top: 3.5rem;
+}
+
 /* ---------- snapshot / "the 30-second version" ---------- */
 /* sits directly under the hero; a little breathing room below the scroll cue */
 .snapshot {
