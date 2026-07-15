@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react'
 import Reveal from './Reveal'
 
 /* A live "recently shipped" strip pulled from the GitHub public API — my most
-   recently pushed repos. Cached in localStorage (6h) to stay well under the
-   unauthenticated rate limit, and it renders nothing at all on any failure so
-   the page never shows a broken/empty section. */
+   recently pushed repos. Uses stale-while-revalidate: any cached list renders
+   instantly (no empty flash, and it keeps requests well under the ~60/hr
+   unauthenticated limit), then it re-fetches in the background whenever the
+   cache is older than REVALIDATE so a fresh push shows up within ~30 min.
+   Renders nothing on failure so the page never shows a broken/empty section. */
 
 const USER = 'gabeusgong'
-const CACHE_KEY = 'gh-recent-v2'
-const TTL = 6 * 60 * 60 * 1000 // 6 hours
+// v3: bump busts every visitor's stale v2 cache on next load
+const CACHE_KEY = 'gh-recent-v3'
+const REVALIDATE = 30 * 60 * 1000 // re-fetch in the background after 30 min
 
 type Repo = {
   name: string
@@ -33,18 +36,23 @@ export default function RecentlyShipped() {
   const [repos, setRepos] = useState<Repo[] | null>(null)
 
   useEffect(() => {
+    let cachedAt = 0
+    // show any cached list immediately, then decide whether to revalidate
     try {
       const raw = localStorage.getItem(CACHE_KEY)
       if (raw) {
         const { at, data } = JSON.parse(raw)
-        if (Date.now() - at < TTL && Array.isArray(data) && data.length) {
+        if (Array.isArray(data) && data.length) {
           setRepos(data)
-          return
+          cachedAt = at
         }
       }
     } catch {
       /* ignore bad cache */
     }
+
+    // fresh enough — skip the network entirely
+    if (cachedAt && Date.now() - cachedAt < REVALIDATE) return
 
     let cancelled = false
     fetch(`https://api.github.com/users/${USER}/repos?sort=pushed&per_page=12`)
