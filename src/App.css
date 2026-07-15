@@ -3584,7 +3584,7 @@ button.term__dot:hover {
 
 /* ---------- contact form (Formspree) ---------- */
 .cform {
-  margin: 1.6rem auto 3rem;
+  margin: 1.6rem auto 5.5rem;
   max-width: 640px;
   text-align: left;
 }
