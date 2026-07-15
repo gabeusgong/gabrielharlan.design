@@ -3936,9 +3936,9 @@ button.term__dot:hover {
 }
 
 /* ---------- snapshot / "the 30-second version" ---------- */
-/* sits directly under the hero, so trim the top padding to keep it close */
+/* sits directly under the hero; a little breathing room below the scroll cue */
 .snapshot {
-  padding-top: 2.5rem;
+  padding-top: 4rem;
 }
 .snapshot__card {
   background: var(--paper-2);

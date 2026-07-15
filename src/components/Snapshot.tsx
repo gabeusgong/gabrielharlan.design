@@ -68,17 +68,7 @@ export default function Snapshot() {
 
         <Reveal delay={0.15}>
           <div className="snapshot__cta">
-            <a
-              className="btn btn--solid"
-              href="./resume/"
-              target="_blank"
-              rel="noreferrer"
-              data-cursor
-              onClick={() => track('resume')}
-            >
-              Résumé ↗
-            </a>
-            <a className="btn btn--ghost" href="#work" data-cursor>
+            <a className="btn btn--solid" href="#work" data-cursor>
               See the full work →
             </a>
           </div>
