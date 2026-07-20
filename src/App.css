@@ -528,6 +528,11 @@
 }
 
 /* ---------- about ---------- */
+/* trim the top gap toward the TL;DR band, but keep enough padding above the
+   sticker playground (right column) that its playable area isn't crowded */
+.about {
+  padding-top: 4.5rem;
+}
 .about__grid {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
@@ -4027,6 +4032,8 @@ button.term__dot:hover {
 /* sits directly under the hero; a little breathing room below the scroll cue */
 .snapshot {
   padding-top: 4rem;
+  /* tighten the gap down to the About section (default .section bottom is 7rem) */
+  padding-bottom: 3rem;
 }
 .snapshot__card {
   background: var(--paper-2);
