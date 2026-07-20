@@ -434,9 +434,9 @@ const STUDIES: Record<string, Study> = {
       h: 'Where it stands',
       body: (
         <>
-          Designed and built solo over a few weeks, Karst is a live, evolving build — a
-          server-rendered Next.js app on Firebase with Firestore-backed cave data, comments,
-          grottos, and gamification, plus a downloadable Android version. Next up: getting it in
+          Designed and built solo over a few weeks, Karst is still under active development — a
+          live, evolving build on a server-rendered Next.js app and Firebase, with Firestore-backed
+          cave data, comments, grottos, and gamification, plus a downloadable Android version. Next up: getting it in
           front of the Bloomington Grotto and the wider caving community to gather real-world
           feedback and grow the cave database. It started as a way to learn modern full-stack
           patterns and became the tool I actually wanted as a caver.
