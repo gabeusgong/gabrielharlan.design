@@ -722,6 +722,30 @@ export default function CaseStudy({
   const panelRef = useRef<HTMLElement>(null)
   useFocusTrap(open, panelRef)
 
+  // The copy button rides on the meta line while it fits; when it no longer
+  // does it should drop straight down beside the "live" pill — never strand on
+  // a line of its own. Where it stops fitting depends on each study's meta text,
+  // so measure it: strip the stacked class, check whether the button has wrapped
+  // below the meta text, and toggle accordingly. Observing the header (whose
+  // width doesn't change when we toggle) keeps this from looping.
+  const metaRowRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const row = metaRowRef.current
+    if (!open || !row) return
+    const meta = row.querySelector<HTMLElement>('.cs__meta')
+    const copy = row.querySelector<HTMLElement>('.cs__copy')
+    if (!meta || !copy) return
+    const measure = () => {
+      row.classList.remove('cs__meta-row--stacked')
+      const wrapped = copy.offsetTop > meta.offsetTop + 4
+      row.classList.toggle('cs__meta-row--stacked', wrapped)
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    if (row.parentElement) ro.observe(row.parentElement)
+    return () => ro.disconnect()
+  }, [open, data?.slug])
+
   useEffect(() => {
     if (!open) return
     const prev = document.body.style.overflow
@@ -770,7 +794,7 @@ export default function CaseStudy({
               </p>
               <h2 className="cs__title" id="cs-title">{data.title}</h2>
               <p className="cs__lede">{data.lede}</p>
-              <div className="cs__meta-row">
+              <div className="cs__meta-row" ref={metaRowRef}>
                 <div className="cs__meta">
                   {data.meta.map((m) => (
                     <span key={m.label}>

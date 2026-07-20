@@ -1265,11 +1265,6 @@
   color: var(--ink-soft);
   line-height: 1.6;
 }
-/* header is the query container so the copy button can react to the panel's
-   real width (not the viewport) when it runs out of room */
-.cs__head {
-  container-type: inline-size;
-}
 .cs__meta-row {
   display: flex;
   flex-wrap: wrap;
@@ -1305,6 +1300,10 @@
 .cs__copy {
   order: 2;
   flex-shrink: 0;
+  /* cancel .note__copy's top margin so copy aligns to the meta line's top —
+     both keeps them visually level and lets the JS wrap check (compare offsetTop)
+     read true only when the button has actually wrapped to a new line */
+  margin-top: 0;
 }
 .cs__meta-row::after {
   content: '';
@@ -1315,22 +1314,21 @@
 .cs__live {
   order: 4;
 }
-/* Narrow: once the panel is tight, drop the meta text onto its own line, remove
-   the break, and let the pill (left) and copy button (right) share the line
-   below, side by side. */
-@container (max-width: 600px) {
-  .cs__meta {
-    flex-basis: 100%;
-  }
-  .cs__meta-row::after {
-    content: none;
-  }
-  .cs__live {
-    order: 2;
-  }
-  .cs__copy {
-    order: 3;
-  }
+/* Stacked (toggled by JS the moment the copy button can no longer fit on the
+   meta line): drop the meta text onto its own line, remove the break, and let
+   the pill (left) and copy button (right) share the line below, side by side —
+   so copy jumps straight to the pill's line instead of stranding on its own. */
+.cs__meta-row--stacked .cs__meta {
+  flex-basis: 100%;
+}
+.cs__meta-row--stacked::after {
+  content: none;
+}
+.cs__meta-row--stacked .cs__live {
+  order: 2;
+}
+.cs__meta-row--stacked .cs__copy {
+  order: 3;
 }
 .cs__block {
   margin-top: 2.7rem;
