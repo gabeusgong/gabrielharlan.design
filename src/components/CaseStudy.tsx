@@ -394,7 +394,7 @@ const STUDIES: Record<string, Study> = {
       },
       {
         h: 'Make conservation part of the loop',
-        p: 'A dedicated guide to bats and White-Nose Syndrome decontamination lives right next to seasonal-closure notices — surfacing the responsibility instead of burying it in a policy page.',
+        p: 'A dedicated guide to bats and White-Nose Syndrome — the fungal disease wiping out hibernating colonies — lives right next to seasonal-closure notices, so the responsibility is surfaced instead of buried in a policy page. It walks through gear-decontamination steps between caves, flags the roosts and maternity seasons when a cave should be left alone, and ties each closure back to the species it protects, so a caver plans the trip and the conservation call in the same place.',
       },
       {
         h: 'Built around grotto groups',
@@ -402,7 +402,7 @@ const STUDIES: Record<string, Study> = {
       },
       {
         h: 'Built to work with zero bars',
-        p: 'Caves swallow signal, so Karst is offline-first by design: the trail recorder saves in place and tracks its own sync state, the cave page falls back to the local cache when the network is gone, and trip logs and entrance anchors queue up and sync the moment you resurface.',
+        p: 'Caves swallow signal, so Karst is offline-first by design: the trail recorder saves in place and tracks its own sync state, the cave page falls back to the local cache when the network is gone, and trip logs and entrance anchors queue up and sync the moment you resurface. Dead-reckoning trails run entirely on the device — no cell tower, no GPS underground — following the steps and turns you recorded on the way in, so the map keeps working in the exact places a connected app would quit.',
       },
     ],
     gallery: {
