@@ -1652,6 +1652,14 @@
   padding-right: 12px; /* room for the last frame's drop shadow */
   scroll-snap-type: x mandatory;
 }
+/* labelled rows within one gallery (e.g. a desktop row + a mobile row) */
+.cs__gallery-group + .cs__gallery-group {
+  margin-top: 1.4rem;
+}
+.cs__gallery-label {
+  color: var(--ink-soft);
+  margin: 0 0 0.6rem;
+}
 .cs__shot {
   flex: 0 0 auto;
   width: 220px;

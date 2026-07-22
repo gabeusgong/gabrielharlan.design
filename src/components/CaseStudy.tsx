@@ -8,6 +8,7 @@ import TypingTest from './TypingTest'
 const base = import.meta.env.BASE_URL
 
 type Shot = { src: string; cap: string }
+type Frame = 'phone' | 'browser' | 'photo'
 type Decision = { h: string; p: string }
 
 type Study = {
@@ -22,11 +23,15 @@ type Study = {
   decisions: Decision[]
   gallery?: {
     heading: string
-    shots: Shot[]
-    frame?: 'phone' | 'browser' | 'photo'
     // where the gallery sits in the flow; defaults to after the diagram/typing
     // test, near the end. 'after-problem' hoists it up under "The problem".
     place?: 'after-problem'
+    // either a single flat row (shots + frame) …
+    shots?: Shot[]
+    frame?: Frame
+    // … or labelled rows, each with its own frame (e.g. a desktop row + a
+    // mobile row). When present, `groups` takes precedence over shots/frame.
+    groups?: { label: string; frame: Frame; shots: Shot[] }[]
   }
   diagram?: { heading: string; node: ReactNode }
   closing: { h: string; body: ReactNode }
@@ -414,26 +419,46 @@ const STUDIES: Record<string, Study> = {
     ],
     gallery: {
       heading: 'A look inside',
-      shots: [
+      groups: [
         {
-          src: `${base}karst/map.webp`,
-          cap: 'Privacy-first map — sensitive cave entrances are fuzzed to an approximate area, never an exact pin.',
+          label: 'On the web',
+          frame: 'browser',
+          shots: [
+            {
+              src: `${base}karst/desktop-map-dark.webp`,
+              cap: 'Privacy-first map — sensitive caves are fuzzed to broad “obscuring zones,” never exact pins; only park/show caves get precise points.',
+            },
+            {
+              src: `${base}karst/desktop-cave-light.webp`,
+              cap: 'Cave detail — hero photo, difficulty, and access notes; community uploads are stripped of location data.',
+            },
+          ],
         },
         {
-          src: `${base}karst/explore.webp`,
-          cap: 'Field guide — browse wild & show caves with conditions and community photos.',
-        },
-        {
-          src: `${base}karst/bc-trail.webp`,
-          cap: 'AR trail overlay — the camera projects your recorded crumbs as arrows to follow in near the entrance.',
-        },
-        {
-          src: `${base}karst/cave.webp`,
-          cap: 'Cave detail — access notes, seasonal closures, and saved-cave hearts.',
-        },
-        {
-          src: `${base}karst/dead-reckoning.webp`,
-          cap: 'Compass follow — a coordinate-free turn-by-turn with a mini-map that always leads you back out, deep underground.',
+          label: 'On mobile',
+          frame: 'phone',
+          shots: [
+            {
+              src: `${base}karst/mobile-map-dark.webp`,
+              cap: 'The same fuzzed map, in your pocket.',
+            },
+            {
+              src: `${base}karst/mobile-record-light.webp`,
+              cap: 'Recording a dead-reckoning trail underground — compass heading and step distance, no GPS.',
+            },
+            {
+              src: `${base}karst/mobile-trail-light.webp`,
+              cap: 'A saved trail — breadcrumbs, length, and first-descent credit, ready to follow in or back out.',
+            },
+            {
+              src: `${base}karst/mobile-groups-dark.webp`,
+              cap: 'Grotto groups — a private club feed with events, photos, and announcements.',
+            },
+            {
+              src: `${base}karst/mobile-explore-light.webp`,
+              cap: 'Field guide — browse wild & show caves with conditions and difficulty.',
+            },
+          ],
         },
       ],
     },
@@ -712,6 +737,45 @@ const STUDIES: Record<string, Study> = {
   },
 }
 
+// one scrollable row of screenshots in a shared frame (phone, browser chrome,
+// or a plain photo). Reused for each labelled group in a gallery.
+function GalleryRow({ shots, frame }: { shots: Shot[]; frame?: Frame }) {
+  const browser = frame === 'browser'
+  const photo = frame === 'photo'
+  const wide = browser || photo
+  return (
+    <div
+      className={`cs__gallery ${browser ? 'cs__gallery--browser' : ''} ${
+        photo ? 'cs__gallery--photo' : ''
+      }`}
+    >
+      {shots.map((s) => (
+        <figure className={`cs__shot ${wide ? 'cs__shot--wide' : ''}`} key={s.src}>
+          {browser ? (
+            <div className="cs__browser">
+              <span className="cs__browser-bar">
+                <span />
+                <span />
+                <span />
+              </span>
+              <img src={s.src} alt={s.cap} loading="lazy" decoding="async" />
+            </div>
+          ) : photo ? (
+            <div className="cs__photo">
+              <img src={s.src} alt={s.cap} loading="lazy" decoding="async" />
+            </div>
+          ) : (
+            <div className="cs__phone">
+              <img src={s.src} alt={s.cap} loading="lazy" decoding="async" />
+            </div>
+          )}
+          <figcaption>{s.cap}</figcaption>
+        </figure>
+      ))}
+    </div>
+  )
+}
+
 export default function CaseStudy({
   study,
   onClose,
@@ -729,48 +793,21 @@ export default function CaseStudy({
   // the image gallery, built once so it can be dropped into one of two spots
   const gallery = data?.gallery
   const galleryAfterProblem = gallery?.place === 'after-problem'
-  const galleryNode = gallery
-    ? (() => {
-        const frame = gallery.frame
-        const browser = frame === 'browser'
-        const photo = frame === 'photo'
-        const wide = browser || photo
-        return (
-          <section className="cs__block">
-            <h3 className="cs__h3">{gallery.heading}</h3>
-            <div
-              className={`cs__gallery ${browser ? 'cs__gallery--browser' : ''} ${
-                photo ? 'cs__gallery--photo' : ''
-              }`}
-            >
-              {gallery.shots.map((s) => (
-                <figure className={`cs__shot ${wide ? 'cs__shot--wide' : ''}`} key={s.src}>
-                  {browser ? (
-                    <div className="cs__browser">
-                      <span className="cs__browser-bar">
-                        <span />
-                        <span />
-                        <span />
-                      </span>
-                      <img src={s.src} alt={s.cap} loading="lazy" decoding="async" />
-                    </div>
-                  ) : photo ? (
-                    <div className="cs__photo">
-                      <img src={s.src} alt={s.cap} loading="lazy" decoding="async" />
-                    </div>
-                  ) : (
-                    <div className="cs__phone">
-                      <img src={s.src} alt={s.cap} loading="lazy" decoding="async" />
-                    </div>
-                  )}
-                  <figcaption>{s.cap}</figcaption>
-                </figure>
-              ))}
-            </div>
-          </section>
-        )
-      })()
-    : null
+  const galleryNode = gallery ? (
+    <section className="cs__block">
+      <h3 className="cs__h3">{gallery.heading}</h3>
+      {gallery.groups ? (
+        gallery.groups.map((g) => (
+          <div className="cs__gallery-group" key={g.label}>
+            <p className="cs__gallery-label label">{g.label}</p>
+            <GalleryRow shots={g.shots} frame={g.frame} />
+          </div>
+        ))
+      ) : (
+        <GalleryRow shots={gallery.shots ?? []} frame={gallery.frame} />
+      )}
+    </section>
+  ) : null
 
   const [copied, setCopied] = useState(false)
   const copyLink = async () => {
