@@ -429,8 +429,8 @@ const STUDIES: Record<string, Study> = {
               cap: 'Privacy-first map — sensitive caves are fuzzed to broad “obscuring zones,” never exact pins; only park/show caves get precise points.',
             },
             {
-              src: `${base}karst/desktop-cave-light.webp`,
-              cap: 'Cave detail — hero photo, difficulty, and access notes; community uploads are stripped of location data.',
+              src: `${base}karst/desktop-grid-dark.webp`,
+              cap: 'Field guide — search and filter wild & show caves across the karst country of south-central Indiana.',
             },
           ],
         },
