@@ -439,24 +439,20 @@ const STUDIES: Record<string, Study> = {
           frame: 'phone',
           shots: [
             {
-              src: `${base}karst/mobile-map-dark.webp`,
-              cap: 'The same fuzzed map, in your pocket.',
+              src: `${base}karst/mobile-explore.webp`,
+              cap: 'Field guide — browse wild & show caves with conditions and difficulty.',
             },
             {
-              src: `${base}karst/mobile-record-light.webp`,
-              cap: 'Recording a dead-reckoning trail underground — compass heading and step distance, no GPS.',
-            },
-            {
-              src: `${base}karst/mobile-trail-light.webp`,
-              cap: 'A saved trail — breadcrumbs, length, and first-descent credit, ready to follow in or back out.',
-            },
-            {
-              src: `${base}karst/mobile-groups-dark.webp`,
+              src: `${base}karst/mobile-groups.webp`,
               cap: 'Grotto groups — a private club feed with events, photos, and announcements.',
             },
             {
-              src: `${base}karst/mobile-explore-light.webp`,
-              cap: 'Field guide — browse wild & show caves with conditions and difficulty.',
+              src: `${base}karst/mobile-map.webp`,
+              cap: 'The privacy-first map in your pocket — fuzzed zones, exact pins only for public caves.',
+            },
+            {
+              src: `${base}karst/mobile-trail.webp`,
+              cap: 'A recorded dead-reckoning trail — breadcrumbs, length, and first-descent credit, ready to follow in or back out.',
             },
           ],
         },
